@@ -1,0 +1,18 @@
+# Contexte de build minimal : seuls les fichiers servis par Nginx sont utiles.
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+**/.DS_Store
+README.md
+*.md
+docker-compose*.yml
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log*
+*.log
+.env
+.env.*

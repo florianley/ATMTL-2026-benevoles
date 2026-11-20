@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bénévoles · Agile Tour Montréal 2026</title>
+<meta name="description" content="Planning des bénévoles de l'Agile Tour Montréal 2026 — mardi 24 novembre 2026, Palais des congrès de Montréal.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#071529">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ATMTL 2026">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="icon" href="./icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+<link rel="preconnect" href="https://docs.google.com" crossorigin>
+<link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap">
+
+<!-- Tailwind (CDN, sans build) — demandé pour la rapidité de mise en œuvre.
+     Le CSS critique ci-dessous est autonome : l'interface reste lisible et
+     utilisable même si le CDN est indisponible lors d'une 1re visite hors-ligne. -->
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  if (window.tailwind) {
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#FFF1E8', 400: '#FFA271', 500: '#F0824A', 600: '#D9662F', 900: '#1C0D04' },
+            ink: { 900: '#071529', 800: '#0E2440', 500: '#B4C9DF' }
+          }
+        }
+      }
+    };
+  }
+</script>
+
+<style>
+/* ============================================================
+   ATMTL 2026 · Bénévoles — charte « Agile Tour Montréal »
+   Navy profond #081838 · Orange #F0824A · Cyan #4FC3DB
+   Typographies : Barlow (UI) + Barlow Condensed (libellés)
+   ============================================================ */
+:root{
+  --bg:#071529;
+  --bg-2:#0A1D36;
+  --surface:#0E2440;
+  --surface-2:#12304F;
+  --line:#1E3B5E;
+  --line-soft:rgba(255,255,255,.08);
+
+  --ink:#F1F6FC;
+  --ink-2:#B4C9DF;
+  --ink-3:#8199B4;
+
+  --orange:#F0824A;
+  --orange-2:#FFA271;
+  --orange-ink:#1C0D04;
+  --cyan:#4FC3DB;
+  --violet:#A78BFA;
+  --emerald:#34D399;
+  --slate:#94A3B8;
+  --amber:#FBBF24;
+  --danger:#F87171;
+
+  --radius:20px;
+  --shadow-sm:0 2px 10px rgba(0,0,0,.35);
+  --shadow-md:0 22px 44px -26px rgba(0,0,0,1);
+  --safe-b:env(safe-area-inset-bottom, 0px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);overflow-x:hidden;
+  font-family:"Barlow",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;line-height:1.45;
+  background:
+    radial-gradient(780px 430px at 84% -8%, rgba(240,130,74,.17), transparent 62%),
+    radial-gradient(680px 400px at -10% 2%, rgba(79,195,219,.11), transparent 64%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,p,ol,ul,figure{margin:0}
+ol,ul{padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:8px}
+.ico{display:inline-block;vertical-align:-.15em;flex:none}
+
+/* ---------------- Header ---------------- */
+.site-header{
+  position:sticky;top:0;z-index:40;
+  background:rgba(7,21,41,.84);
+  -webkit-backdrop-filter:saturate(160%) blur(16px);
+  backdrop-filter:saturate(160%) blur(16px);
+  border-bottom:1px solid var(--line-soft);
+  padding-top:env(safe-area-inset-top,0px);
+}
+.header-inner{max-width:34rem;margin:0 auto;padding:.6rem 1rem .45rem;display:flex;align-items:center;gap:.5rem}
+.brand{display:flex;align-items:center;gap:.6rem;min-width:0;margin-right:auto}
+.brand-mark{
+  width:2.15rem;height:2.15rem;flex:none;border-radius:.72rem;
+  background:linear-gradient(145deg,#FFA271,#D9662F);
+  color:#1C0D04;display:grid;place-items:center;
+  box-shadow:0 8px 18px -10px rgba(240,130,74,.95), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.brand-name{
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.92rem;font-weight:700;letter-spacing:.06em;line-height:1.1;text-transform:uppercase;
+}
+.brand-sub{font-size:.68rem;color:var(--ink-3);font-weight:500;line-height:1.25}
+.header-actions{display:flex;align-items:center;gap:.4rem}
+
+.sync-pill{
+  display:inline-flex;align-items:center;gap:.35rem;height:2.35rem;padding:0 .6rem;
+  border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  font-size:.72rem;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.sync-dot{width:.5rem;height:.5rem;border-radius:999px;background:var(--emerald);flex:none}
+.sync-pill.is-syncing .sync-dot{background:var(--amber);animation:pulse 1.2s infinite}
+.sync-pill.is-offline{border-color:rgba(251,191,36,.45);color:#FCD34D;background:rgba(251,191,36,.09)}
+.sync-pill.is-offline .sync-dot{background:var(--amber)}
+.sync-pill.is-error{border-color:rgba(248,113,113,.45);color:#FCA5A5;background:rgba(248,113,113,.09)}
+.sync-pill.is-error .sync-dot{background:var(--danger)}
+
+.icon-btn{
+  width:2.35rem;height:2.35rem;flex:none;border-radius:.78rem;display:grid;place-items:center;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink-2);
+  transition:background .15s ease, transform .1s ease;
+}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn.is-spinning .ico{animation:spin .9s linear infinite}
+
+/* ---------------- Onglets ---------------- */
+.tabs{
+  max-width:34rem;margin:0 auto .5rem;padding:0 1rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:.3rem;
+}
+.tab{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:.4rem;
+  height:2.6rem;border-radius:.8rem;border:1px solid transparent;
+  font-size:.83rem;font-weight:700;letter-spacing:.01em;color:var(--ink-3);
+  transition:color .15s ease, background .15s ease, border-color .15s ease;
+}
+.tab:hover{color:var(--ink-2)}
+.tab.is-active{
+  background:linear-gradient(145deg,#FFA271,#E2672F);
+  border-color:rgba(255,255,255,.12);color:var(--orange-ink);
+  box-shadow:0 10px 22px -14px rgba(240,130,74,1), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.tab .emoji{font-size:.95rem;line-height:1}
+
+/* ---------------- Bandeau simulation ---------------- */
+.sim-banner{background:rgba(251,191,36,.10);border-top:1px solid rgba(251,191,36,.28);color:#FCD34D;font-size:.74rem;font-weight:600}
+.sim-banner > div{max-width:34rem;margin:0 auto;padding:.4rem 1rem;display:flex;align-items:center;gap:.5rem}
+.sim-banner .link-btn{margin-left:auto;color:#FDE68A;text-decoration:underline}
+
+/* ---------------- Layout ---------------- */
+.app-shell{width:100%;max-width:34rem;margin:0 auto;padding:1rem 1rem calc(2rem + var(--safe-b))}
+.view{animation:fade .18s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.eyebrow{
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+}
+.picker-hero{margin:.2rem 0 1.1rem}
+.picker-title{font-size:1.75rem;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin:.25rem 0 .35rem}
+.picker-sub{color:var(--ink-2);font-size:.9rem}
+
+/* ---------------- Recherche ---------------- */
+.search{position:relative;margin-bottom:.85rem}
+.search .ico{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.search input{
+  width:100%;height:3rem;padding:0 2.75rem;border-radius:1rem;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  font-size:1rem;font-family:inherit;box-shadow:var(--shadow-sm);
+  -webkit-appearance:none;appearance:none;
+}
+.search input::placeholder{color:#6E89A6}
+.search input::-webkit-search-cancel-button{display:none}
+.search-clear{
+  position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+  width:2rem;height:2rem;border-radius:999px;display:grid;place-items:center;
+  background:rgba(255,255,255,.07);color:var(--ink-2);
+}
+.list-hint{font-size:.74rem;color:var(--ink-3);padding:0 .15rem .35rem;font-weight:600}
+
+/* ---------------- Liste bénévoles ---------------- */
+.letter{
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.78rem;font-weight:700;letter-spacing:.16em;color:var(--orange);
+  text-transform:uppercase;padding:.85rem .35rem .3rem;
+}
+.person{
+  width:100%;display:flex;align-items:center;gap:.7rem;min-height:3.75rem;
+  padding:.55rem .7rem;margin-bottom:.4rem;
+  background:var(--surface);border:1px solid var(--line);border-radius:1rem;
+  text-align:left;box-shadow:var(--shadow-sm);
+  transition:transform .1s ease, border-color .15s ease, background .15s ease;
+}
+.person:active{transform:scale(.985);border-color:rgba(240,130,74,.45)}
+.avatar{width:2.4rem;height:2.4rem;flex:none;border-radius:999px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.82rem}
+.avatar--sm{width:1.9rem;height:1.9rem;font-size:.68rem}
+.person-main{min-width:0;flex:1}
+.person-name{display:block;font-weight:700;font-size:.95rem;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.person-meta{display:block;font-size:.72rem;color:var(--ink-3);font-weight:500}
+.person-go{color:#3C5C80;flex:none}
+.empty{
+  text-align:center;padding:2rem 1rem;color:var(--ink-3);font-size:.88rem;
+  background:rgba(255,255,255,.02);border:1px dashed var(--line);border-radius:1rem;
+}
+
+/* ---------------- Bénévole sélectionné ---------------- */
+.vol-row{
+  display:flex;align-items:center;gap:.55rem;margin-bottom:.7rem;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);
+  border-radius:.9rem;padding:.4rem .5rem .4rem .55rem;
+}
+.vol-name{font-weight:700;font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-ghost{
+  margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.74rem;font-weight:700;color:var(--orange-2);
+  padding:.4rem .55rem;border-radius:.55rem;background:rgba(240,130,74,.10);
+}
+
+/* ---------------- Hero ---------------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:22px;padding:1.15rem;
+  background:linear-gradient(135deg,#12304F 0%,#0C2140 58%,#0A1A2F 100%);
+  border:1px solid rgba(240,130,74,.26);
+  box-shadow:var(--shadow-md), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.hero::after{
+  content:"";position:absolute;width:16rem;height:16rem;border-radius:50%;
+  top:-7.5rem;right:-6rem;pointer-events:none;
+  background:radial-gradient(circle,rgba(240,130,74,.30),rgba(240,130,74,0) 68%);
+}
+.hero--done{background:linear-gradient(135deg,#132A45,#0B1B30);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.hero-label{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-2);
+}
+.live-dot{width:.46rem;height:.46rem;border-radius:999px;background:var(--orange);box-shadow:0 0 0 0 rgba(240,130,74,.7);animation:pulseOrange 2s infinite}
+.hero-title{
+  font-size:1.6rem;line-height:1.13;font-weight:800;letter-spacing:-.02em;
+  margin:.45rem 0 .5rem;color:#fff;word-break:break-word;
+}
+.hero-badges{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-size:.78rem}
+.hero-badge{
+  background:rgba(240,130,74,.16);border:1px solid rgba(240,130,74,.38);
+  color:#FFC79F;padding:.14rem .5rem;border-radius:999px;font-weight:700;
+}
+.hero-time{font-variant-numeric:tabular-nums;color:var(--ink-2);font-weight:600}
+.hero-progress{height:.4rem;border-radius:999px;background:rgba(255,255,255,.11);overflow:hidden;margin-top:.95rem}
+.hero-progress > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--orange),#FFB27A);transition:width .5s ease}
+.hero-foot{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-top:.55rem;font-size:.78rem;color:var(--ink-2)}
+.hero-foot strong{color:#fff;font-weight:700}
+
+.next-card{
+  display:flex;align-items:center;gap:.75rem;margin-top:.6rem;
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent,var(--orange));
+  border-radius:1rem;padding:.7rem .85rem;box-shadow:var(--shadow-sm);
+}
+.next-time{font-size:1.02rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent,var(--orange));flex:none}
+.next-body{min-width:0;flex:1}
+.next-label{
+  font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+}
+.next-title{font-size:.9rem;font-weight:700;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.next-dur{font-size:.72rem;font-weight:600;color:var(--ink-2);background:rgba(255,255,255,.06);padding:.15rem .45rem;border-radius:999px;flex:none}
+
+/* ---------------- Récap ---------------- */
+.recap{margin-top:1rem}
+.avail{
+  display:flex;align-items:center;gap:.5rem;background:var(--surface);
+  border:1px solid var(--line);border-radius:.9rem;padding:.55rem .75rem;margin-bottom:.5rem;font-size:.82rem;
+}
+.avail-k{font-family:"Barlow Condensed","Barlow",sans-serif;color:var(--ink-3);font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:.1em}
+.avail-v{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;color:var(--orange-2)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:.9rem;padding:.55rem .65rem;min-width:0}
+.stat-k{
+  display:block;font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.68rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+}
+.stat-v{display:block;font-size:1rem;font-weight:800;font-variant-numeric:tabular-nums;margin-top:.08rem;white-space:nowrap}
+.stat--poste .stat-v{color:var(--cyan)}
+.stat--pause .stat-v{color:var(--emerald)}
+
+/* ---------------- Timeline ---------------- */
+.section-head{display:flex;align-items:center;gap:.5rem;margin:1.55rem 0 .7rem}
+.section-title{font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
+.pill{
+  margin-left:auto;font-size:.7rem;font-weight:600;color:var(--ink-2);
+  background:rgba(255,255,255,.05);border:1px solid var(--line);padding:.2rem .55rem;border-radius:999px;
+}
+.timeline{display:flex;flex-direction:column}
+.tl-item{display:grid;grid-template-columns:3.4rem 1.1rem minmax(0,1fr);gap:.45rem}
+.tl-item.is-past{opacity:.45}
+.tl-time{padding-top:.85rem;text-align:right;font-variant-numeric:tabular-nums}
+.tl-start{display:block;font-weight:700;font-size:.92rem;line-height:1.1}
+.tl-end{display:block;font-size:.7rem;color:var(--ink-3);font-weight:500}
+.tl-rail{position:relative}
+.tl-rail::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:var(--line);border-radius:2px}
+.tl-item:first-child .tl-rail::before{top:1.1rem}
+.tl-item:last-child .tl-rail::before{bottom:calc(100% - 1.1rem)}
+.tl-dot{
+  position:absolute;left:50%;top:1.1rem;transform:translate(-50%,-50%);
+  width:.68rem;height:.68rem;border-radius:999px;background:var(--accent,var(--ink-3));
+  box-shadow:0 0 0 3px var(--bg);z-index:1;
+}
+.tl-item.is-now .tl-dot{width:.85rem;height:.85rem;box-shadow:0 0 0 3px var(--bg),0 0 0 6px rgba(240,130,74,.25)}
+.tl-item--room{--accent:var(--cyan)}
+.tl-item--mobile{--accent:var(--violet)}
+.tl-item--break{--accent:var(--emerald)}
+.tl-item--standby{--accent:var(--slate)}
+.tl-item--other{--accent:var(--ink-3)}
+
+.slot{
+  margin-bottom:.55rem;padding:.65rem .8rem .7rem;min-width:0;border-radius:1rem;
+  border:1px solid var(--line);border-left:4px solid var(--accent,var(--ink-3));
+  background:var(--surface);
+}
+.tl-item--room .slot{background:rgba(79,195,219,.10);border-color:rgba(79,195,219,.26);border-left-color:var(--cyan)}
+.tl-item--mobile .slot{background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.26);border-left-color:var(--violet)}
+.tl-item--break .slot{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.26);border-left-color:var(--emerald)}
+.tl-item--standby .slot{background:rgba(148,163,184,.10);border-color:rgba(148,163,184,.26);border-left-color:var(--slate)}
+.tl-item.is-now .slot{box-shadow:0 0 0 1px var(--bg),0 0 0 3px rgba(240,130,74,.55)}
+.slot-head{display:flex;align-items:center;gap:.45rem;margin-bottom:.18rem}
+.slot-type{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent,var(--ink-3));
+}
+.tl-item--room .slot-type{color:var(--cyan)}
+.tl-item--mobile .slot-type{color:var(--violet)}
+.tl-item--break .slot-type{color:var(--emerald)}
+.tl-item--standby .slot-type{color:var(--slate)}
+.now-tag{
+  margin-left:auto;font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--orange);color:var(--orange-ink);padding:.1rem .4rem;border-radius:999px;
+}
+.slot-title{font-size:.98rem;font-weight:700;line-height:1.25;word-break:break-word;color:var(--ink)}
+.slot-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.28rem}
+.slot-dur{
+  font-size:.7rem;font-weight:600;color:var(--ink-2);
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.06);
+  padding:.08rem .45rem;border-radius:999px;
+}
+
+.now-line{
+  display:flex;align-items:center;gap:.5rem;margin:.15rem 0 .5rem;
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+}
+.now-line::before,.now-line::after{content:"";height:2px;flex:1;border-radius:2px;background:currentColor;opacity:.3}
+.tz-note{font-size:.7rem;color:var(--ink-3);text-align:center;margin-top:.85rem}
+
+/* ---------------- Vue « Par salle » ---------------- */
+.room-hero{margin:.2rem 0 1rem}
+.room-title{font-size:1.6rem;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin:.25rem 0 .3rem}
+.room-sub{color:var(--ink-2);font-size:.86rem}
+.room-label{
+  display:block;font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.74rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.3rem;
+}
+.select-wrap{position:relative;margin-bottom:.6rem}
+.room-select{
+  width:100%;height:3.05rem;padding:0 2.6rem 0 .9rem;border-radius:.9rem;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  font-family:inherit;font-size:.95rem;font-weight:600;
+  -webkit-appearance:none;appearance:none;box-shadow:var(--shadow-sm);
+}
+.select-wrap .ico{position:absolute;right:.9rem;top:50%;transform:translateY(-50%) rotate(90deg);color:var(--ink-3);pointer-events:none}
+.room-summary{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.room-stat{
+  display:inline-flex;align-items:baseline;gap:.3rem;font-size:.74rem;color:var(--ink-2);
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:.22rem .6rem;
+}
+.room-stat strong{color:var(--orange-2);font-weight:800;font-size:.86rem}
+.room-stat.is-live{border-color:rgba(240,130,74,.4);background:rgba(240,130,74,.10);color:#FFC79F}
+
+.room-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:.95rem;
+  padding:.6rem .75rem;margin-bottom:.45rem;min-width:0;
+}
+.room-item.is-past{opacity:.45}
+.room-item.is-now{
+  border-color:rgba(240,130,74,.55);
+  background:linear-gradient(180deg,rgba(240,130,74,.13),rgba(14,36,64,.95));
+  box-shadow:0 0 0 1px rgba(240,130,74,.22),0 16px 30px -24px rgba(240,130,74,.9);
+}
+.room-item.is-empty{background:transparent;border-style:dashed;border-color:rgba(30,59,94,.8);padding:.45rem .75rem}
+.room-item.is-empty .room-count{color:var(--ink-3);font-style:italic}
+.room-head{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.room-time{font-weight:800;font-variant-numeric:tabular-nums;font-size:.92rem;letter-spacing:-.01em}
+.room-time span{font-weight:600;font-size:.7rem;color:var(--ink-3);margin-left:.35rem}
+.room-count{font-size:.72rem;font-weight:600;color:var(--ink-2);margin-left:auto;white-space:nowrap}
+.room-item.is-now .room-count{color:var(--orange-2)}
+.room-tag{
+  font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.66rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;padding:.1rem .38rem;border-radius:999px;
+}
+.room-tag--now{background:var(--orange);color:var(--orange-ink)}
+.room-tag--next{background:rgba(79,195,219,.16);color:var(--cyan);border:1px solid rgba(79,195,219,.35)}
+.room-people{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:.45rem}
+.person-chip{
+  display:inline-flex;align-items:center;gap:.28rem;max-width:100%;
+  font-size:.75rem;font-weight:600;color:var(--ink);
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  padding:.22rem .55rem;border-radius:999px;
+  transition:background .12s ease, border-color .12s ease;
+}
+.person-chip:active{background:rgba(240,130,74,.2);border-color:rgba(240,130,74,.4)}
+.person-chip .avatar{width:1.1rem;height:1.1rem;font-size:.5rem;border-radius:999px}
+
+/* ---------------- États ---------------- */
+.loading{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:4rem 1rem;color:var(--ink-3);font-size:.85rem}
+.spinner{width:2rem;height:2rem;border-radius:999px;border:3px solid var(--line);border-top-color:var(--orange);animation:spin .8s linear infinite}
+.error-card{background:var(--surface);border:1px solid rgba(248,113,113,.35);border-radius:1rem;padding:1.1rem;box-shadow:var(--shadow-sm)}
+.error-card h2{font-size:1.05rem;font-weight:800;color:#FCA5A5;display:flex;align-items:center;gap:.45rem}
+.error-card p{font-size:.85rem;color:var(--ink-2);margin-top:.4rem}
+.error-card .reason{
+  margin-top:.6rem;padding:.55rem .65rem;background:rgba(0,0,0,.25);border-radius:.6rem;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;color:var(--ink-2);word-break:break-word;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:0 1.1rem;
+  border-radius:.9rem;background:linear-gradient(145deg,#FFA271,#E2672F);color:var(--orange-ink);
+  font-weight:800;font-size:.9rem;box-shadow:0 12px 24px -16px rgba(240,130,74,1);
+}
+.btn-primary:active{transform:scale(.98)}
+.btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:0 1.1rem;
+  border-radius:.9rem;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  color:var(--ink-2);font-weight:700;font-size:.9rem;
+}
+.mt-3{margin-top:.9rem}
+
+/* ---------------- Footer ---------------- */
+.site-footer{
+  max-width:34rem;margin:0 auto;padding:1rem 1rem calc(1.5rem + var(--safe-b));
+  border-top:1px solid var(--line-soft);color:var(--ink-3);font-size:.72rem;
+}
+.site-footer .sync-detail{margin-bottom:.35rem;font-weight:500}
+.footer-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.link-btn{font-weight:700;color:var(--orange-2);text-decoration:underline;font-size:.72rem}
+
+/* ---------------- Feuille simulation ---------------- */
+.sheet-backdrop{
+  position:fixed;inset:0;z-index:60;background:rgba(3,10,20,.65);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .2s ease;
+}
+.sheet-backdrop.is-open{opacity:1}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:34rem;margin:0 auto;
+  background:linear-gradient(180deg,#102A49,#0A1B31);
+  border:1px solid var(--line);border-bottom:0;
+  border-radius:24px 24px 0 0;padding:.6rem 1rem calc(1.1rem + var(--safe-b));
+  box-shadow:0 -22px 50px rgba(0,0,0,.6);
+  transform:translateY(110%);transition:transform .26s cubic-bezier(.2,.8,.2,1);
+}
+.sheet.is-open{transform:translateY(0)}
+.sheet-grip{width:2.6rem;height:.28rem;border-radius:999px;background:#2A4A6E;margin:.15rem auto .9rem}
+.sheet h2{font-size:1.05rem;font-weight:800}
+.sheet-sub{font-size:.8rem;color:var(--ink-3);margin-top:.15rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.field{display:flex;flex-direction:column;gap:.25rem;font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.field input{
+  height:2.8rem;border-radius:.8rem;border:1px solid var(--line);background:rgba(0,0,0,.25);
+  padding:0 .65rem;font-size:.95rem;font-weight:600;color:var(--ink);font-family:"Barlow",sans-serif;
+  text-transform:none;letter-spacing:0;
+}
+.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.preset{
+  font-size:.78rem;font-weight:600;color:var(--ink-2);background:rgba(255,255,255,.05);
+  border:1px solid var(--line);padding:.4rem .65rem;border-radius:999px;font-variant-numeric:tabular-nums;
+}
+.preset:active{background:rgba(240,130,74,.18)}
+.sheet-actions{display:flex;gap:.55rem;margin-top:1rem}
+.sheet-actions .btn-primary,.sheet-actions .btn-secondary{flex:1}
+
+/* ---------------- Toast ---------------- */
+.toast{
+  position:fixed;left:50%;bottom:calc(1.25rem + var(--safe-b));z-index:80;
+  transform:translate(-50%,1.5rem);opacity:0;pointer-events:none;max-width:calc(100vw - 2rem);
+  background:#F0824A;color:#1C0D04;font-size:.8rem;font-weight:700;
+  padding:.6rem .9rem;border-radius:.75rem;box-shadow:0 18px 34px -18px rgba(0,0,0,.9);
+  transition:opacity .2s ease, transform .2s ease;
+}
+.toast.is-visible{opacity:1;transform:translate(-50%,0)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.5)}70%{box-shadow:0 0 0 .45rem rgba(251,191,36,0)}100%{box-shadow:0 0 0 0 rgba(251,191,36,0)}}
+@keyframes pulseOrange{0%{box-shadow:0 0 0 0 rgba(240,130,74,.55)}70%{box-shadow:0 0 0 .45rem rgba(240,130,74,0)}100%{box-shadow:0 0 0 0 rgba(240,130,74,0)}}
+
+@media (max-width:359px){
+  .brand-sub{display:none}
+  .brand-name{font-size:.82rem}
+  .sync-pill{padding:0 .45rem;font-size:.68rem}
+  .icon-btn{width:2.2rem;height:2.2rem}
+  .tab{font-size:.78rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">Agile Tour Montréal</div>
+        <div class="brand-sub">Bénévoles · 24 nov. 2026</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" id="sync-pill" class="sync-pill is-syncing" aria-live="polite" title="Actualiser les données">
+        <span class="sync-dot" aria-hidden="true"></span>
+        <span class="sync-text" id="sync-text">…</span>
+      </button>
+      <button type="button" id="btn-refresh" class="icon-btn" aria-label="Actualiser les données" title="Actualiser">
+        <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3.5V9h-5.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Navigation principale" hidden>
+    <button type="button" class="tab is-active" id="tab-schedule" role="tab" data-tab="schedule" aria-selected="true">
+      <span class="emoji" aria-hidden="true">👤</span> Mon Horaire
+    </button>
+    <button type="button" class="tab" id="tab-room" role="tab" data-tab="room" aria-selected="false">
+      <span class="emoji" aria-hidden="true">📍</span> Par Salle
+    </button>
+  </nav>
+
+  <div class="sim-banner" id="sim-banner" hidden>
+    <div>
+      <span>Heure simulée : <strong id="sim-banner-time">--:--</strong></span>
+      <button type="button" class="link-btn" id="sim-banner-reset">Heure réelle</button>
+    </div>
+  </div>
+</header>
+
+<main class="app-shell">
+
+  <section id="view-loading" class="view">
+    <div class="loading">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Chargement du planning…</p>
+    </div>
+  </section>
+
+  <section id="view-error" class="view" hidden>
+    <div class="error-card">
+      <h2>
+        <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5 2.5 20.5h19L12 3.5Z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.6" r=".9" fill="currentColor" stroke="none"/></svg>
+        Planning indisponible
+      </h2>
+      <p>Impossible de récupérer les données du Google Sheet et aucune copie hors-ligne n'est disponible sur cet appareil.</p>
+      <p class="reason" id="error-reason"></p>
+      <button type="button" class="btn-primary mt-3" id="btn-retry">
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3.5V9h-5.5"/></svg>
+        Réessayer
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ Onglet 1 : Mon Horaire ============ -->
+  <section id="view-picker" class="view" hidden role="tabpanel" aria-labelledby="tab-schedule">
+    <div class="picker-hero">
+      <p class="eyebrow">Agile Tour Montréal · 18<sup>e</sup> édition</p>
+      <h1 class="picker-title">Ton planning bénévole</h1>
+      <p class="picker-sub">Mardi 24 novembre 2026 · Palais des congrès</p>
+    </div>
+
+    <div class="search">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <input id="search" type="search" inputmode="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Cherche ton nom…" aria-label="Chercher un bénévole">
+      <button type="button" class="search-clear" id="search-clear" aria-label="Effacer la recherche" hidden>
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <p class="list-hint" id="list-hint"></p>
+    <div class="people" id="people-list" role="list"></div>
+  </section>
+
+  <section id="view-schedule" class="view" hidden role="tabpanel" aria-labelledby="tab-schedule">
+    <div class="vol-row" id="vol-row">
+      <span class="avatar avatar--sm" id="vol-avatar" aria-hidden="true">A</span>
+      <span class="vol-name" id="vol-name"></span>
+      <button type="button" class="btn-ghost" id="btn-change">
+        <svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 20.5a6.2 6.2 0 0 1 12.4 0"/><path d="M16.2 4.9a3.4 3.4 0 0 1 0 6.2"/><path d="M17.6 20.5a6.2 6.2 0 0 0-2.4-4.9"/></svg>
+        Changer
+      </button>
+    </div>
+
+    <div id="hero-slot"></div>
+    <div id="next-slot"></div>
+    <div class="recap" id="recap"></div>
+
+    <div class="section-head">
+      <h2 class="section-title">Ma journée</h2>
+      <span class="pill" id="day-count"></span>
+    </div>
+    <ol class="timeline" id="timeline"></ol>
+    <p class="tz-note">Heures locales de Montréal · Palais des congrès</p>
+  </section>
+
+  <!-- ============ Onglet 2 : Par Salle ============ -->
+  <section id="view-room" class="view" hidden role="tabpanel" aria-labelledby="tab-room">
+    <div class="room-hero">
+      <p class="eyebrow">Vue par salle / poste</p>
+      <h1 class="room-title">Qui est où&nbsp;?</h1>
+      <p class="room-sub">Relève heure par heure, de 06:30 à 17:00.</p>
+    </div>
+
+    <label class="room-label" for="room-select">Salle / poste</label>
+    <div class="select-wrap">
+      <select id="room-select" class="room-select"></select>
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7"/></svg>
+    </div>
+
+    <div class="room-summary" id="room-summary"></div>
+    <ol class="room-timeline" id="room-timeline"></ol>
+    <p class="tz-note">Heures locales de Montréal · touche un nom pour voir son horaire</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p class="sync-detail" id="sync-detail">Chargement…</p>
+  <div class="footer-row">
+    <span>Agile Tour Montréal 2026</span>
+    <span aria-hidden="true">·</span>
+    <button type="button" class="link-btn" id="btn-sim">Simuler une heure</button>
+  </div>
+</footer>
+
+<div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <div class="sheet-grip" aria-hidden="true"></div>
+  <h2 id="sheet-title">Simuler une heure</h2>
+  <p class="sheet-sub">Pour tester le planning avant l'événement. Seul l'affichage change.</p>
+  <div class="field-row">
+    <label class="field" for="sim-date">Date
+      <input id="sim-date" type="date" value="2026-11-24">
+    </label>
+    <label class="field" for="sim-time">Heure (Montréal)
+      <input id="sim-time" type="time" value="08:00" step="60">
+    </label>
+  </div>
+  <div class="presets" id="sim-presets">
+    <button type="button" class="preset" data-time="06:30">06:30</button>
+    <button type="button" class="preset" data-time="09:15">09:15</button>
+    <button type="button" class="preset" data-time="12:00">12:00</button>
+    <button type="button" class="preset" data-time="15:00">15:00</button>
+  </div>
+  <div class="sheet-actions">
+    <button type="button" class="btn-secondary" id="sim-reset">Heure réelle</button>
+    <button type="button" class="btn-primary" id="sim-apply">Appliquer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<noscript>
+  <div style="padding:2rem;text-align:center;font-family:sans-serif">
+    Cette application a besoin de JavaScript pour afficher le planning.
+  </div>
+</noscript>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     1. Configuration
+     ========================================================= */
+  var SHEET_ID   = '1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA';
+  var SHEET_NAME = 'Affectations';
+  var TZ         = 'America/Toronto';
+  var EVENT_DATE = '2026-11-24';
+
+  var K_SCHEDULE  = 'atmtl26:schedule:v1';
+  var K_VOLUNTEER = 'atmtl26:volunteer:v1';
+  var K_SIM       = 'atmtl26:sim:v1';
+  var K_TAB       = 'atmtl26:tab:v1';
+  var K_ROOM      = 'atmtl26:room:v1';
+
+  var CACHE_MAX_AGE = 5 * 60 * 1000;
+  var FETCH_TIMEOUT = 8000;
+
+  /* =========================================================
+     2. État
+     ========================================================= */
+  var state = {
+    data: null,
+    slots: [],
+    volunteers: [],
+    selected: null,
+    query: '',
+    tab: 'schedule',      // schedule | room
+    room: null,
+    sync: 'idle',
+    lastError: '',
+    sim: null,
+    lastTickKey: ''
+  };
+
+  var $ = function (sel) { return document.querySelector(sel); };
+
+  /* =========================================================
+     3. Stockage local
+     ========================================================= */
+  var store = {
+    get: function (key) {
+      try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; }
+      catch (e) { return null; }
+    },
+    set: function (key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      catch (e) { return false; }
+    },
+    del: function (key) {
+      try { localStorage.removeItem(key); } catch (e) {}
+    }
+  };
+
+  /* =========================================================
+     4. Utilitaires
+     ========================================================= */
+  function norm(value) {
+    return String(value == null ? '' : value)
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+
+  function clean(value) {
+    return String(value == null ? '' : value)
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .replace(/\u00A0/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function esc(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function pad2(n) { return n < 10 ? '0' + n : String(n); }
+
+  function fmtHM(minutes) {
+    var m = ((Math.round(minutes) % 1440) + 1440) % 1440;
+    return pad2(Math.floor(m / 60)) + ':' + pad2(m % 60);
+  }
+
+  function fmtDur(minutes) {
+    var m = Math.max(0, Math.round(minutes));
+    var h = Math.floor(m / 60);
+    var r = m % 60;
+    if (h && r) return h + ' h ' + pad2(r);
+    if (h) return h + ' h';
+    return r + ' min';
+  }
+
+  function fmtDurPrecise(minutes) {
+    var m = Math.max(0, Math.round(minutes));
+    if (m < 1) return "à l'instant";
+    return fmtDur(m);
+  }
+
+  function fmtClock(ts) {
+    try {
+      var parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false
+      }).formatToParts(new Date(ts));
+      var h = '00', m = '00';
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'hour') h = pad2(parseInt(parts[i].value, 10) % 24);
+        if (parts[i].type === 'minute') m = parts[i].value;
+      }
+      return h + ':' + m;
+    } catch (e) { return '--:--'; }
+  }
+
+  function fmtDate(ts) {
+    try {
+      return new Intl.DateTimeFormat('fr-CA', {
+        timeZone: TZ, day: 'numeric', month: 'short'
+      }).format(new Date(ts));
+    } catch (e) { return ''; }
+  }
+
+  function initials(name) {
+    var parts = clean(name).split(' ').filter(Boolean);
+    if (!parts.length) return '?';
+    return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+  }
+
+  function avatarStyle(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
+    return 'background:linear-gradient(140deg,hsl(' + h + ' 62% 46%),hsl(' + ((h + 30) % 360) + ' 64% 36%))';
+  }
+
+  function plural(n, singular, pluralForm) {
+    return n + ' ' + (n > 1 ? (pluralForm || singular + 's') : singular);
+  }
+
+  /* =========================================================
+     5. Icônes SVG
+     ========================================================= */
+  var ICONS = {
+    door:      '<path d="M3 21h18"/><path d="M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21"/><circle cx="14.6" cy="12" r=".9" fill="currentColor" stroke="none"/>',
+    route:     '<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18h5.3a3.5 3.5 0 0 0 0-7H10a3.5 3.5 0 0 1 0-7h5.8"/>',
+    coffee:    '<path d="M4 8h13v4.5A4.5 4.5 0 0 1 12.5 17h-4A4.5 4.5 0 0 1 4 12.5V8Z"/><path d="M17 9.5h1.5a2.25 2.25 0 0 1 0 4.5H17"/><path d="M7.5 3.5v2M11 3.5v2"/>',
+    hourglass: '<path d="M7 3h10M7 21h10"/><path d="M8 3v3.2c0 1.6 1.6 2.6 4 5.8 2.4-3.2 4-4.2 4-5.8V3"/><path d="M8 21v-3.2c0-1.6 1.6-2.6 4-5.8 2.4 3.2 4 4.2 4 5.8V21"/>',
+    clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/>',
+    chevron:   '<path d="m9 5 7 7-7 7"/>',
+    pin:       '<path d="M19 10.5c0 5.3-7 11-7 11s-7-5.7-7-11a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10.5" r="2.6"/>'
+  };
+
+  function icon(name, size) {
+    var s = size || 16;
+    return '<svg class="ico" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true" focusable="false">' + (ICONS[name] || '') + '</svg>';
+  }
+
+  /* =========================================================
+     6. Temps de Montréal
+     ========================================================= */
+  function mtlNow() {
+    if (state.sim && /^\d{2}:\d{2}$/.test(state.sim.time)) {
+      var p = state.sim.time.split(':');
+      var hh = parseInt(p[0], 10);
+      var mm = parseInt(p[1], 10);
+      return { minutes: hh * 60 + mm, hh: hh, mm: mm, simulated: true };
+    }
+    var h = 0, m = 0;
+    try {
+      var parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false
+      }).formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'hour') h = parseInt(parts[i].value, 10) % 24;
+        if (parts[i].type === 'minute') m = parseInt(parts[i].value, 10);
+      }
+    } catch (e) {
+      var d = new Date();
+      h = d.getHours();
+      m = d.getMinutes();
+    }
+    return { minutes: h * 60 + m, hh: h, mm: m, simulated: false };
+  }
+
+  /* =========================================================
+     7. CSV
+     ========================================================= */
+  function csvUrl() {
+    return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+      '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(SHEET_NAME) +
+      '&_cb=' + Date.now();
+  }
+
+  function parseCSV(text) {
+    if (window.Papa && typeof window.Papa.parse === 'function') {
+      var res = window.Papa.parse(text, { skipEmptyLines: 'greedy' });
+      if (res && Array.isArray(res.data) && res.data.length) return res.data;
+    }
+    return miniCSV(text);
+  }
+
+  function miniCSV(text) {
+    var rows = [], row = [], field = '', quoted = false, i, c;
+    for (i = 0; i < text.length; i++) {
+      c = text[i];
+      if (quoted) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else { quoted = false; }
+        } else { field += c; }
+      } else if (c === '"') {
+        quoted = true;
+      } else if (c === ',') {
+        row.push(field); field = '';
+      } else if (c === '\n') {
+        row.push(field); rows.push(row); row = []; field = '';
+      } else if (c !== '\r') {
+        field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  var HEADER_ALIASES = {
+    name:         ['benevole', 'bénévole', 'nom'],
+    start:        ['debut', 'début', 'start'],
+    end:          ['fin', 'end'],
+    duration:     ['duree', 'durée', 'duration'],
+    type:         ['type'],
+    place:        ['salle', 'tache', 'tâche', 'lieu', 'poste'],
+    availability: ['disponibilite', 'disponibilité', 'dispo']
+  };
+
+  function headerMatches(cell, alias) {
+    if (!cell || !alias) return false;
+    if (cell === alias) return true;
+    if (cell.indexOf(alias) === 0) {
+      var next = cell.charAt(alias.length);
+      return next === ' ' || next === '/' || next === '(' || next === ':' || next === '·';
+    }
+    if (cell.length > alias.length + 1 && cell.slice(-alias.length - 1) === ' ' + alias) return true;
+    return false;
+  }
+
+  function findHeader(rows) {
+    var limit = Math.min(rows.length, 20);
+    for (var i = 0; i < limit; i++) {
+      var cells = (rows[i] || []).map(norm);
+      var map = {};
+      for (var j = 0; j < cells.length; j++) {
+        var cell = cells[j];
+        if (!cell) continue;
+        for (var key in HEADER_ALIASES) {
+          if (map[key] != null) continue;
+          var aliases = HEADER_ALIASES[key];
+          for (var k = 0; k < aliases.length; k++) {
+            if (headerMatches(cell, aliases[k])) { map[key] = j; break; }
+          }
+        }
+      }
+      var distinct = map.name != null && map.start != null && map.end != null &&
+        map.name !== map.start && map.name !== map.end && map.start !== map.end;
+      if (distinct && Object.keys(map).length >= 5) return { row: i, map: map };
+    }
+    return null;
+  }
+
+  function toMinutes(value) {
+    var str = clean(value);
+    if (!str) return null;
+    var m = str.match(/^(\d{1,2})\s*[:hH.]\s*(\d{1,2})/);
+    if (m) {
+      var h = parseInt(m[1], 10), mi = parseInt(m[2], 10);
+      if (h === 24 && mi === 0) return 1440;
+      if (h > 24 || mi > 59) return null;
+      return h * 60 + mi;
+    }
+    m = str.match(/^(\d{1,2})\s*(?:h)?\s*(am|pm)$/i);
+    if (m) {
+      var hh = parseInt(m[1], 10) % 12;
+      if (/pm/i.test(m[2])) hh += 12;
+      return hh * 60;
+    }
+    return null;
+  }
+
+  function buildSlots(rows) {
+    var header = findHeader(rows);
+    if (!header) throw new Error('En-têtes du tableau introuvables');
+    var map = header.map;
+    var out = [];
+    var seen = Object.create(null);
+
+    for (var i = header.row + 1; i < rows.length; i++) {
+      var r = rows[i];
+      if (!r || !r.length) continue;
+
+      var name = clean(r[map.name]);
+      if (!name) continue;
+
+      var start = toMinutes(r[map.start]);
+      var end = toMinutes(r[map.end]);
+      if (start == null || end == null) continue;
+      if (end <= start) end += 1440;
+
+      var type = clean(r[map.type]) || 'Affectation';
+      var place = clean(r[map.place]) || '—';
+      var availability = map.availability != null ? clean(r[map.availability]) : '';
+      var declared = map.duration != null ? parseInt(clean(r[map.duration]), 10) : NaN;
+
+      var key = [name, start, end, type, place].join('|');
+      if (seen[key]) continue;
+      seen[key] = 1;
+
+      out.push({
+        name: name,
+        start: start,
+        end: end,
+        type: type,
+        place: place,
+        availability: availability,
+        duration: isFinite(declared) && declared > 0 ? declared : (end - start)
+      });
+    }
+
+    out.sort(function (a, b) {
+      return a.name.localeCompare(b.name, 'fr') || a.start - b.start || a.end - b.end;
+    });
+    return out;
+  }
+
+  function slotKind(slot) {
+    var type = norm(slot.type);
+    var place = norm(slot.place);
+    if (type.indexOf('pause') !== -1 || type.indexOf('diner') !== -1) return 'break';
+    if (type.indexOf('reserve') !== -1) return 'standby';
+    if (place.indexOf('soutien mobile') !== -1) return 'mobile';
+    if (type.indexOf('affectation') !== -1) return 'room';
+    return 'other';
+  }
+
+  function isPostSlot(slot) {
+    var type = norm(slot.type);
+    return type.indexOf('affectation') !== -1 || type.indexOf('reserve') !== -1;
+  }
+
+  function totals(slots) {
+    var poste = 0, pause = 0;
+    for (var i = 0; i < slots.length; i++) {
+      var d = slots[i].end - slots[i].start;
+      if (slotKind(slots[i]) === 'break') pause += d;
+      else poste += d;
+    }
+    return { poste: poste, pause: pause };
+  }
+
+  function indexVolunteers(slots) {
+    var map = Object.create(null);
+    for (var i = 0; i < slots.length; i++) {
+      var s = slots[i];
+      if (!map[s.name]) map[s.name] = { name: s.name, slots: [] };
+      map[s.name].slots.push(s);
+    }
+    var list = [];
+    for (var key in map) {
+      var v = map[key];
+      v.slots.sort(function (a, b) { return a.start - b.start || a.end - b.end; });
+      var t = totals(v.slots);
+      v.poste = t.poste;
+      v.pause = t.pause;
+      v.count = v.slots.length;
+      v.availability = '';
+      for (var j = 0; j < v.slots.length; j++) {
+        if (v.slots[j].availability) { v.availability = v.slots[j].availability; break; }
+      }
+      list.push(v);
+    }
+    list.sort(function (a, b) { return a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }); });
+    return list;
+  }
+
+  /* =========================================================
+     8. Synchronisation
+     ========================================================= */
+  function fetchWithTimeout(url, ms) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, ms);
+    return fetch(url, {
+      signal: controller.signal, cache: 'no-store', mode: 'cors', credentials: 'omit'
+    }).then(function (res) { clearTimeout(timer); return res; },
+            function (err) { clearTimeout(timer); throw err; });
+  }
+
+  function applyPayload(payload, status) {
+    state.data = payload;
+    state.slots = payload.slots;
+    state.volunteers = indexVolunteers(payload.slots);
+    if (state.selected && !state.volunteers.some(function (v) { return v.name === state.selected; })) {
+      state.selected = null;
+      store.del(K_VOLUNTEER);
+      toast('Ton nom n\u2019est plus dans la liste — choisis-le à nouveau.');
+    }
+    state.sync = status;
+    renderAll();
+  }
+
+  function loadCache() {
+    var cached = store.get(K_SCHEDULE);
+    if (!cached || !Array.isArray(cached.slots) || !cached.slots.length) return false;
+    applyPayload(cached, 'offline');
+    return true;
+  }
+
+  function refresh(manual) {
+    if (state.sync === 'syncing') return;
+    var hadData = !!state.data;
+    state.sync = 'syncing';
+    renderSync();
+    if (!hadData) renderAll();
+
+    fetchWithTimeout(csvUrl(), FETCH_TIMEOUT)
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (!text || !text.trim()) throw new Error('Réponse vide');
+        if (/^\s*</.test(text)) throw new Error('Feuille non partagée publiquement');
+        var slots = buildSlots(parseCSV(text));
+        if (!slots.length) throw new Error('Aucun créneau trouvé');
+
+        var payload = { v: 1, fetchedAt: Date.now(), slots: slots };
+        var saved = store.set(K_SCHEDULE, payload);
+        applyPayload(payload, 'online');
+        if (manual) toast(saved ? 'Planning à jour · ' + fmtClock(payload.fetchedAt)
+                                : 'À jour (cache local indisponible)');
+      })
+      .catch(function (err) {
+        state.lastError = (err && err.message) ? err.message : 'Erreur réseau';
+        if (state.data) {
+          state.sync = 'offline';
+          renderAll();
+          if (manual) toast('Hors-ligne — données du ' + fmtDate(state.data.fetchedAt) + ' à ' + fmtClock(state.data.fetchedAt));
+        } else {
+          state.sync = 'error';
+          renderAll();
+        }
+      });
+  }
+
+  function maybeRefresh() {
+    if (!state.data) { refresh(false); return; }
+    if (Date.now() - state.data.fetchedAt > CACHE_MAX_AGE) refresh(false);
+  }
+
+  /* =========================================================
+     9. Statut de synchronisation
+     ========================================================= */
+  function renderSync() {
+    var pill = $('#sync-pill');
+    var text = $('#sync-text');
+    var refreshBtn = $('#btn-refresh');
+    var label = '…';
+
+    pill.className = 'sync-pill is-' + state.sync;
+
+    if (state.sync === 'syncing') {
+      label = state.data ? fmtClock(state.data.fetchedAt) : 'Synchro';
+      refreshBtn.classList.add('is-spinning');
+    } else if (state.sync === 'online') {
+      label = state.data ? fmtClock(state.data.fetchedAt) : 'À jour';
+      refreshBtn.classList.remove('is-spinning');
+    } else if (state.sync === 'offline') {
+      label = 'Hors-ligne';
+      refreshBtn.classList.remove('is-spinning');
+    } else if (state.sync === 'error') {
+      label = 'Erreur';
+      refreshBtn.classList.remove('is-spinning');
+    } else {
+      refreshBtn.classList.remove('is-spinning');
+    }
+
+    text.textContent = label;
+    pill.setAttribute('aria-label',
+      state.sync === 'online' ? 'Données à jour, synchronisées à ' + label :
+      state.sync === 'offline' ? 'Mode hors-ligne, données en cache' :
+      state.sync === 'syncing' ? 'Synchronisation en cours' :
+      state.sync === 'error' ? 'Erreur de chargement' : 'En attente');
+
+    var detail = $('#sync-detail');
+    if (state.sync === 'error') {
+      detail.textContent = 'Aucune donnée disponible sur cet appareil.';
+    } else if (!state.data) {
+      detail.textContent = 'Chargement du planning…';
+    } else if (state.sync === 'offline') {
+      detail.textContent = 'Mode hors-ligne · données du ' + fmtDate(state.data.fetchedAt) + ' à ' + fmtClock(state.data.fetchedAt);
+    } else if (state.sync === 'syncing') {
+      detail.textContent = 'Synchronisation… dernière mise à jour à ' + fmtClock(state.data.fetchedAt);
+    } else {
+      detail.textContent = 'À jour · synchronisé à ' + fmtClock(state.data.fetchedAt);
+    }
+  }
+
+  /* =========================================================
+     10. Vues
+     ========================================================= */
+  function renderAll() {
+    renderSync();
+
+    var loading = $('#view-loading');
+    var error = $('#view-error');
+    var picker = $('#view-picker');
+    var schedule = $('#view-schedule');
+    var roomView = $('#view-room');
+    var tabs = $('#tabs');
+
+    if (!state.slots.length) {
+      loading.hidden = state.sync !== 'idle' && state.sync !== 'syncing';
+      error.hidden = state.sync !== 'error';
+      picker.hidden = true;
+      schedule.hidden = true;
+      roomView.hidden = true;
+      tabs.hidden = true;
+      if (state.sync === 'error') $('#error-reason').textContent = state.lastError || 'Erreur inconnue';
+      return;
+    }
+
+    loading.hidden = true;
+    error.hidden = true;
+    tabs.hidden = false;
+
+    // Onglets
+    var isRoom = state.tab === 'room';
+    $('#tab-schedule').classList.toggle('is-active', !isRoom);
+    $('#tab-room').classList.toggle('is-active', isRoom);
+    $('#tab-schedule').setAttribute('aria-selected', String(!isRoom));
+    $('#tab-room').setAttribute('aria-selected', String(isRoom));
+
+    if (isRoom) {
+      picker.hidden = true;
+      schedule.hidden = true;
+      roomView.hidden = false;
+      renderRoom();
+      return;
+    }
+
+    roomView.hidden = true;
+
+    var volunteer = state.selected
+      ? state.volunteers.filter(function (v) { return v.name === state.selected; })[0]
+      : null;
+
+    if (!volunteer) {
+      picker.hidden = false;
+      schedule.hidden = true;
+      renderPeople();
+      return;
+    }
+
+    picker.hidden = true;
+    schedule.hidden = false;
+
+    $('#vol-name').textContent = volunteer.name;
+    var av = $('#vol-avatar');
+    av.textContent = initials(volunteer.name);
+    av.setAttribute('style', avatarStyle(volunteer.name));
+
+    renderSchedule(volunteer);
+  }
+
+  /* ---------------- Sélection du bénévole ---------------- */
+  function renderPeople() {
+    var query = norm(state.query);
+    var list = state.volunteers.filter(function (v) {
+      return !query || norm(v.name).indexOf(query) !== -1;
+    });
+
+    var hint = $('#list-hint');
+    if (query) {
+      hint.textContent = plural(list.length, 'bénévole trouvé', 'bénévoles trouvés');
+    } else {
+      hint.textContent = state.volunteers.length + ' bénévoles · ' + (state.data ? 'données du ' + fmtDate(state.data.fetchedAt) : '');
+    }
+
+    $('#search-clear').hidden = !state.query;
+
+    if (!list.length) {
+      $('#people-list').innerHTML = '<div class="empty">Aucun bénévole ne correspond à « ' + esc(state.query) + ' ».<br>Essaie avec le prénom ou le nom seulement.</div>';
+      return;
+    }
+
+    var html = '';
+    var letter = '';
+    for (var i = 0; i < list.length; i++) {
+      var v = list[i];
+      var first = norm(v.name).charAt(0).toUpperCase();
+      if (first !== letter) {
+        letter = first;
+        html += '<div class="letter">' + esc(letter) + '</div>';
+      }
+      html += '<button type="button" class="person" role="listitem" data-name="' + esc(v.name) + '">' +
+        '<span class="avatar" style="' + avatarStyle(v.name) + '" aria-hidden="true">' + esc(initials(v.name)) + '</span>' +
+        '<span class="person-main">' +
+          '<span class="person-name">' + esc(v.name) + '</span>' +
+          '<span class="person-meta">' + v.count + (v.count > 1 ? ' créneaux' : ' créneau') + ' · ' + fmtDur(v.poste) + ' de poste</span>' +
+        '</span>' +
+        '<span class="person-go" aria-hidden="true">' + icon('chevron', 18) + '</span>' +
+      '</button>';
+    }
+    $('#people-list').innerHTML = html;
+  }
+
+  function selectVolunteer(name) {
+    state.selected = name;
+    state.query = '';
+    state.tab = 'schedule';
+    $('#search').value = '';
+    store.set(K_VOLUNTEER, name);
+    store.set(K_TAB, 'schedule');
+    renderAll();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function setTab(tab) {
+    if (state.tab === tab) return;
+    state.tab = tab;
+    store.set(K_TAB, tab);
+    renderAll();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  /* ---------------- Onglet Mon Horaire ---------------- */
+  function renderSchedule(v) {
+    var now = mtlNow();
+    var slots = v.slots;
+
+    var currentIndex = -1;
+    for (var i = 0; i < slots.length; i++) {
+      if (slots[i].start <= now.minutes && now.minutes < slots[i].end) { currentIndex = i; break; }
+    }
+
+    var primary = null;
+    var secondary = null;
+    var mode = 'done';
+
+    if (currentIndex >= 0) {
+      primary = slots[currentIndex];
+      secondary = slots[currentIndex + 1] || null;
+      mode = 'now';
+    } else {
+      for (var j = 0; j < slots.length; j++) {
+        if (slots[j].start >= now.minutes) {
+          primary = slots[j];
+          secondary = slots[j + 1] || null;
+          mode = 'next';
+          break;
+        }
+      }
+    }
+
+    var hero = $('#hero-slot');
+    if (mode === 'now') hero.innerHTML = heroCurrent(primary, now);
+    else if (mode === 'next') hero.innerHTML = heroUpcoming(primary, now);
+    else hero.innerHTML = heroDone(v);
+
+    var next = $('#next-slot');
+    if (secondary) {
+      var kind = slotKind(secondary);
+      next.innerHTML =
+        '<div class="next-card" style="--accent:var(' + accentVar(kind) + ')">' +
+          '<div class="next-time">' + fmtHM(secondary.start) + '</div>' +
+          '<div class="next-body">' +
+            '<div class="next-label">' + (mode === 'now' ? 'À suivre' : 'Ensuite') + ' · ' + esc(secondary.type) + '</div>' +
+            '<div class="next-title">' + esc(secondary.place) + '</div>' +
+          '</div>' +
+          '<div class="next-dur">' + fmtDur(secondary.end - secondary.start) + '</div>' +
+        '</div>';
+    } else {
+      next.innerHTML = '';
+    }
+
+    var totalsV = totals(slots);
+    $('#recap').innerHTML =
+      '<div class="avail">' +
+        '<span class="avail-k">Disponibilité</span>' +
+        '<span class="avail-v">' + esc(v.availability || '—') + '</span>' +
+      '</div>' +
+      '<div class="stats">' +
+        '<div class="stat stat--poste"><span class="stat-k">Poste</span><span class="stat-v">' + fmtDur(totalsV.poste) + '</span></div>' +
+        '<div class="stat stat--pause"><span class="stat-k">Pauses</span><span class="stat-v">' + fmtDur(totalsV.pause) + '</span></div>' +
+        '<div class="stat"><span class="stat-k">Créneaux</span><span class="stat-v">' + slots.length + '</span></div>' +
+      '</div>';
+
+    var html = '';
+    var markerPlaced = false;
+    for (var k = 0; k < slots.length; k++) {
+      var s = slots[k];
+      var isCurrent = s.start <= now.minutes && now.minutes < s.end;
+      var isPast = s.end <= now.minutes;
+
+      if (!markerPlaced && (isCurrent || s.start > now.minutes)) {
+        html += nowMarker(now);
+        markerPlaced = true;
+      }
+      html += slotItem(s, isCurrent, isPast);
+    }
+    if (!markerPlaced) html += nowMarker(now);
+
+    $('#timeline').innerHTML = html;
+    $('#day-count').textContent = plural(slots.length, 'créneau', 'créneaux');
+  }
+
+  function accentVar(kind) {
+    if (kind === 'mobile') return '--violet';
+    if (kind === 'break') return '--emerald';
+    if (kind === 'standby') return '--slate';
+    if (kind === 'room') return '--cyan';
+    return '--ink-3';
+  }
+
+  function heroCurrent(slot, now) {
+    var left = slot.end - now.minutes;
+    var total = slot.end - slot.start;
+    var pct = Math.max(3, Math.min(100, ((now.minutes - slot.start) / total) * 100));
+    return '<div class="hero">' +
+      '<div class="hero-label">' + icon('clock', 14) + '<span>En ce moment</span><span class="live-dot" aria-hidden="true"></span></div>' +
+      '<h1 class="hero-title">' + esc(slot.place) + '</h1>' +
+      '<div class="hero-badges">' +
+        '<span class="hero-badge">' + esc(slot.type) + '</span>' +
+        '<span class="hero-time">' + fmtHM(slot.start) + ' → ' + fmtHM(slot.end) + '</span>' +
+      '</div>' +
+      '<div class="hero-progress"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
+      '<div class="hero-foot">' +
+        '<span>Reste <strong>' + fmtDurPrecise(left) + '</strong></span>' +
+        '<span>Fin à ' + fmtHM(slot.end) + '</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function heroUpcoming(slot, now) {
+    var until = slot.start - now.minutes;
+    var when = until <= 0 ? 'maintenant' : 'dans ' + fmtDurPrecise(until);
+    return '<div class="hero">' +
+      '<div class="hero-label">' + icon('clock', 14) + '<span>À suivre</span></div>' +
+      '<h1 class="hero-title">' + esc(slot.place) + '</h1>' +
+      '<div class="hero-badges">' +
+        '<span class="hero-badge">' + esc(slot.type) + '</span>' +
+        '<span class="hero-time">' + fmtHM(slot.start) + ' → ' + fmtHM(slot.end) + '</span>' +
+      '</div>' +
+      '<div class="hero-foot" style="margin-top:.95rem">' +
+        '<span>Commence <strong>' + when + '</strong></span>' +
+        '<span>' + fmtDur(slot.end - slot.start) + '</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function heroDone(v) {
+    var last = v.slots[v.slots.length - 1];
+    return '<div class="hero hero--done">' +
+      '<div class="hero-label">' + icon('clock', 14) + '<span>Journée terminée</span></div>' +
+      '<h1 class="hero-title">C\u2019est fini pour aujourd\u2019hui</h1>' +
+      '<div class="hero-badges"><span class="hero-time">Dernier créneau terminé à ' + fmtHM(last.end) + '</span></div>' +
+      '<div class="hero-foot"><span>Merci pour ta journée&nbsp;!</span><span>' + plural(v.count, 'créneau', 'créneaux') + '</span></div>' +
+    '</div>';
+  }
+
+  function nowMarker(now) {
+    return '<li class="now-line"><span>' + (now.simulated ? 'Heure simulée' : 'Maintenant') + ' · ' + fmtHM(now.minutes) + '</span></li>';
+  }
+
+  function slotItem(slot, isCurrent, isPast) {
+    var kind = slotKind(slot);
+    var kindIcon = kind === 'mobile' ? 'route' : kind === 'break' ? 'coffee' : kind === 'standby' ? 'hourglass' : kind === 'room' ? 'door' : 'clock';
+    var cls = 'tl-item tl-item--' + kind + (isPast ? ' is-past' : '') + (isCurrent ? ' is-now' : '');
+    return '<li class="' + cls + '">' +
+      '<div class="tl-time"><span class="tl-start">' + fmtHM(slot.start) + '</span><span class="tl-end">' + fmtHM(slot.end) + '</span></div>' +
+      '<div class="tl-rail"><span class="tl-dot" aria-hidden="true"></span></div>' +
+      '<div class="slot">' +
+        '<div class="slot-head">' +
+          '<span class="slot-type">' + icon(kindIcon, 13) + '<span>' + esc(slot.type) + '</span></span>' +
+          (isCurrent ? '<span class="now-tag">Maintenant</span>' : '') +
+        '</div>' +
+        '<div class="slot-title">' + esc(slot.place) + '</div>' +
+        '<div class="slot-meta"><span class="slot-dur">' + fmtDur(slot.end - slot.start) + '</span></div>' +
+      '</div>' +
+    '</li>';
+  }
+
+  /* =========================================================
+     11. Onglet Par Salle
+     ========================================================= */
+  function roomPlaces() {
+    var map = Object.create(null);
+    for (var i = 0; i < state.slots.length; i++) {
+      var s = state.slots[i];
+      if (!isPostSlot(s)) continue;
+      if (!map[s.place]) map[s.place] = { place: s.place, slots: [] };
+      map[s.place].slots.push(s);
+    }
+    var list = [];
+    for (var k in map) list.push(map[k]);
+    list.sort(function (a, b) {
+      return a.place.localeCompare(b.place, 'fr', { numeric: true, sensitivity: 'base' });
+    });
+    return list;
+  }
+
+  function dayRange() {
+    var start = 1440, end = 0;
+    for (var i = 0; i < state.slots.length; i++) {
+      if (state.slots[i].start < start) start = state.slots[i].start;
+      if (state.slots[i].end > end) end = state.slots[i].end;
+    }
+    return { start: start, end: end };
+  }
+
+  function renderRoom() {
+    var places = roomPlaces();
+    var timeline = $('#room-timeline');
+    var summary = $('#room-summary');
+    var select = $('#room-select');
+
+    if (!places.length) {
+      select.innerHTML = '';
+      summary.innerHTML = '';
+      timeline.innerHTML = '<div class="empty">Aucune salle avec des affectations pour le moment.</div>';
+      return;
+    }
+
+    var names = places.map(function (p) { return p.place; });
+    if (!state.room || names.indexOf(state.room) === -1) state.room = names[0];
+
+    var sig = names.join('|');
+    if (select.dataset.sig !== sig) {
+      select.innerHTML = names.map(function (p) {
+        return '<option value="' + esc(p) + '">' + esc(p) + '</option>';
+      }).join('');
+      select.dataset.sig = sig;
+    }
+    if (select.value !== state.room) select.value = state.room;
+
+    var place = state.room;
+    var roomSlots = places.filter(function (p) { return p.place === place; })[0].slots;
+
+    var day = dayRange();
+    var now = mtlNow();
+
+    // Découpage : une borne à chaque arrivée / départ
+    var boundsMap = Object.create(null);
+    function addBound(v) {
+      var x = Math.max(day.start, Math.min(day.end, v));
+      boundsMap[x] = 1;
+    }
+    addBound(day.start);
+    addBound(day.end);
+    for (var i = 0; i < roomSlots.length; i++) {
+      addBound(roomSlots[i].start);
+      addBound(roomSlots[i].end);
+    }
+    var bounds = Object.keys(boundsMap).map(Number).sort(function (a, b) { return a - b; });
+
+    var segments = [];
+    for (var b = 0; b < bounds.length - 1; b++) {
+      var a = bounds[b], z = bounds[b + 1];
+      if (z <= a) continue;
+      var people = [];
+      var seenNames = Object.create(null);
+      for (var j = 0; j < roomSlots.length; j++) {
+        var s = roomSlots[j];
+        if (s.start <= a && s.end >= z && !seenNames[s.name]) {
+          seenNames[s.name] = 1;
+          people.push(s.name);
+        }
+      }
+      people.sort(function (x, y) { return x.localeCompare(y, 'fr', { sensitivity: 'base' }); });
+      segments.push({ start: a, end: z, people: people });
+    }
+
+    var currentIndex = -1;
+    for (var c = 0; c < segments.length; c++) {
+      if (segments[c].start <= now.minutes && now.minutes < segments[c].end) { currentIndex = c; break; }
+    }
+
+    var nextIndex = -1;
+    for (var n = 0; n < segments.length; n++) {
+      if (segments[n].people.length && segments[n].start > now.minutes) { nextIndex = n; break; }
+    }
+
+    var distinct = Object.create(null);
+    for (var d = 0; d < roomSlots.length; d++) distinct[roomSlots[d].name] = 1;
+    var distinctCount = Object.keys(distinct).length;
+    var nowCount = currentIndex >= 0 ? segments[currentIndex].people.length : 0;
+
+    summary.innerHTML =
+      '<span class="room-stat"><strong>' + distinctCount + '</strong> bénévoles sur la journée</span>' +
+      '<span class="room-stat' + (nowCount ? ' is-live' : '') + '">' +
+        (nowCount ? '<strong>' + nowCount + '</strong> en ce moment' : 'Personne en ce moment') +
+      '</span>';
+
+    var html = '';
+    for (var k = 0; k < segments.length; k++) {
+      var seg = segments[k];
+      var isNow = k === currentIndex;
+      var isNext = k === nextIndex;
+      var isPast = seg.end <= now.minutes;
+      var isEmpty = seg.people.length === 0;
+
+      var cls = 'room-item' + (isNow ? ' is-now' : '') + (isPast && !isNow ? ' is-past' : '') + (isEmpty ? ' is-empty' : '');
+
+      var tag = '';
+      if (isNow) tag = '<span class="room-tag room-tag--now">En cours</span>';
+      else if (isNext) tag = '<span class="room-tag room-tag--next">Relève</span>';
+
+      var count = isEmpty
+        ? 'Aucune affectation'
+        : '<span aria-hidden="true">👥</span> ' + plural(seg.people.length, 'bénévole', 'bénévoles');
+
+      var people = '';
+      if (!isEmpty) {
+        people = '<div class="room-people">' + seg.people.map(function (name) {
+          return '<button type="button" class="person-chip" data-name="' + esc(name) + '">' +
+            '<span class="avatar" style="' + avatarStyle(name) + '" aria-hidden="true">' + esc(initials(name)) + '</span>' +
+            '<span>' + esc(name) + '</span>' +
+          '</button>';
+        }).join('') + '</div>';
+      }
+
+      html += '<li class="' + cls + '">' +
+        '<div class="room-head">' +
+          '<span class="room-time">' + fmtHM(seg.start) + ' → ' + fmtHM(seg.end) +
+            '<span>' + fmtDur(seg.end - seg.start) + '</span></span>' +
+          tag +
+          '<span class="room-count">' + count + '</span>' +
+        '</div>' +
+        people +
+      '</li>';
+    }
+
+    timeline.innerHTML = html;
+  }
+
+  /* =========================================================
+     12. Simulation d'heure
+     ========================================================= */
+  var sheetOpen = false;
+
+  function openSheet() {
+    if (sheetOpen) return;
+    sheetOpen = true;
+    var now = mtlNow();
+    $('#sim-date').value = state.sim ? state.sim.date : EVENT_DATE;
+    $('#sim-time').value = state.sim ? state.sim.time : fmtHM(now.minutes);
+
+    var backdrop = $('#sheet-backdrop');
+    var sheet = $('#sheet');
+    backdrop.hidden = false;
+    sheet.hidden = false;
+    requestAnimationFrame(function () {
+      backdrop.classList.add('is-open');
+      sheet.classList.add('is-open');
+    });
+    setTimeout(function () { $('#sim-time').focus(); }, 220);
+  }
+
+  function closeSheet() {
+    if (!sheetOpen) return;
+    sheetOpen = false;
+    var backdrop = $('#sheet-backdrop');
+    var sheet = $('#sheet');
+    backdrop.classList.remove('is-open');
+    sheet.classList.remove('is-open');
+    setTimeout(function () {
+      backdrop.hidden = true;
+      sheet.hidden = true;
+    }, 260);
+  }
+
+  function applySim(date, time) {
+    if (!/^\d{2}:\d{2}$/.test(time)) { toast('Choisis une heure valide.'); return; }
+    state.sim = { date: date || EVENT_DATE, time: time };
+    store.set(K_SIM, state.sim);
+    closeSheet();
+    renderAll();
+    toast('Heure simulée : ' + time);
+  }
+
+  function resetSim() {
+    state.sim = null;
+    store.del(K_SIM);
+    closeSheet();
+    renderAll();
+    toast('Heure réelle rétablie.');
+  }
+
+  function renderSimBanner() {
+    var banner = $('#sim-banner');
+    if (state.sim) {
+      banner.hidden = false;
+      $('#sim-banner-time').textContent = state.sim.time;
+    } else {
+      banner.hidden = true;
+    }
+  }
+
+  /* =========================================================
+     13. Toast
+     ========================================================= */
+  var toastTimer = null;
+  function toast(message) {
+    var el = $('#toast');
+    el.textContent = message;
+    el.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('is-visible'); }, 3200);
+  }
+
+  /* =========================================================
+     14. Événements
+     ========================================================= */
+  function bind() {
+    $('#people-list').addEventListener('click', function (e) {
+      var btn = e.target.closest('.person');
+      if (btn && btn.dataset.name) selectVolunteer(btn.dataset.name);
+    });
+
+    var search = $('#search');
+    search.addEventListener('input', function () {
+      state.query = search.value;
+      renderPeople();
+    });
+    search.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var first = $('#people-list .person');
+        if (first && first.dataset.name) selectVolunteer(first.dataset.name);
+      }
+    });
+
+    $('#search-clear').addEventListener('click', function () {
+      state.query = '';
+      search.value = '';
+      renderPeople();
+      search.focus();
+    });
+
+    $('#btn-change').addEventListener('click', function () {
+      state.selected = null;
+      store.del(K_VOLUNTEER);
+      renderAll();
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    });
+
+    $('#tabs').addEventListener('click', function (e) {
+      var tab = e.target.closest('.tab');
+      if (tab && tab.dataset.tab) setTab(tab.dataset.tab);
+    });
+
+    $('#room-select').addEventListener('change', function (e) {
+      state.room = e.target.value;
+      store.set(K_ROOM, state.room);
+      renderRoom();
+    });
+
+    $('#room-timeline').addEventListener('click', function (e) {
+      var chip = e.target.closest('.person-chip');
+      if (chip && chip.dataset.name) selectVolunteer(chip.dataset.name);
+    });
+
+    $('#btn-refresh').addEventListener('click', function () { refresh(true); });
+    $('#sync-pill').addEventListener('click', function () { refresh(true); });
+    $('#btn-retry').addEventListener('click', function () { refresh(true); });
+
+    $('#btn-sim').addEventListener('click', openSheet);
+    $('#sheet-backdrop').addEventListener('click', closeSheet);
+    $('#sim-apply').addEventListener('click', function () {
+      applySim($('#sim-date').value, $('#sim-time').value);
+    });
+    $('#sim-reset').addEventListener('click', resetSim);
+    $('#sim-banner-reset').addEventListener('click', resetSim);
+
+    $('#sim-presets').addEventListener('click', function (e) {
+      var btn = e.target.closest('.preset');
+      if (btn) $('#sim-time').value = btn.dataset.time;
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheetOpen) closeSheet();
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        maybeRefresh();
+        updateClock();
+      }
+    });
+
+    window.addEventListener('online', function () { maybeRefresh(); });
+  }
+
+  /* =========================================================
+     15. Horloge
+     ========================================================= */
+  function updateClock() {
+    var now = mtlNow();
+    var key = now.minutes + '|' + (state.sim ? state.sim.time : '');
+    if (key === state.lastTickKey) return;
+    state.lastTickKey = key;
+    if (state.slots.length) renderAll();
+    else renderSync();
+  }
+
+  /* =========================================================
+     16. Service worker
+     ========================================================= */
+  function registerSW() {
+    if (!('serviceWorker' in navigator)) return;
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
+    navigator.serviceWorker.register('./sw.js').catch(function () {});
+  }
+
+  /* =========================================================
+     17. Démarrage
+     ========================================================= */
+  function init() {
+    var savedSim = store.get(K_SIM);
+    if (savedSim && /^\d{2}:\d{2}$/.test(savedSim.time || '')) state.sim = savedSim;
+
+    var savedVolunteer = store.get(K_VOLUNTEER);
+    if (typeof savedVolunteer === 'string' && savedVolunteer) state.selected = savedVolunteer;
+
+    var savedTab = store.get(K_TAB);
+    if (savedTab === 'room' || savedTab === 'schedule') state.tab = savedTab;
+
+    var savedRoom = store.get(K_ROOM);
+    if (typeof savedRoom === 'string' && savedRoom) state.room = savedRoom;
+
+    bind();
+    renderSimBanner();
+
+    var hasCache = loadCache();
+    if (!hasCache) {
+      state.sync = 'idle';
+      renderAll();
+    }
+    refresh(false);
+
+    setInterval(function () {
+      renderSimBanner();
+      updateClock();
+    }, 15000);
+
+    registerSW();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

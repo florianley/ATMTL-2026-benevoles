@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+**/.DS_Store
+._*
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Logs & divers
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Dépendances / builds locaux éventuels
+node_modules/
+dist/
+build/
+
+# Secrets & configuration locale
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Fichiers temporaires
+*.tmp
+*.bak
+.cache/

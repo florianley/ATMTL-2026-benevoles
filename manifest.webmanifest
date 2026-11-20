@@ -1,0 +1,20 @@
+{
+  "name": "ATMTL 2026 · Bénévoles",
+  "short_name": "ATMTL 2026",
+  "description": "Planning des bénévoles de l'Agile Tour Montréal 2026 — horaire individuel et vue par salle.",
+  "lang": "fr-CA",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#071529",
+  "theme_color": "#071529",
+  "categories": ["productivity", "events"],
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
