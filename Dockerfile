@@ -15,6 +15,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html             /usr/share/nginx/html/index.html
 COPY sw.js                  /usr/share/nginx/html/sw.js
 COPY manifest.webmanifest   /usr/share/nginx/html/manifest.webmanifest
+COPY logo-dark.png          /usr/share/nginx/html/logo-dark.png
+COPY logo-light.png         /usr/share/nginx/html/logo-light.png
 COPY icon.svg               /usr/share/nginx/html/icon.svg
 COPY icon-192.png           /usr/share/nginx/html/icon-192.png
 COPY icon-512.png           /usr/share/nginx/html/icon-512.png

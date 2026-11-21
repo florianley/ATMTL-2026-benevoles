@@ -10,10 +10,19 @@ Deux vues, un seul conteneur Nginx :
 | 👤 **Mon Horaire** | Le planning personnel du bénévole sélectionné : créneau en cours, à suivre, timeline complète, récapitulatif des heures. |
 | 📍 **Par Salle** | Qui est affecté où, heure par heure, pour chaque salle / poste de la journée. |
 
+L'interface s'adapte automatiquement à la date du jour :
+
+| Phase | Comportement |
+| --- | --- |
+| **Avant** le 24 nov. 2026 | Bannière « Événement à venir » + compte à rebours en jours + heure du premier créneau. Aucun créneau n'est grisé. |
+| **Pendant** la journée | Suivi temps réel : « En ce moment », minutes restantes, « À suivre », créneaux passés estompés, créneau actif encadré. |
+| **Après** | Bandeau « Événement terminé — merci ! » ; l'horaire reste consultable en archive, sans estompage. |
+
 - **Hébergement** : Google Cloud Run, région `northamerica-northeast1` (Montréal)
 - **Architecture** : `nginx:alpine` + une page statique. Aucun backend, aucune base de
   données, aucune étape de build.
 - **Données** : Google Sheet exporté en CSV, mis en cache dans `localStorage`.
+- **Thèmes** : sombre (défaut) et clair, bascule dans l'en-tête, choix mémorisé.
 
 ---
 
@@ -25,22 +34,45 @@ consulté **en lecture seule** : aucun élément du design n'a été modifié, r
 
 ### Palette appliquée
 
-| Rôle | Couleur | Usage |
-| --- | --- | --- |
-| Fond principal | `#071529` | Arrière-plan de l'application |
-| Fond secondaire | `#0E2440` | Cartes, champs, feuilles |
-| Bordure | `#1E3B5E` | Séparateurs et contours |
-| Orange (accent principal) | `#F0824A` | CTA, onglet actif, « En ce moment », badges |
-| Orange clair | `#FFA271` | Textes d'accent sur fond sombre |
-| Cyan (secondaire) | `#4FC3DB` | Salle fixe / affectation |
-| Violet | `#A78BFA` | Soutien mobile |
-| Émeraude | `#34D399` | Pauses et dîners |
-| Ardoise | `#94A3B8` | Réserve |
-| Texte | `#F1F6FC` / `#B4C9DF` | Titres / textes secondaires |
+Les hex du design Canva sont conservés tels quels en **thème sombre** ; le **thème clair**
+utilise des variantes assombries pour garder un contraste AA sur fond crème.
+
+| Rôle | Sombre | Clair | Usage |
+| --- | --- | --- | --- |
+| Fond principal | `#071529` | `#F5F2EC` | Arrière-plan de l'application |
+| Fond secondaire | `#0E2440` | `#FFFFFF` | Cartes, champs, feuilles |
+| Bordure | `#1E3B5E` | `#DDD5C8` | Séparateurs et contours |
+| Orange (accent principal) | `#F0824A` | `#E2672F` | CTA, onglet actif, « En ce moment », badges |
+| Orange Canva (logo) | `#ED7C45` | `#C2551F` | Logos et accents de marque |
+| Orange clair | `#FFA271` | `#B44E1B` | Textes d'accent |
+| Cyan Canva (logo) | `#2385A6` | `#14647F` | Logos, accents secondaires |
+| Cyan (UI) | `#4FC3DB` | `#0E6E8A` | Salle fixe / affectation |
+| Violet | `#A78BFA` | `#6D4AC7` | Soutien mobile |
+| Émeraude | `#34D399` | `#0B6B4B` | Pauses et dîners |
+| Ardoise | `#94A3B8` | `#5A6B7C` | Réserve |
+| Texte | `#F1F6FC` / `#B4C9DF` | `#0B1F3A` / `#3B5470` | Titres / textes secondaires |
 
 Les couleurs de texte sur fond coloré ont été ajustées pour conserver des contrastes
 conformes (WCAG AA) — par exemple l'orange `#F0824A` n'est jamais utilisé pour du texte
 sur fond clair, et les badges orange utilisent un texte marine `#1C0D04`.
+
+Toutes les couleurs passent par des variables CSS (`:root` pour le sombre,
+`[data-theme="light"]` pour le clair) : fonds, cartes, modales, onglets, badges,
+recherche et feuille de simulation basculent ensemble.
+
+### Logos officiels
+
+Deux variantes sont extraites des visuels Canva (export PNG 3840×2160, recadrage et
+détourage alpha, 462×162) :
+
+| Fichier | Usage |
+| --- | --- |
+| `logo-dark.png` | En-tête en thème sombre (orange `#ED7C45`, cyan `#2385A6`) |
+| `logo-light.png` | En-tête en thème clair (orange `#C2551F`, cyan `#14647F`) |
+
+La bascule se fait en CSS (`[data-theme="light"]`), sans JavaScript. Les icônes PWA
+(`icon-192`, `icon-512`, `icon-maskable-512`, `apple-touch-icon`) reprennent le logo sur
+un fond navy dégradé ; `icon.svg` embarque la version 512 en base64.
 
 ### Typographies (Google Fonts)
 
@@ -58,7 +90,17 @@ En cas d'absence de réseau, la pile système prend le relais sans bloquer l'aff
 - Accents **orange** pour tout ce qui est action ou « maintenant ».
 - Cartes sombres, bordures fines, coins arrondis généreux.
 - Hiérarchie typographique forte, capitales condensées pour les micro-libellés.
-- Icône de l'application (écran d'accueil) : horloge orange sur navy.
+- Logo **Agile Tour Montréal** dans l'en-tête, décliné clair / sombre.
+- Icône de l'application (écran d'accueil) : logo sur fond navy dégradé.
+
+### Thème clair / sombre
+
+- Bouton **soleil / lune** dans l'en-tête ; le libellé accessible décrit l'action.
+- Au premier lancement : `prefers-color-scheme` du système. Ensuite, le choix est
+  mémorisé dans `localStorage` (`atmtl26:theme:v1`).
+- Un script inline dans `<head>` applique le thème **avant le premier rendu** pour éviter
+  tout flash clair/sombre.
+- Tailwind est configuré en `darkMode: 'class'` ; le CSS critique reste autonome.
 
 ---
 
@@ -85,7 +127,9 @@ inaccessible **ne bloque pas** les bénévoles sur place.
 ├── index.html               # Application complète (HTML + CSS + JS inline)
 ├── sw.js                    # Service worker (cache applicatif, CDN, polices)
 ├── manifest.webmanifest     # Manifeste PWA
-├── icon.svg                 # Icône vectorielle
+├── logo-dark.png            # Logo Canva — thème sombre (462×162, alpha)
+├── logo-light.png           # Logo Canva — thème clair (462×162, alpha)
+├── icon.svg                 # Icône vectorielle (PNG 512 embarqué)
 ├── icon-192.png             # Icônes PWA
 ├── icon-512.png
 ├── icon-maskable-512.png
@@ -170,12 +214,20 @@ docker run --rm -p 8080:8080 atmtl-2026
 Le service worker ne s'active qu'en `https://` ou sur `localhost` (comportement normal
 des navigateurs).
 
-### Tester le planning avant l'événement
+### Tester le planning avant / après l'événement
 
-L'outil **« Simuler une heure »** (lien discret en bas de page) fige l'heure de Montréal
-et rafraîchit les deux onglets : carte « En ce moment / À suivre », segment en cours dans
-la vue par salle, compte à rebours. Un bandeau ambre rappelle que l'heure est simulée ;
-« Heure réelle » rétablit l'horloge.
+La feuille **« Affichage du planning »** (lien « Simuler le jour J » en bas de page, ou
+bouton des bannières avant/après) propose deux modes :
+
+- **Temps réel** : l'heure de Montréal, la phase (avant / pendant / après) et le suivi
+  « En ce moment » sont calculés automatiquement.
+- **Simuler le 24 nov.** : un curseur (00:00 → 23:59) et un champ d'heure exacte figent
+  l'horloge sur le jour J. Les raccourcis 06:30, 08:00, 12:00, 15:00 et 17:00 couvrent la
+  journée. Un bandeau ambre rappelle en permanence que l'heure est simulée ; « Temps
+  réel » rétablit l'horloge.
+
+Le choix simulé est mémorisé (`atmtl26:sim:v1`) mais reste toujours calé sur la date de
+l'événement (`EVENT_DATE`).
 
 ---
 
@@ -273,7 +325,7 @@ version connue avec le badge **Hors-ligne**.
 | --- | --- |
 | Données du planning | `localStorage` (`atmtl26:schedule:v1`), écrit à chaque synchro réussie |
 | Coquille de l'app (`index.html`) | Service worker, **network-first** + repli cache |
-| Icônes / manifeste / polices | Service worker, **cache-first** |
+| Icônes / manifeste / logos / polices | Service worker, **cache-first** |
 | Tailwind, PapaParse, Google Fonts | Service worker, **cache-first** (précachés à l'installation) |
 | Google Sheets | Jamais intercepté par le SW (géré par l'app) |
 
@@ -292,8 +344,8 @@ utilisable.
 - **iOS / Safari** : Partager → « Sur l'écran d'accueil ».
 - **Android / Chrome** : menu ⋮ → « Installer l'application » (ou « Ajouter à l'écran d'accueil »).
 
-L'app s'ouvre en plein écran (`display: standalone`), avec l'icône horloge orange et la
-couleur de thème navy.
+L'app s'ouvre en plein écran (`display: standalone`), avec le logo Agile Tour Montréal
+sur fond navy et la couleur de thème `#071529`.
 
 ---
 
@@ -341,5 +393,8 @@ un coût négligeable (instance 256 Mi / 1 vCPU).
   06:30 → 17:00.
 - **Sécurité HTTP** : `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
   `Permissions-Policy`, `server_tokens off`.
-- **Canva** : accès strictement en lecture (`read-design`, `get-design-pages`) ; aucune
-  opération d'écriture n'a été effectuée sur le design.
+- **Canva** : accès strictement en lecture (`read-design`, `get-design-pages`,
+  `get-export-formats`, `export-design`) ; aucune opération d'écriture n'a été effectuée
+  sur le design « identité visuel » (`DAHSrEGxAo0`).
+- **Thème** : les deux palettes sont définies en variables CSS ; le logo et les icônes
+  d'en-tête basculent uniquement par CSS.
