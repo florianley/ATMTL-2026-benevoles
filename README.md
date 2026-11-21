@@ -22,7 +22,7 @@ L'interface s'adapte automatiquement à la date du jour :
 - **Architecture** : `nginx:alpine` + une page statique. Aucun backend, aucune base de
   données, aucune étape de build.
 - **Données** : Google Sheet exporté en CSV, mis en cache dans `localStorage`.
-- **Thèmes** : sombre (défaut) et clair, bascule dans l'en-tête, choix mémorisé.
+- **Thèmes** : clair (défaut) et sombre, bascule dans l'en-tête, choix mémorisé.
 
 ---
 
@@ -35,7 +35,8 @@ consulté **en lecture seule** : aucun élément du design n'a été modifié, r
 ### Palette appliquée
 
 Les hex du design Canva sont conservés tels quels en **thème sombre** ; le **thème clair**
-utilise des variantes assombries pour garder un contraste AA sur fond crème.
+(appliqué par défaut) utilise des variantes assombries pour garder un contraste AA sur
+fond crème. La bascule manuelle est mémorisée et prioritaire aux visites suivantes.
 
 | Rôle | Sombre | Clair | Usage |
 | --- | --- | --- | --- |
@@ -96,8 +97,8 @@ En cas d'absence de réseau, la pile système prend le relais sans bloquer l'aff
 ### Thème clair / sombre
 
 - Bouton **soleil / lune** dans l'en-tête ; le libellé accessible décrit l'action.
-- Au premier lancement : `prefers-color-scheme` du système. Ensuite, le choix est
-  mémorisé dans `localStorage` (`atmtl26:theme:v1`).
+- **Thème clair par défaut** au premier lancement. Le choix manuel (clair ou sombre) est
+  mémorisé dans `localStorage` (`atmtl26:theme:v1`) et prioritaire ensuite.
 - Un script inline dans `<head>` applique le thème **avant le premier rendu** pour éviter
   tout flash clair/sombre.
 - Tailwind est configuré en `darkMode: 'class'` ; le CSS critique reste autonome.
@@ -345,7 +346,7 @@ utilisable.
 - **Android / Chrome** : menu ⋮ → « Installer l'application » (ou « Ajouter à l'écran d'accueil »).
 
 L'app s'ouvre en plein écran (`display: standalone`), avec le logo Agile Tour Montréal
-sur fond navy et la couleur de thème `#071529`.
+sur fond navy et une couleur de thème claire `#F5F2EC` (ou `#071529` en mode sombre).
 
 ---
 

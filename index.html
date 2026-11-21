@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bénévoles · Agile Tour Montréal 2026</title>
 <meta name="description" content="Planning des bénévoles de l'Agile Tour Montréal 2026 — mardi 24 novembre 2026, Palais des congrès de Montréal.">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#071529">
+<meta name="theme-color" content="#F5F2EC">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ATMTL 2026">
 <meta name="format-detection" content="telephone=no">
 
@@ -30,13 +30,13 @@
   try {
     var saved = localStorage.getItem('atmtl26:theme:v1');
     if (saved) { try { saved = JSON.parse(saved); } catch (e) {} }
-    if (saved !== 'light' && saved !== 'dark') {
-      saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
+    if (saved !== 'light' && saved !== 'dark') saved = 'light';
     var root = document.documentElement;
     root.setAttribute('data-theme', saved);
     root.classList.toggle('dark', saved === 'dark');
     root.style.colorScheme = saved;
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', saved === 'light' ? '#F5F2EC' : '#071529');
   } catch (e) {}
 })();
 </script>
@@ -66,10 +66,10 @@
    ATMTL 2026 · Bénévoles — charte « Agile Tour Montréal »
    Palette Canva : navy #081838 · orange #ED7C45 · cyan #2385A6
    Typographies : Barlow (UI) + Barlow Condensed (libellés)
-   Deux thèmes : sombre (défaut) / clair, via [data-theme]
+   Deux thèmes : clair (défaut) / sombre, via [data-theme]
    ============================================================ */
 
-/* ---------------- Thème sombre (défaut) ---------------- */
+/* ---------------- Thème sombre ---------------- */
 :root{
   color-scheme: dark;
 
@@ -2309,15 +2309,6 @@ a{color:inherit;text-decoration:none}
     });
 
     window.addEventListener('online', function () { maybeRefresh(); });
-
-    if (window.matchMedia) {
-      var mq = window.matchMedia('(prefers-color-scheme: light)');
-      var onSchemeChange = function (e) {
-        if (!store.get(K_THEME)) applyTheme(e.matches ? 'light' : 'dark', false);
-      };
-      if (mq.addEventListener) mq.addEventListener('change', onSchemeChange);
-      else if (mq.addListener) mq.addListener(onSchemeChange);
-    }
   }
 
   /* =========================================================
@@ -2347,9 +2338,7 @@ a{color:inherit;text-decoration:none}
   function init() {
     // Thème : choix mémorisé, sinon préférence système
     var savedTheme = store.get(K_THEME);
-    if (savedTheme !== 'light' && savedTheme !== 'dark') {
-      savedTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
+    if (savedTheme !== 'light' && savedTheme !== 'dark') savedTheme = 'light';
     applyTheme(savedTheme, false);
 
     // Simulation : toujours calée sur le jour J
