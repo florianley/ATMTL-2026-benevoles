@@ -113,6 +113,10 @@
   --bd-break:rgba(52,211,153,.28);
   --tint-standby:rgba(148,163,184,.10);
   --bd-standby:rgba(148,163,184,.28);
+  --tint-common:rgba(251,191,36,.11);
+  --bd-common:rgba(251,191,36,.45);
+  --common-ink:#FCD34D;
+  --common-solid:#FBBF24;
 
   --hero-a:#12304F;
   --hero-b:#0C2140;
@@ -193,6 +197,10 @@
   --bd-break:rgba(11,107,75,.24);
   --tint-standby:rgba(90,107,124,.08);
   --bd-standby:rgba(90,107,124,.24);
+  --tint-common:rgba(161,98,7,.09);
+  --bd-common:rgba(161,98,7,.34);
+  --common-ink:#8A5300;
+  --common-solid:#F3C56B;
 
   --hero-a:#FFFFFF;
   --hero-b:#FFF8F2;
@@ -524,6 +532,14 @@ a{color:inherit;text-decoration:none}
 .tl-item--break{--accent:var(--emerald)}
 .tl-item--standby{--accent:var(--slate)}
 .tl-item--other{--accent:var(--ink-3)}
+.tl-item--common{--accent:var(--amber)}
+.tl-item--common .slot{
+  background:linear-gradient(135deg,var(--tint-common),var(--surface) 78%);
+  border:1px solid var(--bd-common);border-left:5px solid var(--common-solid);
+  box-shadow:0 8px 22px -20px var(--bd-common);
+}
+.tl-item--common .slot-title{color:var(--common-ink)}
+.tl-item--common .tl-dot{width:.82rem;height:.82rem;background:var(--common-solid)}
 
 .slot{
   margin-bottom:.55rem;padding:.65rem .8rem .7rem;min-width:0;border-radius:1rem;
@@ -558,6 +574,127 @@ a{color:inherit;text-decoration:none}
   background:var(--surface-3);border:1px solid var(--line-soft);
   padding:.08rem .45rem;border-radius:999px;
 }
+
+/* ---------------- Moments collectifs (Horaires communs) ---------------- */
+.common-badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--common-solid);color:#2A1A00;
+  padding:.12rem .5rem;border-radius:999px;line-height:1.35;
+}
+[data-theme="light"] .common-badge{color:#3B2500}
+.common-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;
+  margin-top:.3rem;font-size:.76rem;font-weight:600;color:var(--ink-2);
+}
+.common-meta .dot{color:var(--ink-3);font-weight:400}
+.common-notes{
+  margin-top:.45rem;padding:.42rem .55rem;
+  font-size:.79rem;line-height:1.45;color:var(--ink-2);
+  background:var(--surface-4);border-left:2px solid var(--bd-common);border-radius:.45rem;
+  white-space:pre-wrap;word-break:break-word;
+}
+.common-card{
+  margin-top:.6rem;padding:.75rem .85rem;border-radius:1rem;
+  background:linear-gradient(135deg,var(--tint-common),var(--surface) 72%);
+  border:1px solid var(--bd-common);border-left:5px solid var(--common-solid);
+  box-shadow:var(--shadow-sm);
+}
+.common-card--now{box-shadow:0 0 0 1px var(--bd-common),0 14px 28px -24px var(--bd-common)}
+.common-card-head{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.common-when{
+  margin-left:auto;font-size:.72rem;font-weight:800;color:var(--common-ink);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.common-card-title{font-size:.98rem;font-weight:800;line-height:1.25;margin-top:.35rem;color:var(--ink)}
+.common-card-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.18rem;
+  font-size:.76rem;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;
+}
+.common-card-notes{
+  margin-top:.4rem;font-size:.78rem;line-height:1.45;color:var(--ink-2);
+  white-space:pre-wrap;word-break:break-word;
+}
+
+/* ---------------- Fiches de postes : déclencheur + tiroir ---------------- */
+.fiche-block-inline{margin-top:.45rem}
+.fiche-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.74rem;font-weight:700;line-height:1.2;text-align:left;
+  color:var(--orange-2);background:var(--surface-3);
+  border:1px solid var(--line);border-radius:.6rem;padding:.34rem .55rem;
+  transition:background .12s ease,border-color .12s ease,transform .1s ease;
+}
+.fiche-btn:hover{background:var(--surface-2);border-color:var(--orange)}
+.fiche-btn:active{transform:scale(.98)}
+.fiche-hint{
+  margin-top:.3rem;font-size:.73rem;line-height:1.35;color:var(--ink-3);
+}
+.hero .fiche-btn{background:var(--surface-3);border-color:var(--bd-room)}
+.hero .fiche-hint{color:var(--ink-2)}
+.hero-fiche{margin-top:.6rem}
+.room-fiche{margin:-.1rem 0 .8rem}
+.room-fiche .fiche-hint{margin-top:.25rem}
+.fiches-cta{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;
+  min-height:2.7rem;margin:.15rem 0 .95rem;padding:.45rem .8rem;
+  border-radius:.85rem;border:1px dashed var(--line-strong);
+  background:var(--surface-3);color:var(--ink-2);
+  font-size:.82rem;font-weight:700;text-align:center;
+  transition:background .12s ease,border-color .12s ease;
+}
+.fiches-cta:hover{background:var(--surface-2);border-color:var(--orange)}
+
+.fiche-list{display:flex;flex-direction:column;gap:.45rem;margin-top:.9rem}
+.fiche-row{
+  width:100%;display:flex;align-items:center;gap:.7rem;text-align:left;
+  padding:.65rem .75rem;border-radius:.85rem;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);
+}
+.fiche-row:hover{border-color:var(--orange)}
+.fiche-row-main{min-width:0;flex:1}
+.fiche-row-role{display:block;font-size:.92rem;font-weight:800;line-height:1.25}
+.fiche-row-zone{
+  font-size:.73rem;color:var(--ink-3);line-height:1.35;margin-top:.15rem;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+.fiche-row-go{color:var(--go);flex:none}
+.fiche-title{font-size:1.25rem;font-weight:800;line-height:1.18;margin-top:.25rem}
+.fiche-zone{
+  display:flex;align-items:flex-start;gap:.3rem;margin-top:.3rem;
+  font-size:.82rem;line-height:1.4;color:var(--ink-2);
+}
+.fiche-block{margin-top:.95rem}
+.fiche-block h3{
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--orange-2);margin-bottom:.3rem;
+}
+.fiche-text{
+  white-space:pre-wrap;word-break:break-word;
+  font-size:.84rem;line-height:1.5;color:var(--ink-2);
+  background:var(--surface-4);border:1px solid var(--line-soft);
+  border-radius:.75rem;padding:.6rem .7rem;
+}
+.fiche-text--contacts{font-variant-numeric:tabular-nums}
+.tel-link{
+  color:var(--cyan);font-weight:800;text-decoration:underline;
+  text-decoration-thickness:1.5px;text-underline-offset:2px;
+}
+.tel-link:active{opacity:.7}
+.fiche-note{margin-top:.55rem;font-size:.72rem;color:var(--ink-3)}
+.sheet--fiche{max-height:90vh}
+.fiche-top{display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem}
+.fiche-back{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.75rem;font-weight:700;color:var(--orange-2);
+  background:var(--surface-3);border:1px solid var(--line);
+  padding:.4rem .6rem;border-radius:.6rem;
+}
+.fiche-back:hover{background:var(--surface-2)}
+.fiche-top .icon-btn{margin-left:auto}
 
 .now-line{
   display:flex;align-items:center;gap:.5rem;margin:.15rem 0 .5rem;
@@ -775,6 +912,9 @@ a{color:inherit;text-decoration:none}
         <span class="sync-dot" aria-hidden="true"></span>
         <span class="sync-text" id="sync-text">…</span>
       </button>
+      <button type="button" id="btn-fiches" class="icon-btn" aria-label="Fiches de postes" title="Fiches de postes (consignes, tâches, contacts)">
+        <span aria-hidden="true" style="font-size:1.02rem;line-height:1">📋</span>
+      </button>
       <button type="button" id="btn-theme" class="icon-btn" aria-label="Passer au thème clair" title="Changer de thème">
         <svg class="ico theme-ico theme-ico--sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
         <svg class="ico theme-ico theme-ico--moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 14.4A8.7 8.7 0 0 1 9.6 3.4a8.7 8.7 0 1 0 11 11Z"/></svg>
@@ -834,6 +974,10 @@ a{color:inherit;text-decoration:none}
       <p class="picker-sub">Mardi 24 novembre 2026 · Palais des congrès</p>
     </div>
 
+    <button type="button" class="fiches-cta" id="btn-fiches-picker">
+      <span aria-hidden="true">📋</span> Fiches de postes — consignes, tâches et contacts
+    </button>
+
     <div class="search">
       <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
       <input id="search" type="search" inputmode="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Cherche ton nom…" aria-label="Chercher un bénévole">
@@ -885,6 +1029,7 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="room-summary" id="room-summary"></div>
+    <div id="room-fiche"></div>
     <ol class="room-timeline" id="room-timeline"></ol>
     <p class="tz-note">Heures locales de Montréal · touche un nom pour voir son horaire</p>
   </section>
@@ -942,6 +1087,20 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<div class="sheet-backdrop" id="fiche-backdrop" hidden></div>
+<div class="sheet sheet--fiche" id="fiche-sheet" role="dialog" aria-modal="true" aria-labelledby="fiche-title" hidden>
+  <div class="sheet-grip" aria-hidden="true"></div>
+  <div class="fiche-top">
+    <button type="button" class="fiche-back" id="fiche-back" hidden>
+      <span aria-hidden="true">←</span> Toutes les fiches
+    </button>
+    <button type="button" class="icon-btn" id="fiche-close" aria-label="Fermer les fiches de postes" title="Fermer">
+      <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="fiche-content"></div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <noscript>
@@ -959,12 +1118,16 @@ a{color:inherit;text-decoration:none}
      1. Configuration
      ========================================================= */
   var SHEET_ID   = '1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA';
-  var SHEET_NAME = 'Grille chronologique';
+  var GRID_SHEET = 'Grille chronologique';
+  var COMMONS_SHEET = 'Horaires communs';
+  var POSTES_SHEET = 'Description des postes';
   var TZ         = 'America/Toronto';
   var EVENT_DATE = '2026-11-24';
   var EVENT_LABEL = 'Mardi 24 novembre 2026';
 
-  var K_SCHEDULE  = 'atmtl26:schedule:v1';
+  var CACHE_VERSION = 3;
+  var K_SCHEDULE  = 'atmtl26:schedule:v3';
+  var K_SCHEDULE_LEGACY = ['atmtl26:schedule:v1', 'atmtl26:schedule:v2'];
   var K_VOLUNTEER = 'atmtl26:volunteer:v1';
   var K_SIM       = 'atmtl26:sim:v1';
   var K_TAB       = 'atmtl26:tab:v1';
@@ -972,6 +1135,7 @@ a{color:inherit;text-decoration:none}
   var K_THEME     = 'atmtl26:theme:v1';
 
   var FETCH_TIMEOUT = 8000;
+  var COMMON_WINDOW = 90; // minutes avant un moment collectif pour le rappel « À suivre »
 
   /* =========================================================
      2. État
@@ -979,6 +1143,8 @@ a{color:inherit;text-decoration:none}
   var state = {
     data: null,
     slots: [],
+    commons: [],
+    postes: [],
     volunteers: [],
     selected: null,
     query: '',
@@ -988,7 +1154,9 @@ a{color:inherit;text-decoration:none}
     lastError: '',
     sim: null,            // { date:'2026-11-24', time:'HH:MM' }
     theme: 'dark',        // dark | light
-    lastTickKey: ''
+    lastTickKey: '',
+    ficheOpen: false,
+    ficheIndex: null
   };
 
   var $ = function (sel) { return document.querySelector(sel); };
@@ -1025,6 +1193,25 @@ a{color:inherit;text-decoration:none}
       .replace(/\u00A0/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  // Nettoie un champ multiligne du Sheet en conservant les retours à la ligne,
+  // les puces « • » et l'indentation des sous-listes.
+  function cleanMultiline(value) {
+    return String(value == null ? '' : value)
+      .replace(/\r\n?/g, '\n')
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .replace(/\u00A0/g, ' ')
+      .split('\n')
+      .map(function (line) {
+        var indentRaw = (line.match(/^[ \t]*/) || [''])[0];
+        var indent = indentRaw.replace(/\t/g, '  ');
+        var rest = line.slice(indentRaw.length).replace(/[ \t]+/g, ' ').replace(/[ \t]+$/, '');
+        return indent + rest;
+      })
+      .join('\n')
+      .replace(/^\n+/, '')
+      .replace(/\n+$/, '');
   }
 
   function esc(value) {
@@ -1206,10 +1393,10 @@ a{color:inherit;text-decoration:none}
   /* =========================================================
      7. CSV
      ========================================================= */
-  function csvUrl() {
+  function csvUrl(sheetName, stamp) {
     return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
-      '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(SHEET_NAME) +
-      '&_t=' + Date.now();
+      '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(sheetName || GRID_SHEET) +
+      '&_t=' + (stamp || Date.now());
   }
 
   function parseCSV(text) {
@@ -1243,8 +1430,224 @@ a{color:inherit;text-decoration:none}
     return rows;
   }
 
+  function cellList(row) {
+    var out = [];
+    var raw = row || [];
+    for (var i = 0; i < raw.length; i++) out.push(clean(raw[i]));
+    return out;
+  }
+
+  function findHeader(rows, test) {
+    for (var i = 0; i < rows.length; i++) {
+      var cells = cellList(rows[i]);
+      if (test(cells)) return { index: i, cells: cells };
+    }
+    return null;
+  }
+
+  function colIndex(cells, test, fallback) {
+    for (var i = 0; i < cells.length; i++) {
+      if (test(norm(cells[i]))) return i;
+    }
+    return fallback;
+  }
+
+  function cellAt(cells, index) {
+    return (index != null && index >= 0 && index < cells.length) ? cells[index] : '';
+  }
+
+  function rawAt(row, index) {
+    return (index != null && index >= 0 && index < (row || []).length) ? row[index] : '';
+  }
+
   /* =========================================================
-     7b. Onglet « Grille chronologique »
+     7a. Onglet « Horaires communs »
+     ---------------------------------------------------------
+     En-tête variable selon les versions du Sheet : les colonnes utiles
+     commencent à B (Début, Fin, Événement, Lieu, Public, Consignes).
+     On détecte la ligne d'en-tête puis on retombe sur les colonnes
+     situées juste avant « Événement » si « Début » / « Fin » ne sont
+     pas libellés (cas du Sheet actuel).
+     ========================================================= */
+  function commonKind(title) {
+    var n = norm(title);
+    if (n.indexOf('photo') !== -1) return 'photo';
+    if (/repas|petit-dejeuner|dejeuner|diner|cafe|5 a 7/.test(n)) return 'meal';
+    if (/debrief|bilan|briefing/.test(n)) return 'brief';
+    if (/cloture|verre|remerciement|fete|celebration/.test(n)) return 'celebration';
+    return 'info';
+  }
+
+  function commonLabel(kind) {
+    if (kind === 'photo') return '📸 Événement commun';
+    if (kind === 'meal') return '🍽️ Moment collectif';
+    if (kind === 'brief') return '📋 Moment collectif';
+    if (kind === 'celebration') return '🥂 Moment collectif';
+    return '📢 Moment collectif';
+  }
+
+  function buildCommons(rows) {
+    var head = findHeader(rows, function (cells) {
+      var hasTitle = false, hasOther = false;
+      for (var i = 0; i < cells.length; i++) {
+        var n = norm(cells[i]);
+        if (n === 'evenement' || n === 'titre' || n.indexOf('titre ') === 0) hasTitle = true;
+        if (n === 'lieu' || n.indexOf('lieu') !== -1 ||
+            n === 'public' || n.indexOf('public') !== -1 ||
+            n.indexOf('consigne') !== -1 ||
+            n === 'debut' || n === 'fin' || n.indexOf('heure de ') === 0) hasOther = true;
+      }
+      return hasTitle && hasOther;
+    });
+    if (!head) return [];
+
+    var h = head.cells;
+    var titleCol = colIndex(h, function (n) {
+      return n === 'evenement' || n === 'titre' || n.indexOf('titre ') === 0;
+    }, 3);
+    var startCol = colIndex(h, function (n) {
+      return n === 'debut' || n.indexOf('debut') === 0 || n.indexOf('heure de debut') !== -1;
+    }, titleCol - 2);
+    var endCol = colIndex(h, function (n) {
+      return n === 'fin' || n.indexOf('heure de fin') !== -1 || n.indexOf('fin ') === 0;
+    }, titleCol - 1);
+    var placeCol = colIndex(h, function (n) {
+      return n === 'lieu' || n.indexOf('lieu') !== -1;
+    }, titleCol + 1);
+    var audienceCol = colIndex(h, function (n) {
+      return n === 'public' || n.indexOf('public') !== -1;
+    }, titleCol + 2);
+    var notesCol = colIndex(h, function (n) {
+      return n.indexOf('consigne') !== -1 || n.indexOf('note') !== -1;
+    }, titleCol + 3);
+
+    if (startCol < 0) startCol = Math.max(0, titleCol - 2);
+    if (endCol < 0) endCol = Math.max(0, titleCol - 1);
+
+    var out = [];
+    var seen = Object.create(null);
+
+    for (var i = head.index + 1; i < rows.length; i++) {
+      var cells = cellList(rows[i]);
+      var title = clean(cellAt(cells, titleCol));
+      if (!title) continue;
+
+      var start = toMinutes(cellAt(cells, startCol));
+      if (start == null) {
+        // Certaines feuilles n'ont pas de libellé « Début » : on cherche
+        // le premier horaire exploitable avant la colonne « Événement ».
+        for (var c = 0; c < titleCol; c++) {
+          var m = toMinutes(cellAt(cells, c));
+          if (m != null) { start = m; startCol = c; break; }
+        }
+      }
+      if (start == null) continue;
+
+      var end = toMinutes(cellAt(cells, endCol));
+      if (end == null) {
+        for (var e = startCol + 1; e < titleCol; e++) {
+          var me = toMinutes(cellAt(cells, e));
+          if (me != null) { end = me; break; }
+        }
+      }
+      if (end == null) end = start + 30;
+      else if (end < start) end += 1440;
+      else if (end === start) end = start + 30;
+
+      var key = [start, title].join('|');
+      if (seen[key]) continue;
+      seen[key] = 1;
+
+      out.push({
+        start: start,
+        end: end,
+        title: title,
+        place: clean(cellAt(cells, placeCol)),
+        audience: clean(cellAt(cells, audienceCol)),
+        notes: cleanMultiline(rawAt(rows[i], notesCol)),
+        kind: commonKind(title)
+      });
+    }
+
+    out.sort(function (a, b) { return a.start - b.start || a.end - b.end; });
+    return out;
+  }
+
+  /* =========================================================
+     7b. Onglet « Description des postes »
+     ---------------------------------------------------------
+     En-tête repéré sur « Poste / Rôle » + « Objectifs clés » :
+       B = Poste / Rôle, C = Lieu / Zone, D = Objectifs clés,
+       E = Activités & Tâches attendues, F = Périodes d'affluence,
+       G = Personnes-ressources & Contacts.
+     Les sauts de ligne et puces sont conservés pour l'affichage.
+     ========================================================= */
+  function buildPostes(rows) {
+    var head = findHeader(rows, function (cells) {
+      var hasRole = false, hasObj = false, hasOther = false;
+      for (var i = 0; i < cells.length; i++) {
+        var n = norm(cells[i]);
+        if (n.indexOf('poste') !== -1 || n === 'role' || n.indexOf('role') !== -1) hasRole = true;
+        if (n.indexOf('objectif') !== -1) hasObj = true;
+        if (n.indexOf('activite') !== -1 || n.indexOf('tache') !== -1 ||
+            n.indexOf('lieu') !== -1 || n.indexOf('contact') !== -1) hasOther = true;
+      }
+      return hasRole && hasObj && hasOther;
+    });
+    if (!head) return [];
+
+    var h = head.cells;
+    var roleCol = colIndex(h, function (n) {
+      return n.indexOf('poste') !== -1 || n.indexOf('role') !== -1;
+    }, 1);
+    var zoneCol = colIndex(h, function (n) {
+      return n.indexOf('lieu') !== -1 || n.indexOf('zone') !== -1;
+    }, roleCol + 1);
+    var objCol = colIndex(h, function (n) {
+      return n.indexOf('objectif') !== -1;
+    }, roleCol + 2);
+    var actCol = colIndex(h, function (n) {
+      return n.indexOf('activite') !== -1 || n.indexOf('tache') !== -1;
+    }, roleCol + 3);
+    var peakCol = colIndex(h, function (n) {
+      return n.indexOf('affluence') !== -1 || n.indexOf('periode') !== -1;
+    }, roleCol + 4);
+    var contactCol = colIndex(h, function (n) {
+      return n.indexOf('contact') !== -1 || n.indexOf('personne') !== -1 || n.indexOf('ressource') !== -1;
+    }, roleCol + 5);
+
+    var out = [];
+    var seen = Object.create(null);
+
+    for (var i = head.index + 1; i < rows.length; i++) {
+      var cells = cellList(rows[i]);
+      var role = clean(cellAt(cells, roleCol));
+      if (!role) continue;
+      var nr = norm(role);
+      if (nr === 'poste / role' || nr === 'poste' || nr === 'role' || nr.indexOf('poste de benevole') !== -1) continue;
+      if (role.length < 2) continue;
+      var key = norm(role) + '|' + norm(cellAt(cells, zoneCol));
+      if (seen[key]) continue;
+      seen[key] = 1;
+
+      var fiche = {
+        role: role,
+        zone: cleanMultiline(rawAt(rows[i], zoneCol)),
+        objectives: cleanMultiline(rawAt(rows[i], objCol)),
+        activities: cleanMultiline(rawAt(rows[i], actCol)),
+        peak: cleanMultiline(rawAt(rows[i], peakCol)),
+        contacts: cleanMultiline(rawAt(rows[i], contactCol))
+      };
+      if (!fiche.zone && !fiche.objectives && !fiche.activities && !fiche.peak && !fiche.contacts) continue;
+      fiche.search = norm([fiche.role, fiche.zone, fiche.objectives, fiche.activities, fiche.peak].join(' '));
+      out.push(fiche);
+    }
+
+    return out;
+  }
+
+  /* =========================================================
+     7c. Onglet « Grille chronologique »
      ---------------------------------------------------------
      Le CSV contient plusieurs blocs :
        1. « Affectations par salle et poste » : une ligne par salle,
@@ -1503,6 +1906,97 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
+     7d. Rapprochement créneau ↔ fiche de poste
+     ---------------------------------------------------------
+     Correspondance directe (rôle ou lieu), puis heuristiques métier :
+       Foyer 517        → Accueil
+       Signalisation    → Signalisation
+       517a / 513ab ... → Salles
+       Atelier / Salle  → Salles
+       Salle Repas      → Repas (flux et salle)
+       Soutien mobile   → fiche soutien mobile si elle existe, sinon Salles
+     ========================================================= */
+  var ROOM_CODE_RE = /^5\d{2}[a-z]{0,3}$/;
+
+  function matchPoste(slot) {
+    if (!slot || !state.postes.length) return null;
+    var p = norm(slot.place);
+    var t = norm(slot.type);
+    if (!p) return null;
+    if (t.indexOf('pause') !== -1 || t.indexOf('diner') !== -1) return null;
+
+    var best = null;
+
+    for (var i = 0; i < state.postes.length; i++) {
+      var f = state.postes[i];
+      var role = norm(f.role);
+      var zone = norm(f.zone);
+      var score = 0;
+
+      if (role === p) score += 120;
+      else if (role.length >= 3 && p.indexOf(role) !== -1) score += 100;
+      else if (p.length >= 4 && role.indexOf(p) !== -1) score += 90;
+
+      if (p.length >= 4 && zone.indexOf(p) !== -1) score += 45;
+
+      // Indices métier explicites
+      if (p.indexOf('signal') !== -1 && (role.indexOf('signal') !== -1 || zone.indexOf('signal') !== -1)) score += 80;
+      if (/repas|dejeuner|diner/.test(p) && role.indexOf('repas') !== -1) score += 90;
+      if (p.indexOf('foyer') !== -1) {
+        if (role.indexOf('accueil') !== -1) score += 60;
+        else if (role.indexOf('repas') !== -1) score += 4;
+      }
+      var looksLikeRoom = ROOM_CODE_RE.test(p) ||
+        /atelier|keynote|conference/.test(p) ||
+        (/^salle/.test(p) && p.indexOf('repas') === -1);
+      if (looksLikeRoom) {
+        var roleIsRoom = /salle|atelier|conference|keynote/.test(role) && role.indexOf('repas') === -1;
+        if (roleIsRoom) score += 85;
+        if (/salle|keynote|atelier|conference/.test(zone)) score += 10;
+      }
+      if (p.indexOf('soutien') !== -1) {
+        if (role.indexOf('soutien') !== -1 || zone.indexOf('soutien') !== -1) score += 100;
+        else if (role.indexOf('salle') !== -1) score += 50;
+      }
+
+      if (score >= 45 && (!best || score > best.score)) {
+        best = { index: i, fiche: f, score: score };
+      }
+    }
+
+    return best;
+  }
+
+  function snippet(text, max) {
+    var s = clean(text);
+    if (!s) return '';
+    if (s.length <= max) return s;
+    var cut = s.slice(0, max);
+    var lastSpace = cut.lastIndexOf(' ');
+    if (lastSpace > max * 0.6) cut = cut.slice(0, lastSpace);
+    return cut.replace(/[\s,;:.\-–—]+$/, '') + '…';
+  }
+
+  function telHref(number) {
+    var digits = String(number || '').replace(/[^\d+]/g, '');
+    if (digits.charAt(0) === '+') return digits;
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+    return digits;
+  }
+
+  // Rend les numéros de téléphone cliquables (tel:) sans perdre la mise en forme.
+  function linkifyPhones(text) {
+    var lines = String(text || '').split('\n');
+    return lines.map(function (line) {
+      return esc(line).replace(/\+?\d[\d ().\-]{7,}\d/g, function (raw) {
+        if (raw.replace(/\D/g, '').length < 10) return raw;
+        return '<a class="tel-link" href="tel:' + telHref(raw) + '">' + raw + '</a>';
+      });
+    }).join('\n');
+  }
+
+  /* =========================================================
      8. Synchronisation
      ========================================================= */
   function fetchWithTimeout(url, ms) {
@@ -1514,10 +2008,31 @@ a{color:inherit;text-decoration:none}
             function (err) { clearTimeout(timer); throw err; });
   }
 
+  function fetchTab(name, stamp, optional) {
+    return fetchWithTimeout(csvUrl(name, stamp), FETCH_TIMEOUT)
+      .then(function (res) {
+        if (!res.ok) throw new Error('Onglet « ' + name + ' » : HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function (text) {
+        if (!text || !text.trim()) throw new Error('Onglet « ' + name + ' » : réponse vide');
+        if (/^\s*</.test(text)) throw new Error('Onglet « ' + name + ' » : feuille non partagée publiquement');
+        return text;
+      })
+      .catch(function (err) {
+        // Les onglets Horaires communs / Description des postes sont optionnels :
+        // une indisponibilité ne doit pas priver du planning principal.
+        if (optional) return null;
+        throw err;
+      });
+  }
+
   function applyPayload(payload, status) {
     state.data = payload;
-    state.slots = payload.slots;
-    state.volunteers = indexVolunteers(payload.slots);
+    state.slots = payload.slots || [];
+    state.commons = Array.isArray(payload.commons) ? payload.commons : [];
+    state.postes = Array.isArray(payload.postes) ? payload.postes : [];
+    state.volunteers = indexVolunteers(state.slots);
     if (state.selected && !state.volunteers.some(function (v) { return v.name === state.selected; })) {
       state.selected = null;
       store.del(K_VOLUNTEER);
@@ -1525,12 +2040,17 @@ a{color:inherit;text-decoration:none}
     }
     state.sync = status;
     renderAll();
+    if (state.ficheOpen) {
+      if (state.ficheIndex != null && !state.postes[state.ficheIndex]) state.ficheIndex = null;
+      renderFichesSheet();
+    }
   }
 
   function loadCache() {
     var cached = store.get(K_SCHEDULE);
-    var valid = cached && cached.v === 2 && cached.sheet === SHEET_NAME &&
-      Array.isArray(cached.slots) && cached.slots.length > 0;
+    var valid = cached && cached.v === CACHE_VERSION &&
+      Array.isArray(cached.slots) && cached.slots.length > 0 &&
+      Array.isArray(cached.commons) && Array.isArray(cached.postes);
     if (!valid) {
       store.del(K_SCHEDULE);
       return false;
@@ -1539,25 +2059,48 @@ a{color:inherit;text-decoration:none}
     return true;
   }
 
+  function cachedExtras() {
+    var cached = store.get(K_SCHEDULE);
+    if (!cached || cached.v !== CACHE_VERSION) return { commons: [], postes: [] };
+    return {
+      commons: Array.isArray(cached.commons) ? cached.commons : [],
+      postes: Array.isArray(cached.postes) ? cached.postes : []
+    };
+  }
+
   function refresh(manual) {
     if (state.sync === 'syncing') return;
     var hadData = !!state.data;
+    var stamp = Date.now();
     state.sync = 'syncing';
     renderSync();
     if (!hadData) renderAll();
 
-    fetchWithTimeout(csvUrl(), FETCH_TIMEOUT)
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.text();
-      })
-      .then(function (text) {
-        if (!text || !text.trim()) throw new Error('Réponse vide');
-        if (/^\s*</.test(text)) throw new Error('Feuille non partagée publiquement');
-        var slots = buildSlots(parseCSV(text));
-        if (!slots.length) throw new Error('Aucun créneau trouvé dans « Grille chronologique »');
+    // Network-first strict : les trois onglets sont téléchargés en parallèle,
+    // avec horodatage anti-cache et cache: 'no-store'.
+    Promise.all([
+      fetchTab(GRID_SHEET, stamp, false),
+      fetchTab(COMMONS_SHEET, stamp, true),
+      fetchTab(POSTES_SHEET, stamp, true)
+    ])
+      .then(function (texts) {
+        var slots = buildSlots(parseCSV(texts[0]));
+        if (!slots.length) throw new Error('Aucun créneau trouvé dans « ' + GRID_SHEET + ' »');
 
-        var payload = { v: 2, sheet: SHEET_NAME, fetchedAt: Date.now(), slots: slots };
+        var previous = cachedExtras();
+        var commons = texts[1] == null ? previous.commons : buildCommons(parseCSV(texts[1]));
+        var postes = texts[2] == null ? previous.postes : buildPostes(parseCSV(texts[2]));
+        if (!commons.length && previous.commons.length) commons = previous.commons;
+        if (!postes.length && previous.postes.length) postes = previous.postes;
+
+        var payload = {
+          v: CACHE_VERSION,
+          sheet: GRID_SHEET,
+          fetchedAt: Date.now(),
+          slots: slots,
+          commons: commons,
+          postes: postes
+        };
         var saved = store.set(K_SCHEDULE, payload);
         applyPayload(payload, 'online');
         if (manual) toast(saved ? 'Planning à jour · ' + fmtClock(payload.fetchedAt)
@@ -1805,6 +2348,7 @@ a{color:inherit;text-decoration:none}
     var live = now.phase === 'during';
     var slots = v.slots;
     var totalsV = totals(slots);
+    var entries = dayEntries(slots);
 
     var currentIndex = -1;
     if (live) {
@@ -1832,6 +2376,7 @@ a{color:inherit;text-decoration:none}
       }
     }
 
+    var moment = live ? nextCommonMoment(now) : null;
     var hero = $('#hero-slot');
     var next = $('#next-slot');
 
@@ -1839,15 +2384,22 @@ a{color:inherit;text-decoration:none}
       var chips = '<span class="phase-chip"><strong>' + slots.length + '</strong> ' +
           (slots.length > 1 ? 'créneaux' : 'créneau') + '</span>' +
         '<span class="phase-chip"><strong>' + fmtDur(totalsV.poste) + '</strong> de poste</span>';
+      if (state.commons.length) {
+        chips += '<span class="phase-chip"><span aria-hidden="true">📢</span><strong>' +
+          state.commons.length + '</strong> moment' + (state.commons.length > 1 ? 's' : '') + ' collectif' +
+          (state.commons.length > 1 ? 's' : '') + '</span>';
+      }
       hero.innerHTML = phaseBanner(now.phase, slots.length ? slots[0].start : null, chips);
       next.innerHTML = '';
     } else {
       if (mode === 'now') hero.innerHTML = heroCurrent(primary, now);
       else if (mode === 'next') hero.innerHTML = heroUpcoming(primary, now);
+      else if (moment) hero.innerHTML = heroCommon(moment, now);
       else hero.innerHTML = heroDone(v);
 
       if (secondary) {
         var kind = slotKind(secondary);
+        var secondaryFiche = matchPoste(secondary);
         next.innerHTML =
           '<div class="next-card" style="--accent:var(' + accentVar(kind) + ')">' +
             '<div class="next-time">' + fmtHM(secondary.start) + '</div>' +
@@ -1856,9 +2408,16 @@ a{color:inherit;text-decoration:none}
               '<div class="next-title">' + esc(secondary.place) + '</div>' +
             '</div>' +
             '<div class="next-dur">' + fmtDur(secondary.end - secondary.start) + '</div>' +
-          '</div>';
+          '</div>' +
+          (secondaryFiche ? ficheTrigger(secondaryFiche) : '');
       } else {
         next.innerHTML = '';
+      }
+
+      // Rappel « À suivre » pour le prochain moment collectif (90 min avant).
+      if (mode !== 'done') {
+        var reminder = commonReminder(now);
+        if (reminder) next.innerHTML = reminder + next.innerHTML;
       }
     }
 
@@ -1875,21 +2434,137 @@ a{color:inherit;text-decoration:none}
 
     var html = '';
     var markerPlaced = false;
-    for (var k = 0; k < slots.length; k++) {
-      var s = slots[k];
-      var isCurrent = live && s.start <= now.minutes && now.minutes < s.end;
-      var isPast = live && s.end <= now.minutes;
+    for (var k = 0; k < entries.length; k++) {
+      var entry = entries[k];
+      var isCurrent = live && entry.start <= now.minutes && now.minutes < entry.end;
+      var isPast = live && entry.end <= now.minutes;
 
-      if (live && !markerPlaced && (isCurrent || s.start > now.minutes)) {
+      if (live && !markerPlaced && (isCurrent || entry.start > now.minutes)) {
         html += nowMarker(now);
         markerPlaced = true;
       }
-      html += slotItem(s, isCurrent, isPast);
+      html += entry.kind === 'common'
+        ? commonItem(entry.common, isCurrent, isPast)
+        : slotItem(entry.slot, isCurrent, isPast);
     }
     if (live && !markerPlaced) html += nowMarker(now);
 
     $('#timeline').innerHTML = html;
-    $('#day-count').textContent = plural(slots.length, 'créneau', 'créneaux');
+    $('#day-count').textContent = plural(slots.length, 'créneau', 'créneaux') +
+      (state.commons.length ? ' · ' + state.commons.length + ' collectif' + (state.commons.length > 1 ? 's' : '') : '');
+  }
+
+  // Fusionne les créneaux individuels et les moments collectifs, triés par heure.
+  function dayEntries(slots) {
+    var out = [];
+    for (var i = 0; i < slots.length; i++) {
+      out.push({ kind: 'slot', start: slots[i].start, end: slots[i].end, slot: slots[i] });
+    }
+    for (var j = 0; j < state.commons.length; j++) {
+      var c = state.commons[j];
+      out.push({ kind: 'common', start: c.start, end: c.end, common: c });
+    }
+    out.sort(function (a, b) {
+      if (a.start !== b.start) return a.start - b.start;
+      if (a.kind !== b.kind) return a.kind === 'common' ? -1 : 1;
+      return a.end - b.end;
+    });
+    return out;
+  }
+
+  function nextCommonMoment(now) {
+    var soon = null;
+    for (var i = 0; i < state.commons.length; i++) {
+      var c = state.commons[i];
+      if (c.start <= now.minutes && now.minutes < c.end) {
+        return { index: i, common: c, mode: 'now' };
+      }
+      if (c.start > now.minutes && c.start - now.minutes <= COMMON_WINDOW) {
+        if (!soon || c.start < soon.common.start) soon = { index: i, common: c, mode: 'soon' };
+      }
+    }
+    return soon;
+  }
+
+  function commonReminder(now) {
+    var moment = nextCommonMoment(now);
+    if (!moment) return '';
+    return commonCard(moment, now);
+  }
+
+  function commonCard(moment, now) {
+    var c = moment.common;
+    var when = moment.mode === 'now'
+      ? 'En cours · reste ' + fmtDurPrecise(c.end - now.minutes)
+      : 'Dans ' + fmtDurPrecise(c.start - now.minutes);
+    return '<div class="common-card common-card--' + moment.mode + '">' +
+      '<div class="common-card-head">' +
+        '<span class="common-badge">' + commonLabel(c.kind) + '</span>' +
+        '<span class="common-when">' + esc(when) + '</span>' +
+      '</div>' +
+      '<div class="common-card-title">' + esc(c.title) + '</div>' +
+      '<div class="common-card-meta">' +
+        '<span>' + fmtHM(c.start) + ' – ' + fmtHM(c.end) + '</span>' +
+        (c.place ? '<span class="dot" aria-hidden="true">·</span><span>📍 ' + esc(c.place) + '</span>' : '') +
+        (c.audience ? '<span class="dot" aria-hidden="true">·</span><span>' + esc(c.audience) + '</span>' : '') +
+      '</div>' +
+      (c.notes ? '<p class="common-card-notes">' + esc(c.notes) + '</p>' : '') +
+    '</div>';
+  }
+
+  function heroCommon(moment, now) {
+    var c = moment.common;
+    var when = moment.mode === 'now'
+      ? 'En cours · reste ' + fmtDurPrecise(c.end - now.minutes)
+      : 'Commence dans ' + fmtDurPrecise(c.start - now.minutes);
+    return '<div class="hero">' +
+      '<div class="hero-label">' + icon('clock', 14) + '<span>Moment collectif</span><span class="live-dot" aria-hidden="true"></span></div>' +
+      '<h1 class="hero-title">' + esc(c.title) + '</h1>' +
+      '<div class="hero-badges">' +
+        '<span class="common-badge">' + commonLabel(c.kind) + '</span>' +
+        '<span class="hero-time">' + fmtHM(c.start) + ' → ' + fmtHM(c.end) + '</span>' +
+        (c.place ? '<span class="hero-badge">📍 ' + esc(c.place) + '</span>' : '') +
+      '</div>' +
+      (c.notes ? '<p class="common-notes">' + esc(c.notes) + '</p>' : '') +
+      '<div class="hero-foot">' +
+        '<span>' + esc(when) + '</span>' +
+        (c.audience ? '<span>' + esc(c.audience) + '</span>' : '') +
+      '</div>' +
+    '</div>';
+  }
+
+  function commonItem(common, isCurrent, isPast) {
+    var cls = 'tl-item tl-item--common' + (isPast ? ' is-past' : '') + (isCurrent ? ' is-now' : '');
+    return '<li class="' + cls + '">' +
+      '<div class="tl-time"><span class="tl-start">' + fmtHM(common.start) + '</span><span class="tl-end">' + fmtHM(common.end) + '</span></div>' +
+      '<div class="tl-rail"><span class="tl-dot" aria-hidden="true"></span></div>' +
+      '<div class="slot">' +
+        '<div class="slot-head">' +
+          '<span class="common-badge">' + commonLabel(common.kind) + '</span>' +
+          (isCurrent ? '<span class="now-tag">Maintenant</span>' : '') +
+        '</div>' +
+        '<div class="slot-title">' + esc(common.title) + '</div>' +
+        '<div class="common-meta">' +
+          '<span class="slot-dur">' + fmtHM(common.start) + ' – ' + fmtHM(common.end) + '</span>' +
+          (common.place ? '<span class="dot" aria-hidden="true">·</span><span>📍 ' + esc(common.place) + '</span>' : '') +
+          (common.audience ? '<span class="dot" aria-hidden="true">·</span><span>' + esc(common.audience) + '</span>' : '') +
+        '</div>' +
+        (common.notes ? '<div class="common-notes">' + esc(common.notes) + '</div>' : '') +
+      '</div>' +
+    '</li>';
+  }
+
+  // Bouton d'ouverture de la fiche + résumé de l'objectif clé.
+  function ficheTrigger(match) {
+    if (!match || match.index == null || !match.fiche) return '';
+    return '<div class="fiche-block-inline">' +
+      '<button type="button" class="fiche-btn" data-fiche="' + match.index + '">' +
+        '<span aria-hidden="true">ℹ️</span><span>Consignes &amp; tâches du poste</span>' +
+      '</button>' +
+      (match.fiche.objectives
+        ? '<p class="fiche-hint">' + esc(snippet(match.fiche.objectives, 115)) + '</p>'
+        : '') +
+    '</div>';
   }
 
   function accentVar(kind) {
@@ -1904,6 +2579,7 @@ a{color:inherit;text-decoration:none}
     var left = slot.end - now.minutes;
     var total = slot.end - slot.start;
     var pct = Math.max(3, Math.min(100, ((now.minutes - slot.start) / total) * 100));
+    var fiche = matchPoste(slot);
     return '<div class="hero">' +
       '<div class="hero-label">' + icon('clock', 14) + '<span>En ce moment</span><span class="live-dot" aria-hidden="true"></span></div>' +
       '<h1 class="hero-title">' + esc(slot.place) + '</h1>' +
@@ -1911,6 +2587,7 @@ a{color:inherit;text-decoration:none}
         '<span class="hero-badge">' + esc(slot.type) + '</span>' +
         '<span class="hero-time">' + fmtHM(slot.start) + ' → ' + fmtHM(slot.end) + '</span>' +
       '</div>' +
+      (fiche ? '<div class="hero-fiche">' + ficheTrigger(fiche) + '</div>' : '') +
       '<div class="hero-progress"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
       '<div class="hero-foot">' +
         '<span>Reste <strong>' + fmtDurPrecise(left) + '</strong></span>' +
@@ -1954,6 +2631,7 @@ a{color:inherit;text-decoration:none}
     var kind = slotKind(slot);
     var kindIcon = kind === 'mobile' ? 'route' : kind === 'break' ? 'coffee' : kind === 'standby' ? 'hourglass' : kind === 'room' ? 'door' : 'clock';
     var cls = 'tl-item tl-item--' + kind + (isPast ? ' is-past' : '') + (isCurrent ? ' is-now' : '');
+    var fiche = isPostSlot(slot) ? matchPoste(slot) : null;
     return '<li class="' + cls + '">' +
       '<div class="tl-time"><span class="tl-start">' + fmtHM(slot.start) + '</span><span class="tl-end">' + fmtHM(slot.end) + '</span></div>' +
       '<div class="tl-rail"><span class="tl-dot" aria-hidden="true"></span></div>' +
@@ -1964,6 +2642,7 @@ a{color:inherit;text-decoration:none}
         '</div>' +
         '<div class="slot-title">' + esc(slot.place) + '</div>' +
         '<div class="slot-meta"><span class="slot-dur">' + fmtDur(slot.end - slot.start) + '</span></div>' +
+        (fiche ? ficheTrigger(fiche) : '') +
       '</div>' +
     '</li>';
   }
@@ -2105,6 +2784,9 @@ a{color:inherit;text-decoration:none}
             (nowCount ? '<strong>' + nowCount + '</strong> en ce moment' : 'Personne en ce moment') +
           '</span>'
         : '<span class="room-stat"><strong>' + roomSlots.length + '</strong> créneaux</span>');
+
+    var roomFiche = matchPoste({ place: place, type: 'Affectation' });
+    $('#room-fiche').innerHTML = roomFiche ? ficheTrigger(roomFiche) : '';
 
     var html = '';
     for (var k = 0; k < segments.length; k++) {
@@ -2264,6 +2946,106 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
+     12b. Fiches de postes (Description des postes)
+     ========================================================= */
+  function openFiches(index) {
+    if (typeof index === 'number' && state.postes[index]) state.ficheIndex = index;
+    else state.ficheIndex = null;
+
+    var backdrop = $('#fiche-backdrop');
+    var sheet = $('#fiche-sheet');
+
+    if (!state.ficheOpen) {
+      state.ficheOpen = true;
+      backdrop.hidden = false;
+      sheet.hidden = false;
+      requestAnimationFrame(function () {
+        backdrop.classList.add('is-open');
+        sheet.classList.add('is-open');
+      });
+    }
+    renderFichesSheet();
+    setTimeout(function () {
+      var target = $('#fiche-close');
+      if (target && target.focus) target.focus();
+    }, 240);
+  }
+
+  function closeFiches() {
+    if (!state.ficheOpen) return;
+    state.ficheOpen = false;
+    state.ficheIndex = null;
+    var backdrop = $('#fiche-backdrop');
+    var sheet = $('#fiche-sheet');
+    backdrop.classList.remove('is-open');
+    sheet.classList.remove('is-open');
+    setTimeout(function () {
+      backdrop.hidden = true;
+      sheet.hidden = true;
+    }, 260);
+  }
+
+  function renderFichesSheet() {
+    var detail = state.ficheIndex != null ? state.postes[state.ficheIndex] : null;
+    $('#fiche-back').hidden = !detail;
+    $('#fiche-content').innerHTML = detail ? ficheDetailHTML(detail) : ficheListHTML();
+    $('#fiche-sheet').scrollTop = 0;
+  }
+
+  function ficheListHTML() {
+    var head = '<p class="eyebrow">Description des postes</p>' +
+      '<h2 class="fiche-title" id="fiche-title"><span aria-hidden="true">📋</span> Fiches de postes</h2>' +
+      '<p class="sheet-sub">Consignes, tâches attendues et personnes-ressources, accessibles à tout moment — même hors de ton créneau.</p>';
+
+    if (!state.postes.length) {
+      return head + '<div class="empty" style="margin-top:1rem">Aucune fiche de poste disponible pour le moment. Tire vers le bas ou touche « Actualiser » pour synchroniser l\u2019onglet « Description des postes ».</div>';
+    }
+
+    var rows = '<div class="fiche-list">' + state.postes.map(function (f, i) {
+      return '<button type="button" class="fiche-row" data-fiche="' + i + '">' +
+        '<span class="fiche-row-main">' +
+          '<span class="fiche-row-role">' + esc(f.role) + '</span>' +
+          '<span class="fiche-row-zone">' + (f.zone ? esc(snippet(f.zone, 110)) : 'Lieu à confirmer') + '</span>' +
+        '</span>' +
+        '<span class="fiche-row-go" aria-hidden="true">' + icon('chevron', 18) + '</span>' +
+      '</button>';
+    }).join('') + '</div>';
+
+    return head + rows +
+      '<p class="fiche-note">Touche un poste pour ouvrir sa fiche complète. Les numéros de téléphone sont cliquables.</p>';
+  }
+
+  function ficheDetailHTML(f) {
+    var html = '<p class="eyebrow">Fiche de poste</p>' +
+      '<h2 class="fiche-title" id="fiche-title">' + esc(f.role) + '</h2>' +
+      (f.zone ? '<p class="fiche-zone"><span aria-hidden="true">📍</span><span>' + esc(f.zone) + '</span></p>' : '');
+
+    if (f.objectives) {
+      html += '<div class="fiche-block"><h3>🎯 Objectifs clés</h3>' +
+        '<p class="fiche-text">' + esc(f.objectives) + '</p></div>';
+    }
+    if (f.activities) {
+      html += '<div class="fiche-block"><h3>✅ Activités &amp; tâches attendues</h3>' +
+        '<div class="fiche-text">' + esc(f.activities) + '</div></div>';
+    }
+    if (f.peak) {
+      html += '<div class="fiche-block"><h3>🕒 Périodes d\u2019affluence</h3>' +
+        '<p class="fiche-text">' + esc(f.peak) + '</p></div>';
+    }
+    if (f.contacts) {
+      var contacts = linkifyPhones(f.contacts);
+      html += '<div class="fiche-block"><h3>📞 Personnes-ressources &amp; contacts</h3>' +
+        '<div class="fiche-text fiche-text--contacts">' + contacts + '</div>' +
+        (contacts.indexOf('class="tel-link"') !== -1
+          ? '<p class="fiche-note">Touche un numéro pour appeler directement depuis ton téléphone.</p>'
+          : '') +
+      '</div>';
+    }
+
+    return html;
+  }
+
+  /* =========================================================
      13. Thème clair / sombre
      ========================================================= */
   function applyTheme(theme, persist) {
@@ -2358,6 +3140,25 @@ a{color:inherit;text-decoration:none}
 
     $('#btn-theme').addEventListener('click', toggleTheme);
 
+    $('#btn-fiches').addEventListener('click', function () { openFiches(null); });
+    var pickerFiches = $('#btn-fiches-picker');
+    if (pickerFiches) pickerFiches.addEventListener('click', function () { openFiches(null); });
+    $('#fiche-backdrop').addEventListener('click', closeFiches);
+    $('#fiche-close').addEventListener('click', closeFiches);
+    $('#fiche-back').addEventListener('click', function () {
+      state.ficheIndex = null;
+      renderFichesSheet();
+    });
+
+    // Ouverture d'une fiche depuis n'importe quelle carte (Mon Horaire,
+    // Hero « En ce moment », Par Salle, ou liste des fiches).
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest ? e.target.closest('[data-fiche]') : null;
+      if (!trigger) return;
+      var idx = parseInt(trigger.getAttribute('data-fiche'), 10);
+      if (isFinite(idx)) openFiches(idx);
+    });
+
     $('#btn-refresh').addEventListener('click', function () { refresh(true); });
     $('#sync-pill').addEventListener('click', function () { refresh(true); });
     $('#btn-retry').addEventListener('click', function () { refresh(true); });
@@ -2409,7 +3210,9 @@ a{color:inherit;text-decoration:none}
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && sheetOpen) closeSheet();
+      if (e.key !== 'Escape') return;
+      if (state.ficheOpen) closeFiches();
+      else if (sheetOpen) closeSheet();
     });
 
     document.addEventListener('visibilitychange', function () {
@@ -2447,6 +3250,9 @@ a{color:inherit;text-decoration:none}
      18. Démarrage
      ========================================================= */
   function init() {
+    // Invalide les anciens caches (versions sans Horaires communs / fiches).
+    for (var l = 0; l < K_SCHEDULE_LEGACY.length; l++) store.del(K_SCHEDULE_LEGACY[l]);
+
     // Thème : choix mémorisé, sinon thème clair par défaut.
     var savedTheme = store.get(K_THEME);
     if (savedTheme !== 'light' && savedTheme !== 'dark') savedTheme = 'light';
