@@ -959,7 +959,7 @@ a{color:inherit;text-decoration:none}
      1. Configuration
      ========================================================= */
   var SHEET_ID   = '1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA';
-  var SHEET_NAME = 'Affectations';
+  var SHEET_NAME = 'Grille chronologique';
   var TZ         = 'America/Toronto';
   var EVENT_DATE = '2026-11-24';
   var EVENT_LABEL = 'Mardi 24 novembre 2026';
@@ -971,7 +971,6 @@ a{color:inherit;text-decoration:none}
   var K_ROOM      = 'atmtl26:room:v1';
   var K_THEME     = 'atmtl26:theme:v1';
 
-  var CACHE_MAX_AGE = 5 * 60 * 1000;
   var FETCH_TIMEOUT = 8000;
 
   /* =========================================================
@@ -1059,15 +1058,16 @@ a{color:inherit;text-decoration:none}
   function fmtClock(ts) {
     try {
       var parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false
+        timeZone: TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
       }).formatToParts(new Date(ts));
-      var h = '00', m = '00';
+      var h = '00', m = '00', s = '00';
       for (var i = 0; i < parts.length; i++) {
         if (parts[i].type === 'hour') h = pad2(parseInt(parts[i].value, 10) % 24);
         if (parts[i].type === 'minute') m = parts[i].value;
+        if (parts[i].type === 'second') s = parts[i].value;
       }
-      return h + ':' + m;
-    } catch (e) { return '--:--'; }
+      return h + ':' + m + ':' + s;
+    } catch (e) { return '--:--:--'; }
   }
 
   function fmtDate(ts) {
@@ -1209,7 +1209,7 @@ a{color:inherit;text-decoration:none}
   function csvUrl() {
     return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
       '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(SHEET_NAME) +
-      '&_cb=' + Date.now();
+      '&_t=' + Date.now();
   }
 
   function parseCSV(text) {
@@ -1243,48 +1243,61 @@ a{color:inherit;text-decoration:none}
     return rows;
   }
 
-  var HEADER_ALIASES = {
-    name:         ['benevole', 'bénévole', 'nom'],
-    start:        ['debut', 'début', 'start'],
-    end:          ['fin', 'end'],
-    duration:     ['duree', 'durée', 'duration'],
-    type:         ['type'],
-    place:        ['salle', 'tache', 'tâche', 'lieu', 'poste'],
-    availability: ['disponibilite', 'disponibilité', 'dispo']
-  };
+  /* =========================================================
+     7b. Onglet « Grille chronologique »
+     ---------------------------------------------------------
+     Le CSV contient plusieurs blocs :
+       1. « Affectations par salle et poste » : une ligne par salle,
+          colonnes = tranches de 15 min, cellules = compteurs.
+       2. « Affectations individuelles » : une ligne par bénévole,
+          colonnes = tranches de 15 min, cellules = salle / pause / dîner.
+     On détecte les en-têtes horaires, on ignore les lignes de totaux et
+     les lignes purement numériques, puis on fusionne les tranches
+     consécutives identiques en plages continues.
+     ========================================================= */
+  var TIME_RANGE_RE = /^(\d{1,2})\s*[:hH.]\s*(\d{2})\s*[–—−-]\s*(\d{1,2})\s*[:hH.]\s*(\d{2})$/;
+  var TOTAL_ROW_NAMES = [
+    'total aux postes', 'pause', 'diner', 'soutien mobile',
+    'manques de couverture', 'disponibles', 'presents', 'benevole'
+  ];
 
-  function headerMatches(cell, alias) {
-    if (!cell || !alias) return false;
-    if (cell === alias) return true;
-    if (cell.indexOf(alias) === 0) {
-      var next = cell.charAt(alias.length);
-      return next === ' ' || next === '/' || next === '(' || next === ':' || next === '·';
-    }
-    if (cell.length > alias.length + 1 && cell.slice(-alias.length - 1) === ' ' + alias) return true;
-    return false;
+  function parseRangeLabel(value) {
+    var m = clean(value).match(TIME_RANGE_RE);
+    if (!m) return null;
+    var h1 = parseInt(m[1], 10), m1 = parseInt(m[2], 10);
+    var h2 = parseInt(m[3], 10), m2 = parseInt(m[4], 10);
+    if (h1 > 24 || h2 > 24 || m1 > 59 || m2 > 59) return null;
+    var start = h1 * 60 + m1;
+    var end = h2 * 60 + m2;
+    if (end <= start) end += 1440;
+    return { start: start, end: end };
   }
 
-  function findHeader(rows) {
-    var limit = Math.min(rows.length, 20);
-    for (var i = 0; i < limit; i++) {
-      var cells = (rows[i] || []).map(norm);
-      var map = {};
-      for (var j = 0; j < cells.length; j++) {
-        var cell = cells[j];
-        if (!cell) continue;
-        for (var key in HEADER_ALIASES) {
-          if (map[key] != null) continue;
-          var aliases = HEADER_ALIASES[key];
-          for (var k = 0; k < aliases.length; k++) {
-            if (headerMatches(cell, aliases[k])) { map[key] = j; break; }
-          }
-        }
-      }
-      var distinct = map.name != null && map.start != null && map.end != null &&
-        map.name !== map.start && map.name !== map.end && map.start !== map.end;
-      if (distinct && Object.keys(map).length >= 5) return { row: i, map: map };
+  function classifyLabel(value) {
+    var label = clean(value);
+    var n = norm(label);
+    if (!n) return null;
+    if (n === 'pause') return { type: 'Pause', place: 'Pause' };
+    if (n === 'diner') return { type: 'Dîner', place: 'Dîner' };
+    if (n.indexOf('reserve') === 0) return { type: 'Réserve', place: 'Réserve' };
+    if (n.indexOf('soutien') === 0) return { type: 'Affectation', place: 'Soutien mobile aux salles' };
+    if (n.indexOf('foyer') === 0) return { type: 'Affectation', place: 'Foyer 517' };
+    if (n.indexOf('salle repas') === 0 || n.indexOf('salle de repas') === 0 || n === 'repas') {
+      return { type: 'Affectation', place: 'Salle Repas' };
     }
-    return null;
+    if (n.indexOf('signal') === 0) return { type: 'Affectation', place: 'Signalisation' };
+    return { type: 'Affectation', place: label };
+  }
+
+  function isTotalsRow(label) {
+    var n = norm(label);
+    if (!n) return true;
+    if (n.indexOf('total') === 0) return true;
+    return TOTAL_ROW_NAMES.indexOf(n) !== -1;
+  }
+
+  function isNumericCell(value) {
+    return /^-?\d+(?:[.,]\d+)?$/.test(clean(value));
   }
 
   function toMinutes(value) {
@@ -1306,45 +1319,133 @@ a{color:inherit;text-decoration:none}
     return null;
   }
 
-  function buildSlots(rows) {
-    var header = findHeader(rows);
-    if (!header) throw new Error('En-têtes du tableau introuvables');
-    var map = header.map;
+  function addGridSlot(out, seen, name, start, end, rawLabel, availability) {
+    var person = clean(name);
+    var info = classifyLabel(rawLabel);
+    if (!person || !info || end <= start) return;
+    var key = [person, start, end, info.type, info.place].join('|');
+    if (seen[key]) return;
+    seen[key] = 1;
+    out.push({
+      name: person,
+      start: start,
+      end: end,
+      type: info.type,
+      place: info.place,
+      availability: clean(availability),
+      duration: end - start
+    });
+  }
+
+  function parseGrid(rows) {
     var out = [];
     var seen = Object.create(null);
+    var block = null;
 
-    for (var i = header.row + 1; i < rows.length; i++) {
-      var r = rows[i];
-      if (!r || !r.length) continue;
+    for (var i = 0; i < rows.length; i++) {
+      var raw = rows[i] || [];
+      var cells = [];
+      for (var j = 0; j < raw.length; j++) cells.push(clean(raw[j]));
 
-      var name = clean(r[map.name]);
-      if (!name) continue;
+      // En-tête horaire : au moins 8 cellules « HH:MM–HH:MM ».
+      var cols = [];
+      for (var c = 0; c < cells.length; c++) {
+        var range = parseRangeLabel(cells[c]);
+        if (range) cols.push({ col: c, start: range.start, end: range.end });
+      }
+      if (cols.length >= 8) {
+        var headA = norm(cells[0] || '');
+        var headB = norm(cells[1] || '');
+        var mode = (headA.indexOf('benevole') !== -1 || headB.indexOf('disponibilite') !== -1)
+          ? 'person' : 'place';
+        block = { mode: mode, cols: cols };
+        continue;
+      }
+      if (!block) continue;
 
-      var start = toMinutes(r[map.start]);
-      var end = toMinutes(r[map.end]);
-      if (start == null || end == null) continue;
-      if (end <= start) end += 1440;
+      var label = cells[0] || '';
+      if (!label || isTotalsRow(label)) continue;
 
-      var type = clean(r[map.type]) || 'Affectation';
-      var place = clean(r[map.place]) || '—';
-      var availability = map.availability != null ? clean(r[map.availability]) : '';
-      var declared = map.duration != null ? parseInt(clean(r[map.duration]), 10) : NaN;
+      var firstCol = block.cols[0].col;
+      var lastCol = block.cols[block.cols.length - 1].col;
+      var hasValue = false;
+      for (var v = firstCol; v <= lastCol && v < cells.length; v++) {
+        if (cells[v]) { hasValue = true; break; }
+      }
+      if (!hasValue) continue;
 
-      var key = [name, start, end, type, place].join('|');
-      if (seen[key]) continue;
-      seen[key] = 1;
+      // Lignes de compteurs de la section « par salle » : uniquement des nombres.
+      var numericOnly = true;
+      for (var w = firstCol; w <= lastCol && w < cells.length; w++) {
+        if (!cells[w]) continue;
+        if (!isNumericCell(cells[w])) { numericOnly = false; break; }
+      }
+      if (numericOnly) continue;
 
-      out.push({
-        name: name,
-        start: start,
-        end: end,
-        type: type,
-        place: place,
-        availability: availability,
-        duration: isFinite(declared) && declared > 0 ? declared : (end - start)
-      });
+      if (block.mode === 'person') {
+        var availability = cells[1] || '';
+        var run = null;
+
+        for (var k = 0; k < block.cols.length; k++) {
+          var colDef = block.cols[k];
+          var cell = cells[colDef.col] || '';
+          var info = cell ? classifyLabel(cell) : null;
+
+          if (!info || isNumericCell(cell)) {
+            if (run) { addGridSlot(out, seen, label, run.start, run.end, run.raw, availability); run = null; }
+            continue;
+          }
+          if (run && run.type === info.type && run.place === info.place) {
+            run.end = colDef.end;
+          } else {
+            if (run) addGridSlot(out, seen, label, run.start, run.end, run.raw, availability);
+            run = { start: colDef.start, end: colDef.end, raw: cell, type: info.type, place: info.place };
+          }
+        }
+        if (run) addGridSlot(out, seen, label, run.start, run.end, run.raw, availability);
+
+      } else {
+        // Section « par salle » avec des noms dans les cellules : on inverse.
+        var tracked = Object.create(null);
+
+        for (var k2 = 0; k2 < block.cols.length; k2++) {
+          var cd = block.cols[k2];
+          var cell2 = cells[cd.col] || '';
+          var present = Object.create(null);
+
+          if (cell2 && !isNumericCell(cell2)) {
+            var names = cell2.split(/[\n,;\/]+/);
+            for (var n = 0; n < names.length; n++) {
+              var person = clean(names[n]);
+              if (person) present[norm(person)] = person;
+            }
+          }
+
+          for (var key in tracked) {
+            if (!present[key]) {
+              addGridSlot(out, seen, tracked[key].name, tracked[key].start, tracked[key].end, label, '');
+              delete tracked[key];
+            }
+          }
+          for (var key2 in present) {
+            if (tracked[key2]) tracked[key2].end = cd.end;
+            else tracked[key2] = { name: present[key2], start: cd.start, end: cd.end };
+          }
+        }
+        for (var left in tracked) {
+          addGridSlot(out, seen, tracked[left].name, tracked[left].start, tracked[left].end, label, '');
+        }
+      }
     }
 
+    return out;
+  }
+
+  function buildSlots(rows) {
+    var out = parseGrid(rows);
+    if (!out.length) {
+      throw new Error('Aucun créneau exploitable dans l\u2019onglet « Grille chronologique »');
+    }
     out.sort(function (a, b) {
       return a.name.localeCompare(b.name, 'fr') || a.start - b.start || a.end - b.end;
     });
@@ -1428,7 +1529,12 @@ a{color:inherit;text-decoration:none}
 
   function loadCache() {
     var cached = store.get(K_SCHEDULE);
-    if (!cached || !Array.isArray(cached.slots) || !cached.slots.length) return false;
+    var valid = cached && cached.v === 2 && cached.sheet === SHEET_NAME &&
+      Array.isArray(cached.slots) && cached.slots.length > 0;
+    if (!valid) {
+      store.del(K_SCHEDULE);
+      return false;
+    }
     applyPayload(cached, 'offline');
     return true;
   }
@@ -1449,9 +1555,9 @@ a{color:inherit;text-decoration:none}
         if (!text || !text.trim()) throw new Error('Réponse vide');
         if (/^\s*</.test(text)) throw new Error('Feuille non partagée publiquement');
         var slots = buildSlots(parseCSV(text));
-        if (!slots.length) throw new Error('Aucun créneau trouvé');
+        if (!slots.length) throw new Error('Aucun créneau trouvé dans « Grille chronologique »');
 
-        var payload = { v: 1, fetchedAt: Date.now(), slots: slots };
+        var payload = { v: 2, sheet: SHEET_NAME, fetchedAt: Date.now(), slots: slots };
         var saved = store.set(K_SCHEDULE, payload);
         applyPayload(payload, 'online');
         if (manual) toast(saved ? 'Planning à jour · ' + fmtClock(payload.fetchedAt)
@@ -1463,16 +1569,21 @@ a{color:inherit;text-decoration:none}
           state.sync = 'offline';
           renderAll();
           if (manual) toast('Hors-ligne — données du ' + fmtDate(state.data.fetchedAt) + ' à ' + fmtClock(state.data.fetchedAt));
-        } else {
-          state.sync = 'error';
-          renderAll();
+          return;
         }
+        // Réseau indisponible : le cache local est le seul secours.
+        if (loadCache()) {
+          if (manual) toast('Hors-ligne — données du ' + fmtDate(state.data.fetchedAt) + ' à ' + fmtClock(state.data.fetchedAt));
+          return;
+        }
+        state.sync = 'error';
+        renderAll();
       });
   }
 
   function maybeRefresh() {
-    if (!state.data) { refresh(false); return; }
-    if (Date.now() - state.data.fetchedAt > CACHE_MAX_AGE) refresh(false);
+    // Toujours network-first : jamais de cache en priorité.
+    refresh(false);
   }
 
   /* =========================================================
@@ -1487,7 +1598,7 @@ a{color:inherit;text-decoration:none}
     pill.className = 'sync-pill is-' + state.sync;
 
     if (state.sync === 'syncing') {
-      label = state.data ? fmtClock(state.data.fetchedAt) : 'Synchro';
+      label = 'Synchro';
       refreshBtn.classList.add('is-spinning');
     } else if (state.sync === 'online') {
       label = state.data ? fmtClock(state.data.fetchedAt) : 'À jour';
@@ -1513,13 +1624,13 @@ a{color:inherit;text-decoration:none}
     if (state.sync === 'error') {
       detail.textContent = 'Aucune donnée disponible sur cet appareil.';
     } else if (!state.data) {
-      detail.textContent = 'Chargement du planning…';
+      detail.textContent = 'Synchronisation en cours…';
     } else if (state.sync === 'offline') {
       detail.textContent = 'Mode hors-ligne · données du ' + fmtDate(state.data.fetchedAt) + ' à ' + fmtClock(state.data.fetchedAt);
     } else if (state.sync === 'syncing') {
-      detail.textContent = 'Synchronisation… dernière mise à jour à ' + fmtClock(state.data.fetchedAt);
+      detail.textContent = 'Synchronisation en cours… dernière mise à jour à ' + fmtClock(state.data.fetchedAt);
     } else {
-      detail.textContent = 'À jour · synchronisé à ' + fmtClock(state.data.fetchedAt);
+      detail.textContent = 'À jour • ' + fmtClock(state.data.fetchedAt);
     }
   }
 
@@ -2336,7 +2447,7 @@ a{color:inherit;text-decoration:none}
      18. Démarrage
      ========================================================= */
   function init() {
-    // Thème : choix mémorisé, sinon préférence système
+    // Thème : choix mémorisé, sinon thème clair par défaut.
     var savedTheme = store.get(K_THEME);
     if (savedTheme !== 'light' && savedTheme !== 'dark') savedTheme = 'light';
     applyTheme(savedTheme, false);
@@ -2359,11 +2470,10 @@ a{color:inherit;text-decoration:none}
     bind();
     renderSimBanner();
 
-    var hasCache = loadCache();
-    if (!hasCache) {
-      state.sync = 'idle';
-      renderAll();
-    }
+    // Network-first strict : on interroge toujours Google Sheets en direct.
+    // Le cache localStorage ne sert que de secours dans refresh() si le réseau échoue.
+    state.sync = 'idle';
+    renderAll();
     refresh(false);
 
     setInterval(function () {

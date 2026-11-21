@@ -145,32 +145,38 @@ inaccessible **ne bloque pas** les bénévoles sur place.
 
 ## 4. Source de données (Google Sheet)
 
-L'application lit l'onglet **`Affectations`** du Google Sheet
-`1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA` via l'endpoint CSV public de Google
+**Source de vérité unique** : l'onglet **`Grille chronologique`** du Google Sheet
+`1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA`, lu via l'endpoint CSV public de Google
 Visualization :
 
 ```
-https://docs.google.com/spreadsheets/d/1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA/gviz/tq?tqx=out:csv&sheet=Affectations
+https://docs.google.com/spreadsheets/d/1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA/gviz/tq?tqx=out:csv&sheet=Grille%20chronologique
 ```
 
-### 4.1 Colonnes attendues
+### 4.1 Structure de l'onglet
 
-| Colonne | Contenu | Exemple |
-| --- | --- | --- |
-| `Bénévole` | Nom complet | `Anca Baban` |
-| `Début` | Heure de début (`HH:MM`) | `06:30` |
-| `Fin` | Heure de fin (`HH:MM`) | `09:15` |
-| `Durée (min)` | Durée en minutes (recalculée si absente) | `165` |
-| `Type` | `Affectation`, `Pause`, `Dîner`, `Réserve` | `Affectation` |
-| `Salle / tâche` | Poste, salle ou tâche | `Foyer 517` |
-| `Disponibilité retenue` | Plage de disponibilité | `6:30–17:00` |
+| Zone | Contenu |
+| --- | --- |
+| Ligne 1 (colonnes A–C) | Titre, `Configuration`, `Capacité` |
+| Ligne 1 (colonnes D–AS) | En-tête des tranches de 15 min : `06:30–06:45` → `16:45–17:00` |
+| Bloc « Affectations par salle et poste » | Une ligne par salle (`Foyer 517`, `513ab`, `Soutien mobile aux salles`…), cellules = **compteurs** (nombres) |
+| Bloc « Affectations individuelles » | Une ligne par bénévole, colonne B = disponibilité retenue, cellules = salle / `Soutien` / `PAUSE` / `DÎNER` |
 
-Une ligne = une plage continue. Les lignes vides et les doublons sont ignorés.
+Le parseur :
 
-> **Robustesse du parsing** : la ligne d'en-tête est détectée automatiquement
-> (recherche stricte des colonnes `Bénévole` / `Début` / `Fin`). Le format fonctionne
-> avec 0, 1, 3 ou 4 lignes de titre au-dessus, y compris si la description est
-> fusionnée dans la cellule `A1` (cas actuel de la feuille).
+1. détecte chaque **en-tête horaire** (au moins 8 cellules `HH:MM–HH:MM`) et le mode du bloc
+   (`Bénévole` + `Disponibilité` → lignes par bénévole ; sinon lignes par salle) ;
+2. ignore les lignes de titre, vides, de totaux (`TOTAL AUX POSTES`, `PAUSE`, `DÎNER`,
+   `SOUTIEN MOBILE`, `MANQUES DE COUVERTURE`, `DISPONIBLES`, `PRÉSENTS`) et les lignes
+   **purement numériques** du bloc par salle ;
+3. **fusionne les tranches consécutives de 15 min** identiques (même bénévole, même
+   salle/poste ou même type) en plages continues — ex. `Foyer` de `06:30` à `09:15`
+   (165 min) ;
+4. normalise les libellés (`Foyer` → `Foyer 517`, `Soutien` → `Soutien mobile aux salles`,
+   `Repas` → `Salle Repas`, `Signal.` → `Signalisation`) et déduplique les créneaux.
+
+Résultat : les vues « Mon Horaire » et « Par Salle » partagent exactement les mêmes
+plages, sans doublon.
 
 ### 4.2 ⚠️ Rendre la feuille lisible publiquement (obligatoire)
 
@@ -183,17 +189,27 @@ Sans ce réglage, Google renvoie une page de connexion HTML et l'application aff
 4. Rôle : **Lecteur** (lecture seule — personne ne peut modifier les données).
 5. Cliquer **Terminé**.
 
-> L'onglet doit s'appeler exactement **`Affectations`** (sensible à la casse).
-> Le partage public ne concerne que la lecture : l'équipe garde les droits d'édition.
+> L'onglet doit s'appeler exactement **`Grille chronologique`** (sensible à la casse et
+> à l'espace). Le partage public ne concerne que la lecture : l'équipe garde les droits
+> d'édition.
 
 ### 4.3 Vérifier que l'endpoint fonctionne
 
 ```bash
-curl -sS "https://docs.google.com/spreadsheets/d/1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA/gviz/tq?tqx=out:csv&sheet=Affectations" | head -3
+curl -sS "https://docs.google.com/spreadsheets/d/1oqPrxKS2V5jXFb8wiQUV6f_yKNZSw7snih34VGW_qbA/gviz/tq?tqx=out:csv&sheet=Grille%20chronologique" | head -3
 ```
 
-Vous devez voir la ligne d'en-tête CSV. Si vous obtenez du HTML (`<!DOCTYPE html>`),
-la feuille n'est pas partagée publiquement.
+Vous devez voir la ligne d'en-tête CSV (`Horaire des bénévoles…,Configuration,Capacité,06:30–06:45…`).
+Si vous obtenez du HTML (`<!DOCTYPE html>`), la feuille n'est pas partagée publiquement.
+
+### 4.4 Anti-cache et secours hors-ligne
+
+- Chaque chargement de page **et** chaque clic sur **Actualiser** appelle Google Sheets en
+  direct avec `&_t=<timestamp>` et `cache: 'no-store'`.
+- `localStorage` ne sert **qu'en secours** : il n'est lu que si la requête réseau échoue
+  (ou si la feuille renvoie un contenu inexploitable). Un cache provenant d'une autre
+  source (`v` ou `sheet` différents) est supprimé.
+- L'horodatage affiché est précis à la seconde : « À jour • HH:MM:SS ».
 
 ---
 
@@ -304,15 +320,16 @@ curl -sI "$URL/sw.js" | grep -i cache-control   # no-cache
 
 ## 7. Mettre à jour le planning (sans redéployer)
 
-1. Modifier l'onglet `Affectations`.
+1. Modifier l'onglet `Grille chronologique`.
 2. Les bénévoles récupèrent les nouvelles données :
-   - automatiquement à l'ouverture de l'app,
-   - automatiquement au retour au premier plan si le cache a plus de 5 minutes,
-   - immédiatement en touchant le bouton **Actualiser** (icône ↻).
+   - automatiquement à chaque ouverture / rechargement (réseau d'abord),
+   - automatiquement au retour au premier plan,
+   - immédiatement en touchant le bouton **Actualiser** (icône ↻), avec spinner et
+     horodatage à la seconde.
 
-Google met le CSV en cache quelques minutes ; le paramètre `_cb` ajouté à l'URL force
-une requête fraîche. En cas d'échec, l'application continue d'afficher la dernière
-version connue avec le badge **Hors-ligne**.
+Chaque requête ajoute `&_t=<timestamp>` et utilise `cache: 'no-store'` : Google ne peut
+pas servir une réponse périmée. En cas d'échec réseau uniquement, l'application bascule
+sur la dernière copie `localStorage` avec le badge **Hors-ligne**.
 
 > Pour modifier le **code** (design, logique), il faut redéployer (`gcloud run deploy`).
 > Pensez alors à incrémenter `VERSION` dans `sw.js` si vous changez un fichier mis en
@@ -324,14 +341,15 @@ version connue avec le badge **Hors-ligne**.
 
 | Élément | Stratégie |
 | --- | --- |
-| Données du planning | `localStorage` (`atmtl26:schedule:v1`), écrit à chaque synchro réussie |
+| Données du planning | `localStorage` (`atmtl26:schedule:v1`), écrit à chaque synchro réussie, **lu uniquement en secours** |
 | Coquille de l'app (`index.html`) | Service worker, **network-first** + repli cache |
 | Icônes / manifeste / logos / polices | Service worker, **cache-first** |
 | Tailwind, PapaParse, Google Fonts | Service worker, **cache-first** (précachés à l'installation) |
-| Google Sheets | Jamais intercepté par le SW (géré par l'app) |
+| Google Sheets | Jamais intercepté par le SW (géré par l'app, `no-store` + cache-buster) |
 
-Résultat : après une première ouverture réussie, l'application démarre et affiche le
-planning **même sans réseau**. Le CSV est re-téléchargé dès qu'une connexion revient.
+Résultat : à chaque ouverture, l'application interroge d'abord Google Sheets ; ce n'est
+qu'en cas d'échec réseau qu'elle réaffiche la dernière copie locale. Le CSV est
+re-téléchargé dès qu'une connexion revient.
 
 **Détail important** : le CSS critique est embarqué dans `index.html`. Tailwind CDN est
 chargé comme demandé, mais l'interface ne dépend pas de lui — si le CDN est
@@ -355,8 +373,8 @@ sur fond navy et une couleur de thème claire `#F5F2EC` (ou `#071529` en mode so
 | Symptôme | Cause probable | Solution |
 | --- | --- | --- |
 | « Planning indisponible » + `Feuille non partagée publiquement` | Accès restreint | Partager « Tout le monde disposant du lien · Lecteur » (§4.2) |
-| « Planning indisponible » + `HTTP 404` | Mauvais ID de feuille ou onglet renommé | Vérifier `SHEET_ID` et le nom exact `Affectations` |
-| Aucun bénévole affiché | Colonnes renommées | Garder les en-têtes `Bénévole`, `Début`, `Fin`, `Type`, `Salle / tâche` |
+| « Planning indisponible » + `HTTP 404` | Mauvais ID de feuille ou onglet renommé | Vérifier `SHEET_ID` et le nom exact `Grille chronologique` |
+| Aucun bénévole affiché | Blocs ou en-têtes modifiés | Vérifier l'en-tête horaire (`HH:MM–HH:MM`) et les libellés `Bénévole` / `Disponibilité retenue` |
 | La vue « Par Salle » est vide | Aucune ligne `Affectation` / `Réserve` | Vérifier la colonne `Type` |
 | Les horaires semblent décalés | Fuseau de l'appareil | L'app calcule toujours en `America/Toronto`, indépendamment de l'appareil |
 | Anciennes données après déploiement | Cache du service worker | Incrémenter `VERSION` dans `sw.js`, redéployer, recharger 2 fois |
