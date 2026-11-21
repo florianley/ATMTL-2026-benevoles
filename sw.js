@@ -7,13 +7,15 @@
 
    ⚠️ Incrémenter VERSION à chaque modification d'un asset mis en cache.
    =========================================================================== */
-const VERSION = 'atmtl26-v2';
+const VERSION = 'atmtl26-v3';
 const CACHE = VERSION;
 
 const SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './logo-dark.png',
+  './logo-light.png',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',

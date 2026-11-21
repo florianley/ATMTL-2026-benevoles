@@ -1,7 +1,7 @@
 {
   "name": "ATMTL 2026 · Bénévoles",
   "short_name": "ATMTL 2026",
-  "description": "Planning des bénévoles de l'Agile Tour Montréal 2026 — horaire individuel et vue par salle.",
+  "description": "Planning des bénévoles de l'Agile Tour Montréal 2026 — horaire individuel, vue par salle, suivi du jour J et thème clair/sombre.",
   "lang": "fr-CA",
   "dir": "ltr",
   "start_url": "./",

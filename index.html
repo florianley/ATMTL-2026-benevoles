@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bénévoles · Agile Tour Montréal 2026</title>
 <meta name="description" content="Planning des bénévoles de l'Agile Tour Montréal 2026 — mardi 24 novembre 2026, Palais des congrès de Montréal.">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#071529">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -24,6 +24,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap">
 
+<!-- Thème appliqué avant le premier rendu (évite le flash clair/sombre). -->
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('atmtl26:theme:v1');
+    if (saved) { try { saved = JSON.parse(saved); } catch (e) {} }
+    if (saved !== 'light' && saved !== 'dark') {
+      saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    }
+    var root = document.documentElement;
+    root.setAttribute('data-theme', saved);
+    root.classList.toggle('dark', saved === 'dark');
+    root.style.colorScheme = saved;
+  } catch (e) {}
+})();
+</script>
+
 <!-- Tailwind (CDN, sans build) — demandé pour la rapidité de mise en œuvre.
      Le CSS critique ci-dessous est autonome : l'interface reste lisible et
      utilisable même si le CDN est indisponible lors d'une 1re visite hors-ligne. -->
@@ -31,10 +48,11 @@
 <script>
   if (window.tailwind) {
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            brand: { 50: '#FFF1E8', 400: '#FFA271', 500: '#F0824A', 600: '#D9662F', 900: '#1C0D04' },
+            brand: { 50: '#FFF1E8', 400: '#FFA271', 500: '#F0824A', 600: '#E2672F', 700: '#C2551F', 900: '#1C0D04' },
             ink: { 900: '#071529', 800: '#0E2440', 500: '#B4C9DF' }
           }
         }
@@ -46,24 +64,40 @@
 <style>
 /* ============================================================
    ATMTL 2026 · Bénévoles — charte « Agile Tour Montréal »
-   Navy profond #081838 · Orange #F0824A · Cyan #4FC3DB
+   Palette Canva : navy #081838 · orange #ED7C45 · cyan #2385A6
    Typographies : Barlow (UI) + Barlow Condensed (libellés)
+   Deux thèmes : sombre (défaut) / clair, via [data-theme]
    ============================================================ */
+
+/* ---------------- Thème sombre (défaut) ---------------- */
 :root{
+  color-scheme: dark;
+
   --bg:#071529;
   --bg-2:#0A1D36;
+  --glow-1:rgba(237,124,69,.17);
+  --glow-2:rgba(79,195,219,.11);
+
   --surface:#0E2440;
   --surface-2:#12304F;
+  --surface-3:rgba(255,255,255,.05);
+  --surface-4:rgba(0,0,0,.25);
+
   --line:#1E3B5E;
   --line-soft:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.16);
 
   --ink:#F1F6FC;
   --ink-2:#B4C9DF;
   --ink-3:#8199B4;
+  --ink-inv:#071529;
 
   --orange:#F0824A;
   --orange-2:#FFA271;
+  --orange-3:#E2672F;
   --orange-ink:#1C0D04;
+  --badge-ink:#FFC79F;
+
   --cyan:#4FC3DB;
   --violet:#A78BFA;
   --emerald:#34D399;
@@ -71,10 +105,125 @@
   --amber:#FBBF24;
   --danger:#F87171;
 
-  --radius:20px;
+  --tint-room:rgba(79,195,219,.10);
+  --bd-room:rgba(79,195,219,.28);
+  --tint-mobile:rgba(167,139,250,.10);
+  --bd-mobile:rgba(167,139,250,.28);
+  --tint-break:rgba(52,211,153,.10);
+  --bd-break:rgba(52,211,153,.28);
+  --tint-standby:rgba(148,163,184,.10);
+  --bd-standby:rgba(148,163,184,.28);
+
+  --hero-a:#12304F;
+  --hero-b:#0C2140;
+  --hero-c:#0A1A2F;
+  --hero-ink:#FFFFFF;
+  --hero-done-a:#132A45;
+  --hero-done-b:#0B1B30;
+
+  --header-bg:rgba(7,21,41,.84);
+  --scrim:rgba(3,10,20,.66);
+  --sheet-a:#102A49;
+  --sheet-b:#0A1B31;
+
+  --chip-bg:rgba(255,255,255,.07);
+  --chip-bd:rgba(255,255,255,.10);
+  --track:rgba(255,255,255,.11);
+  --placeholder:#6E89A6;
+  --go:#3C5C80;
+
+  --warn-bg:rgba(251,191,36,.09);
+  --warn-bd:rgba(251,191,36,.45);
+  --warn-text:#FCD34D;
+  --err-bg:rgba(248,113,113,.09);
+  --err-bd:rgba(248,113,113,.45);
+  --err-text:#FCA5A5;
+
+  --now-ring:rgba(240,130,74,.55);
+  --now-glow:rgba(240,130,74,.55);
+
   --shadow-sm:0 2px 10px rgba(0,0,0,.35);
   --shadow-md:0 22px 44px -26px rgba(0,0,0,1);
+
+  --radius:20px;
   --safe-b:env(safe-area-inset-bottom, 0px);
+}
+
+/* ---------------- Thème clair ---------------- */
+[data-theme="light"]{
+  color-scheme: light;
+
+  --bg:#F5F2EC;
+  --bg-2:#EDE8DF;
+  --glow-1:rgba(237,124,69,.15);
+  --glow-2:rgba(35,133,166,.09);
+
+  --surface:#FFFFFF;
+  --surface-2:#F4EFE7;
+  --surface-3:rgba(11,31,58,.045);
+  --surface-4:#F7F3EC;
+
+  --line:#DDD5C8;
+  --line-soft:rgba(11,31,58,.10);
+  --line-strong:rgba(11,31,58,.18);
+
+  --ink:#0B1F3A;
+  --ink-2:#3B5470;
+  --ink-3:#5C7288;
+  --ink-inv:#FFFFFF;
+
+  --orange:#E2672F;
+  --orange-2:#B44E1B;
+  --orange-3:#C2551F;
+  --orange-ink:#1C0D04;
+  --badge-ink:#9A3D10;
+
+  --cyan:#0E6E8A;
+  --violet:#6D4AC7;
+  --emerald:#0B6B4B;
+  --slate:#5A6B7C;
+  --amber:#A16207;
+  --danger:#B91C1C;
+
+  --tint-room:rgba(14,110,138,.09);
+  --bd-room:rgba(14,110,138,.26);
+  --tint-mobile:rgba(109,74,199,.08);
+  --bd-mobile:rgba(109,74,199,.24);
+  --tint-break:rgba(11,107,75,.08);
+  --bd-break:rgba(11,107,75,.24);
+  --tint-standby:rgba(90,107,124,.08);
+  --bd-standby:rgba(90,107,124,.24);
+
+  --hero-a:#FFFFFF;
+  --hero-b:#FFF8F2;
+  --hero-c:#FDF1E7;
+  --hero-ink:#0B1F3A;
+  --hero-done-a:#FFFFFF;
+  --hero-done-b:#F4EFE7;
+
+  --header-bg:rgba(245,242,236,.88);
+  --scrim:rgba(11,31,58,.38);
+  --sheet-a:#FFFFFF;
+  --sheet-b:#F7F3EC;
+
+  --chip-bg:rgba(11,31,58,.055);
+  --chip-bd:rgba(11,31,58,.10);
+  --track:rgba(11,31,58,.12);
+  --placeholder:#8A9AA8;
+  --go:#9AA8B6;
+
+  --warn-bg:rgba(161,98,7,.10);
+  --warn-bd:rgba(161,98,7,.40);
+  --warn-text:#8A5300;
+  --err-bg:rgba(185,28,28,.08);
+  --err-bd:rgba(185,28,28,.35);
+  --err-text:#B91C1C;
+
+  --now-ring:rgba(226,103,47,.45);
+  --now-glow:rgba(226,103,47,.35);
+
+  --shadow-sm:0 1px 3px rgba(11,31,58,.09);
+  --shadow-md:0 20px 40px -30px rgba(11,31,58,.55);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -84,10 +233,11 @@ body{
   font-family:"Barlow",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   font-size:16px;line-height:1.45;
   background:
-    radial-gradient(780px 430px at 84% -8%, rgba(240,130,74,.17), transparent 62%),
-    radial-gradient(680px 400px at -10% 2%, rgba(79,195,219,.11), transparent 64%),
+    radial-gradient(780px 430px at 84% -8%, var(--glow-1), transparent 62%),
+    radial-gradient(680px 400px at -10% 2%, var(--glow-2), transparent 64%),
     var(--bg);
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  transition:background-color .2s ease, color .2s ease;
 }
 h1,h2,h3,p,ol,ul,figure{margin:0}
 ol,ul{padding:0;list-style:none}
@@ -97,49 +247,55 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:8px}
 .ico{display:inline-block;vertical-align:-.15em;flex:none}
 
-/* ---------------- Header ---------------- */
+/* ---------------- En-tête ---------------- */
 .site-header{
   position:sticky;top:0;z-index:40;
-  background:rgba(7,21,41,.84);
+  background:var(--header-bg);
   -webkit-backdrop-filter:saturate(160%) blur(16px);
   backdrop-filter:saturate(160%) blur(16px);
   border-bottom:1px solid var(--line-soft);
   padding-top:env(safe-area-inset-top,0px);
+  transition:background-color .2s ease, border-color .2s ease;
 }
-.header-inner{max-width:34rem;margin:0 auto;padding:.6rem 1rem .45rem;display:flex;align-items:center;gap:.5rem}
-.brand{display:flex;align-items:center;gap:.6rem;min-width:0;margin-right:auto}
-.brand-mark{
-  width:2.15rem;height:2.15rem;flex:none;border-radius:.72rem;
-  background:linear-gradient(145deg,#FFA271,#D9662F);
-  color:#1C0D04;display:grid;place-items:center;
-  box-shadow:0 8px 18px -10px rgba(240,130,74,.95), inset 0 1px 0 rgba(255,255,255,.35);
+.header-inner{max-width:34rem;margin:0 auto;padding:.55rem 1rem .4rem;display:flex;align-items:center;gap:.5rem}
+.brand{display:flex;align-items:center;gap:.55rem;min-width:0;margin-right:auto}
+.brand-logo{display:block;height:1.9rem;width:auto;flex:none}
+.brand-logo--light{display:none}
+[data-theme="light"] .brand-logo--dark{display:none}
+[data-theme="light"] .brand-logo--light{display:block}
+.brand-sep{width:1px;height:1.55rem;flex:none;background:var(--line)}
+.brand-text{min-width:0;line-height:1.15}
+.brand-kicker{
+  display:block;font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-2);
 }
-.brand-name{
-  font-family:"Barlow Condensed","Barlow",sans-serif;
-  font-size:.92rem;font-weight:700;letter-spacing:.06em;line-height:1.1;text-transform:uppercase;
-}
-.brand-sub{font-size:.68rem;color:var(--ink-3);font-weight:500;line-height:1.25}
-.header-actions{display:flex;align-items:center;gap:.4rem}
+.brand-sub{display:block;font-size:.66rem;color:var(--ink-3);font-weight:600;white-space:nowrap}
+.header-actions{display:flex;align-items:center;gap:.35rem}
 
 .sync-pill{
-  display:inline-flex;align-items:center;gap:.35rem;height:2.35rem;padding:0 .6rem;
-  border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  display:inline-flex;align-items:center;gap:.35rem;height:2.3rem;padding:0 .58rem;
+  border-radius:999px;background:var(--surface-3);border:1px solid var(--line);
   font-size:.72rem;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;
+  transition:background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 .sync-dot{width:.5rem;height:.5rem;border-radius:999px;background:var(--emerald);flex:none}
 .sync-pill.is-syncing .sync-dot{background:var(--amber);animation:pulse 1.2s infinite}
-.sync-pill.is-offline{border-color:rgba(251,191,36,.45);color:#FCD34D;background:rgba(251,191,36,.09)}
+.sync-pill.is-offline{border-color:var(--warn-bd);color:var(--warn-text);background:var(--warn-bg)}
 .sync-pill.is-offline .sync-dot{background:var(--amber)}
-.sync-pill.is-error{border-color:rgba(248,113,113,.45);color:#FCA5A5;background:rgba(248,113,113,.09)}
+.sync-pill.is-error{border-color:var(--err-bd);color:var(--err-text);background:var(--err-bg)}
 .sync-pill.is-error .sync-dot{background:var(--danger)}
 
 .icon-btn{
-  width:2.35rem;height:2.35rem;flex:none;border-radius:.78rem;display:grid;place-items:center;
-  background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--ink-2);
-  transition:background .15s ease, transform .1s ease;
+  width:2.3rem;height:2.3rem;flex:none;border-radius:.78rem;display:grid;place-items:center;
+  background:var(--surface-3);border:1px solid var(--line);color:var(--ink-2);
+  transition:background .15s ease, transform .1s ease, color .15s ease;
 }
+.icon-btn:hover{background:var(--surface-2);color:var(--ink)}
 .icon-btn:active{transform:scale(.94)}
 .icon-btn.is-spinning .ico{animation:spin .9s linear infinite}
+.theme-ico--moon{display:none}
+[data-theme="light"] .theme-ico--sun{display:none}
+[data-theme="light"] .theme-ico--moon{display:block}
 
 /* ---------------- Onglets ---------------- */
 .tabs{
@@ -155,24 +311,24 @@ a{color:inherit;text-decoration:none}
 .tab:hover{color:var(--ink-2)}
 .tab.is-active{
   background:linear-gradient(145deg,#FFA271,#E2672F);
-  border-color:rgba(255,255,255,.12);color:var(--orange-ink);
-  box-shadow:0 10px 22px -14px rgba(240,130,74,1), inset 0 1px 0 rgba(255,255,255,.3);
+  border-color:rgba(255,255,255,.18);color:var(--orange-ink);
+  box-shadow:0 10px 22px -14px rgba(237,124,69,.95), inset 0 1px 0 rgba(255,255,255,.30);
 }
 .tab .emoji{font-size:.95rem;line-height:1}
 
 /* ---------------- Bandeau simulation ---------------- */
-.sim-banner{background:rgba(251,191,36,.10);border-top:1px solid rgba(251,191,36,.28);color:#FCD34D;font-size:.74rem;font-weight:600}
+.sim-banner{background:var(--warn-bg);border-top:1px solid var(--warn-bd);color:var(--warn-text);font-size:.74rem;font-weight:600}
 .sim-banner > div{max-width:34rem;margin:0 auto;padding:.4rem 1rem;display:flex;align-items:center;gap:.5rem}
-.sim-banner .link-btn{margin-left:auto;color:#FDE68A;text-decoration:underline}
+.sim-banner .link-btn{margin-left:auto;color:inherit;text-decoration:underline}
 
-/* ---------------- Layout ---------------- */
+/* ---------------- Mise en page ---------------- */
 .app-shell{width:100%;max-width:34rem;margin:0 auto;padding:1rem 1rem calc(2rem + var(--safe-b))}
 .view{animation:fade .18s ease-out}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 .eyebrow{
   font-family:"Barlow Condensed","Barlow",sans-serif;
-  font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+  font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-2);
 }
 .picker-hero{margin:.2rem 0 1.1rem}
 .picker-title{font-size:1.75rem;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin:.25rem 0 .35rem}
@@ -187,19 +343,19 @@ a{color:inherit;text-decoration:none}
   font-size:1rem;font-family:inherit;box-shadow:var(--shadow-sm);
   -webkit-appearance:none;appearance:none;
 }
-.search input::placeholder{color:#6E89A6}
+.search input::placeholder{color:var(--placeholder)}
 .search input::-webkit-search-cancel-button{display:none}
 .search-clear{
   position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
   width:2rem;height:2rem;border-radius:999px;display:grid;place-items:center;
-  background:rgba(255,255,255,.07);color:var(--ink-2);
+  background:var(--surface-3);color:var(--ink-2);
 }
 .list-hint{font-size:.74rem;color:var(--ink-3);padding:0 .15rem .35rem;font-weight:600}
 
 /* ---------------- Liste bénévoles ---------------- */
 .letter{
   font-family:"Barlow Condensed","Barlow",sans-serif;
-  font-size:.78rem;font-weight:700;letter-spacing:.16em;color:var(--orange);
+  font-size:.78rem;font-weight:700;letter-spacing:.16em;color:var(--orange-2);
   text-transform:uppercase;padding:.85rem .35rem .3rem;
 }
 .person{
@@ -209,64 +365,104 @@ a{color:inherit;text-decoration:none}
   text-align:left;box-shadow:var(--shadow-sm);
   transition:transform .1s ease, border-color .15s ease, background .15s ease;
 }
-.person:active{transform:scale(.985);border-color:rgba(240,130,74,.45)}
+.person:hover{border-color:var(--line-strong)}
+.person:active{transform:scale(.985);border-color:var(--orange)}
 .avatar{width:2.4rem;height:2.4rem;flex:none;border-radius:999px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.82rem}
 .avatar--sm{width:1.9rem;height:1.9rem;font-size:.68rem}
 .person-main{min-width:0;flex:1}
 .person-name{display:block;font-weight:700;font-size:.95rem;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .person-meta{display:block;font-size:.72rem;color:var(--ink-3);font-weight:500}
-.person-go{color:#3C5C80;flex:none}
+.person-go{color:var(--go);flex:none}
 .empty{
   text-align:center;padding:2rem 1rem;color:var(--ink-3);font-size:.88rem;
-  background:rgba(255,255,255,.02);border:1px dashed var(--line);border-radius:1rem;
+  background:var(--surface-3);border:1px dashed var(--line);border-radius:1rem;
 }
 
 /* ---------------- Bénévole sélectionné ---------------- */
 .vol-row{
   display:flex;align-items:center;gap:.55rem;margin-bottom:.7rem;
-  background:rgba(255,255,255,.04);border:1px solid var(--line);
+  background:var(--surface-3);border:1px solid var(--line);
   border-radius:.9rem;padding:.4rem .5rem .4rem .55rem;
 }
 .vol-name{font-weight:700;font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .btn-ghost{
   margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:.3rem;
   font-size:.74rem;font-weight:700;color:var(--orange-2);
-  padding:.4rem .55rem;border-radius:.55rem;background:rgba(240,130,74,.10);
+  padding:.4rem .55rem;border-radius:.55rem;background:var(--surface-3);
 }
+.btn-ghost:hover{background:var(--surface-2)}
 
-/* ---------------- Hero ---------------- */
+/* ---------------- Hero / bannière temporelle ---------------- */
 .hero{
   position:relative;overflow:hidden;border-radius:22px;padding:1.15rem;
-  background:linear-gradient(135deg,#12304F 0%,#0C2140 58%,#0A1A2F 100%);
-  border:1px solid rgba(240,130,74,.26);
-  box-shadow:var(--shadow-md), inset 0 1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(135deg,var(--hero-a) 0%,var(--hero-b) 58%,var(--hero-c) 100%);
+  border:1px solid var(--bd-room);
+  box-shadow:var(--shadow-md), inset 0 1px 0 var(--line-soft);
 }
 .hero::after{
   content:"";position:absolute;width:16rem;height:16rem;border-radius:50%;
   top:-7.5rem;right:-6rem;pointer-events:none;
-  background:radial-gradient(circle,rgba(240,130,74,.30),rgba(240,130,74,0) 68%);
+  background:radial-gradient(circle,var(--glow-1),transparent 68%);
 }
-.hero--done{background:linear-gradient(135deg,#132A45,#0B1B30);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.hero--done{background:linear-gradient(135deg,var(--hero-done-a),var(--hero-done-b));border-color:var(--line);box-shadow:var(--shadow-sm)}
 .hero-label{
   display:flex;align-items:center;gap:.4rem;
   font-family:"Barlow Condensed","Barlow",sans-serif;
   font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-2);
 }
-.live-dot{width:.46rem;height:.46rem;border-radius:999px;background:var(--orange);box-shadow:0 0 0 0 rgba(240,130,74,.7);animation:pulseOrange 2s infinite}
+.live-dot{width:.46rem;height:.46rem;border-radius:999px;background:var(--orange);box-shadow:0 0 0 0 var(--now-glow);animation:pulseOrange 2s infinite}
 .hero-title{
   font-size:1.6rem;line-height:1.13;font-weight:800;letter-spacing:-.02em;
-  margin:.45rem 0 .5rem;color:#fff;word-break:break-word;
+  margin:.45rem 0 .5rem;color:var(--hero-ink);word-break:break-word;
 }
 .hero-badges{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-size:.78rem}
 .hero-badge{
-  background:rgba(240,130,74,.16);border:1px solid rgba(240,130,74,.38);
-  color:#FFC79F;padding:.14rem .5rem;border-radius:999px;font-weight:700;
+  background:var(--surface-3);border:1px solid var(--bd-room);
+  color:var(--badge-ink);padding:.14rem .5rem;border-radius:999px;font-weight:700;
 }
 .hero-time{font-variant-numeric:tabular-nums;color:var(--ink-2);font-weight:600}
-.hero-progress{height:.4rem;border-radius:999px;background:rgba(255,255,255,.11);overflow:hidden;margin-top:.95rem}
-.hero-progress > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--orange),#FFB27A);transition:width .5s ease}
+.hero-progress{height:.4rem;border-radius:999px;background:var(--track);overflow:hidden;margin-top:.95rem}
+.hero-progress > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--orange),var(--orange-2));transition:width .5s ease}
 .hero-foot{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-top:.55rem;font-size:.78rem;color:var(--ink-2)}
-.hero-foot strong{color:#fff;font-weight:700}
+.hero-foot strong{color:var(--hero-ink);font-weight:700}
+
+/* Bannière « avant / après » le jour J */
+.phase-banner{
+  position:relative;overflow:hidden;border-radius:22px;padding:1.1rem;
+  background:linear-gradient(135deg,var(--hero-a) 0%,var(--hero-b) 60%,var(--hero-c) 100%);
+  border:1px solid var(--bd-room);box-shadow:var(--shadow-md);
+}
+.phase-banner::after{
+  content:"";position:absolute;width:15rem;height:15rem;border-radius:50%;
+  top:-7rem;right:-6rem;pointer-events:none;
+  background:radial-gradient(circle,var(--glow-1),transparent 70%);
+}
+.phase-banner--after{border-color:var(--bd-break)}
+.phase-banner--after::after{background:radial-gradient(circle,var(--tint-break),transparent 70%)}
+.phase-label{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:"Barlow Condensed","Barlow",sans-serif;
+  font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-2);
+}
+.phase-banner--after .phase-label{color:var(--emerald)}
+.phase-title{font-size:1.4rem;line-height:1.15;font-weight:800;letter-spacing:-.02em;margin:.45rem 0 .3rem;color:var(--hero-ink)}
+.phase-sub{color:var(--ink-2);font-size:.84rem}
+.phase-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem;font-size:.78rem}
+.phase-chip{
+  display:inline-flex;align-items:baseline;gap:.3rem;
+  background:var(--surface-3);border:1px solid var(--line);
+  padding:.22rem .6rem;border-radius:999px;font-weight:600;color:var(--ink-2);
+}
+.phase-chip strong{font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.phase-chip--count{background:var(--surface-3);border-color:var(--bd-room);color:var(--badge-ink);font-weight:800}
+.phase-btn{
+  position:relative;z-index:1;margin-top:.85rem;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  min-height:2.7rem;padding:0 1rem;border-radius:.85rem;
+  background:linear-gradient(145deg,#FFA271,#E2672F);color:var(--orange-ink);
+  font-weight:800;font-size:.85rem;box-shadow:0 12px 24px -16px rgba(237,124,69,.95);
+}
+.phase-btn:active{transform:scale(.98)}
+.phase-note{margin-top:.55rem;font-size:.72rem;color:var(--ink-3)}
 
 .next-card{
   display:flex;align-items:center;gap:.75rem;margin-top:.6rem;
@@ -280,9 +476,9 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
 }
 .next-title{font-size:.9rem;font-weight:700;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.next-dur{font-size:.72rem;font-weight:600;color:var(--ink-2);background:rgba(255,255,255,.06);padding:.15rem .45rem;border-radius:999px;flex:none}
+.next-dur{font-size:.72rem;font-weight:600;color:var(--ink-2);background:var(--surface-3);padding:.15rem .45rem;border-radius:999px;flex:none}
 
-/* ---------------- Récap ---------------- */
+/* ---------------- Récapitulatif ---------------- */
 .recap{margin-top:1rem}
 .avail{
   display:flex;align-items:center;gap:.5rem;background:var(--surface);
@@ -305,11 +501,11 @@ a{color:inherit;text-decoration:none}
 .section-title{font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
 .pill{
   margin-left:auto;font-size:.7rem;font-weight:600;color:var(--ink-2);
-  background:rgba(255,255,255,.05);border:1px solid var(--line);padding:.2rem .55rem;border-radius:999px;
+  background:var(--surface-3);border:1px solid var(--line);padding:.2rem .55rem;border-radius:999px;
 }
 .timeline{display:flex;flex-direction:column}
 .tl-item{display:grid;grid-template-columns:3.4rem 1.1rem minmax(0,1fr);gap:.45rem}
-.tl-item.is-past{opacity:.45}
+.tl-item.is-past{opacity:.5}
 .tl-time{padding-top:.85rem;text-align:right;font-variant-numeric:tabular-nums}
 .tl-start{display:block;font-weight:700;font-size:.92rem;line-height:1.1}
 .tl-end{display:block;font-size:.7rem;color:var(--ink-3);font-weight:500}
@@ -322,7 +518,7 @@ a{color:inherit;text-decoration:none}
   width:.68rem;height:.68rem;border-radius:999px;background:var(--accent,var(--ink-3));
   box-shadow:0 0 0 3px var(--bg);z-index:1;
 }
-.tl-item.is-now .tl-dot{width:.85rem;height:.85rem;box-shadow:0 0 0 3px var(--bg),0 0 0 6px rgba(240,130,74,.25)}
+.tl-item.is-now .tl-dot{width:.85rem;height:.85rem;box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--now-ring)}
 .tl-item--room{--accent:var(--cyan)}
 .tl-item--mobile{--accent:var(--violet)}
 .tl-item--break{--accent:var(--emerald)}
@@ -334,11 +530,11 @@ a{color:inherit;text-decoration:none}
   border:1px solid var(--line);border-left:4px solid var(--accent,var(--ink-3));
   background:var(--surface);
 }
-.tl-item--room .slot{background:rgba(79,195,219,.10);border-color:rgba(79,195,219,.26);border-left-color:var(--cyan)}
-.tl-item--mobile .slot{background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.26);border-left-color:var(--violet)}
-.tl-item--break .slot{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.26);border-left-color:var(--emerald)}
-.tl-item--standby .slot{background:rgba(148,163,184,.10);border-color:rgba(148,163,184,.26);border-left-color:var(--slate)}
-.tl-item.is-now .slot{box-shadow:0 0 0 1px var(--bg),0 0 0 3px rgba(240,130,74,.55)}
+.tl-item--room .slot{background:var(--tint-room);border-color:var(--bd-room);border-left-color:var(--cyan)}
+.tl-item--mobile .slot{background:var(--tint-mobile);border-color:var(--bd-mobile);border-left-color:var(--violet)}
+.tl-item--break .slot{background:var(--tint-break);border-color:var(--bd-break);border-left-color:var(--emerald)}
+.tl-item--standby .slot{background:var(--tint-standby);border-color:var(--bd-standby);border-left-color:var(--slate)}
+.tl-item.is-now .slot{box-shadow:0 0 0 1px var(--bg),0 0 0 3px var(--now-ring)}
 .slot-head{display:flex;align-items:center;gap:.45rem;margin-bottom:.18rem}
 .slot-type{
   display:inline-flex;align-items:center;gap:.3rem;
@@ -359,14 +555,14 @@ a{color:inherit;text-decoration:none}
 .slot-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.28rem}
 .slot-dur{
   font-size:.7rem;font-weight:600;color:var(--ink-2);
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.06);
+  background:var(--surface-3);border:1px solid var(--line-soft);
   padding:.08rem .45rem;border-radius:999px;
 }
 
 .now-line{
   display:flex;align-items:center;gap:.5rem;margin:.15rem 0 .5rem;
   font-family:"Barlow Condensed","Barlow",sans-serif;
-  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-2);
 }
 .now-line::before,.now-line::after{content:"";height:2px;flex:1;border-radius:2px;background:currentColor;opacity:.3}
 .tz-note{font-size:.7rem;color:var(--ink-3);text-align:center;margin-top:.85rem}
@@ -375,6 +571,7 @@ a{color:inherit;text-decoration:none}
 .room-hero{margin:.2rem 0 1rem}
 .room-title{font-size:1.6rem;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin:.25rem 0 .3rem}
 .room-sub{color:var(--ink-2);font-size:.86rem}
+#room-banner:not(:empty){margin-bottom:.9rem}
 .room-label{
   display:block;font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.74rem;font-weight:700;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.3rem;
@@ -390,22 +587,22 @@ a{color:inherit;text-decoration:none}
 .room-summary{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
 .room-stat{
   display:inline-flex;align-items:baseline;gap:.3rem;font-size:.74rem;color:var(--ink-2);
-  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:.22rem .6rem;
+  background:var(--surface-3);border:1px solid var(--line);border-radius:999px;padding:.22rem .6rem;
 }
 .room-stat strong{color:var(--orange-2);font-weight:800;font-size:.86rem}
-.room-stat.is-live{border-color:rgba(240,130,74,.4);background:rgba(240,130,74,.10);color:#FFC79F}
+.room-stat.is-live{border-color:var(--bd-room);background:var(--surface-3);color:var(--badge-ink)}
 
 .room-item{
   background:var(--surface);border:1px solid var(--line);border-radius:.95rem;
   padding:.6rem .75rem;margin-bottom:.45rem;min-width:0;
 }
-.room-item.is-past{opacity:.45}
+.room-item.is-past{opacity:.5}
 .room-item.is-now{
-  border-color:rgba(240,130,74,.55);
-  background:linear-gradient(180deg,rgba(240,130,74,.13),rgba(14,36,64,.95));
-  box-shadow:0 0 0 1px rgba(240,130,74,.22),0 16px 30px -24px rgba(240,130,74,.9);
+  border-color:var(--bd-room);
+  background:linear-gradient(180deg,var(--tint-room),var(--surface));
+  box-shadow:0 0 0 1px var(--now-ring),0 16px 30px -24px var(--now-glow);
 }
-.room-item.is-empty{background:transparent;border-style:dashed;border-color:rgba(30,59,94,.8);padding:.45rem .75rem}
+.room-item.is-empty{background:transparent;border-style:dashed;border-color:var(--line);padding:.45rem .75rem}
 .room-item.is-empty .room-count{color:var(--ink-3);font-style:italic}
 .room-head{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .room-time{font-weight:800;font-variant-numeric:tabular-nums;font-size:.92rem;letter-spacing:-.01em}
@@ -417,42 +614,43 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.12em;text-transform:uppercase;padding:.1rem .38rem;border-radius:999px;
 }
 .room-tag--now{background:var(--orange);color:var(--orange-ink)}
-.room-tag--next{background:rgba(79,195,219,.16);color:var(--cyan);border:1px solid rgba(79,195,219,.35)}
+.room-tag--next{background:var(--surface-3);color:var(--cyan);border:1px solid var(--bd-room)}
 .room-people{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:.45rem}
 .person-chip{
   display:inline-flex;align-items:center;gap:.28rem;max-width:100%;
   font-size:.75rem;font-weight:600;color:var(--ink);
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  background:var(--chip-bg);border:1px solid var(--chip-bd);
   padding:.22rem .55rem;border-radius:999px;
   transition:background .12s ease, border-color .12s ease;
 }
-.person-chip:active{background:rgba(240,130,74,.2);border-color:rgba(240,130,74,.4)}
+.person-chip:hover{border-color:var(--orange)}
+.person-chip:active{background:var(--tint-room);border-color:var(--orange)}
 .person-chip .avatar{width:1.1rem;height:1.1rem;font-size:.5rem;border-radius:999px}
 
 /* ---------------- États ---------------- */
 .loading{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:4rem 1rem;color:var(--ink-3);font-size:.85rem}
 .spinner{width:2rem;height:2rem;border-radius:999px;border:3px solid var(--line);border-top-color:var(--orange);animation:spin .8s linear infinite}
-.error-card{background:var(--surface);border:1px solid rgba(248,113,113,.35);border-radius:1rem;padding:1.1rem;box-shadow:var(--shadow-sm)}
-.error-card h2{font-size:1.05rem;font-weight:800;color:#FCA5A5;display:flex;align-items:center;gap:.45rem}
+.error-card{background:var(--surface);border:1px solid var(--err-bd);border-radius:1rem;padding:1.1rem;box-shadow:var(--shadow-sm)}
+.error-card h2{font-size:1.05rem;font-weight:800;color:var(--err-text);display:flex;align-items:center;gap:.45rem}
 .error-card p{font-size:.85rem;color:var(--ink-2);margin-top:.4rem}
 .error-card .reason{
-  margin-top:.6rem;padding:.55rem .65rem;background:rgba(0,0,0,.25);border-radius:.6rem;
+  margin-top:.6rem;padding:.55rem .65rem;background:var(--surface-4);border-radius:.6rem;
   font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;color:var(--ink-2);word-break:break-word;
 }
 .btn-primary{
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:0 1.1rem;
   border-radius:.9rem;background:linear-gradient(145deg,#FFA271,#E2672F);color:var(--orange-ink);
-  font-weight:800;font-size:.9rem;box-shadow:0 12px 24px -16px rgba(240,130,74,1);
+  font-weight:800;font-size:.9rem;box-shadow:0 12px 24px -16px rgba(237,124,69,.95);
 }
 .btn-primary:active{transform:scale(.98)}
 .btn-secondary{
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:0 1.1rem;
-  border-radius:.9rem;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  border-radius:.9rem;background:var(--surface-3);border:1px solid var(--line);
   color:var(--ink-2);font-weight:700;font-size:.9rem;
 }
 .mt-3{margin-top:.9rem}
 
-/* ---------------- Footer ---------------- */
+/* ---------------- Pied de page ---------------- */
 .site-footer{
   max-width:34rem;margin:0 auto;padding:1rem 1rem calc(1.5rem + var(--safe-b));
   border-top:1px solid var(--line-soft);color:var(--ink-3);font-size:.72rem;
@@ -463,36 +661,68 @@ a{color:inherit;text-decoration:none}
 
 /* ---------------- Feuille simulation ---------------- */
 .sheet-backdrop{
-  position:fixed;inset:0;z-index:60;background:rgba(3,10,20,.65);
+  position:fixed;inset:0;z-index:60;background:var(--scrim);
   -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
   opacity:0;transition:opacity .2s ease;
 }
 .sheet-backdrop.is-open{opacity:1}
 .sheet{
   position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:34rem;margin:0 auto;
-  background:linear-gradient(180deg,#102A49,#0A1B31);
+  background:linear-gradient(180deg,var(--sheet-a),var(--sheet-b));
   border:1px solid var(--line);border-bottom:0;
   border-radius:24px 24px 0 0;padding:.6rem 1rem calc(1.1rem + var(--safe-b));
-  box-shadow:0 -22px 50px rgba(0,0,0,.6);
+  box-shadow:0 -22px 50px rgba(0,0,0,.45);
   transform:translateY(110%);transition:transform .26s cubic-bezier(.2,.8,.2,1);
+  max-height:92vh;overflow-y:auto;
 }
 .sheet.is-open{transform:translateY(0)}
-.sheet-grip{width:2.6rem;height:.28rem;border-radius:999px;background:#2A4A6E;margin:.15rem auto .9rem}
+.sheet-grip{width:2.6rem;height:.28rem;border-radius:999px;background:var(--line-strong);margin:.15rem auto .9rem}
 .sheet h2{font-size:1.05rem;font-weight:800}
 .sheet-sub{font-size:.8rem;color:var(--ink-3);margin-top:.15rem}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-top:.9rem;background:var(--surface-3);border:1px solid var(--line);border-radius:.9rem;padding:.25rem}
+.mode-btn{
+  display:flex;align-items:center;justify-content:center;gap:.35rem;min-height:2.4rem;border-radius:.7rem;
+  font-size:.8rem;font-weight:700;color:var(--ink-3);border:1px solid transparent;
+  padding:0 .3rem;line-height:1.15;text-align:center;
+}
+#sim-mode-day-label{font-variant-numeric:tabular-nums}
+.mode-btn.is-active{background:var(--surface);color:var(--orange-2);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.sim-controls{margin-top:.85rem;transition:opacity .15s ease}
+.sim-controls.is-disabled{opacity:.42;pointer-events:none}
+.sim-readout{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.15rem}
+.sim-readout output{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--orange-2);line-height:1}
+.sim-readout-hint{font-size:.72rem;color:var(--ink-3);font-weight:600}
+.sim-range{
+  -webkit-appearance:none;appearance:none;width:100%;height:2.2rem;background:transparent;margin:.1rem 0 0;
+}
+.sim-range::-webkit-slider-runnable-track{
+  height:.5rem;border-radius:999px;
+  background:linear-gradient(90deg,var(--orange) var(--pct,33%),var(--line) var(--pct,33%));
+}
+.sim-range::-moz-range-track{height:.5rem;border-radius:999px;background:var(--line)}
+.sim-range::-moz-range-progress{height:.5rem;border-radius:999px;background:var(--orange)}
+.sim-range::-webkit-slider-thumb{
+  -webkit-appearance:none;width:1.5rem;height:1.5rem;border-radius:999px;margin-top:-.5rem;
+  background:var(--surface);border:3px solid var(--orange);box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.sim-range::-moz-range-thumb{
+  width:1.4rem;height:1.4rem;border-radius:999px;background:var(--surface);border:3px solid var(--orange);
+}
+.sim-ends{display:flex;justify-content:space-between;font-size:.64rem;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-top:-.35rem}
+.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.preset{
+  font-size:.78rem;font-weight:600;color:var(--ink-2);background:var(--surface-3);
+  border:1px solid var(--line);padding:.4rem .65rem;border-radius:999px;font-variant-numeric:tabular-nums;
+}
+.preset:hover{border-color:var(--orange)}
+.preset:active{background:var(--tint-room)}
+.field-row{display:grid;grid-template-columns:1fr;gap:.6rem;margin-top:.85rem}
 .field{display:flex;flex-direction:column;gap:.25rem;font-family:"Barlow Condensed","Barlow",sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .field input{
-  height:2.8rem;border-radius:.8rem;border:1px solid var(--line);background:rgba(0,0,0,.25);
+  height:2.8rem;border-radius:.8rem;border:1px solid var(--line);background:var(--surface-4);
   padding:0 .65rem;font-size:.95rem;font-weight:600;color:var(--ink);font-family:"Barlow",sans-serif;
   text-transform:none;letter-spacing:0;
 }
-.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
-.preset{
-  font-size:.78rem;font-weight:600;color:var(--ink-2);background:rgba(255,255,255,.05);
-  border:1px solid var(--line);padding:.4rem .65rem;border-radius:999px;font-variant-numeric:tabular-nums;
-}
-.preset:active{background:rgba(240,130,74,.18)}
 .sheet-actions{display:flex;gap:.55rem;margin-top:1rem}
 .sheet-actions .btn-primary,.sheet-actions .btn-secondary{flex:1}
 
@@ -508,14 +738,19 @@ a{color:inherit;text-decoration:none}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.5)}70%{box-shadow:0 0 0 .45rem rgba(251,191,36,0)}100%{box-shadow:0 0 0 0 rgba(251,191,36,0)}}
-@keyframes pulseOrange{0%{box-shadow:0 0 0 0 rgba(240,130,74,.55)}70%{box-shadow:0 0 0 .45rem rgba(240,130,74,0)}100%{box-shadow:0 0 0 0 rgba(240,130,74,0)}}
+@keyframes pulseOrange{0%{box-shadow:0 0 0 0 var(--now-glow)}70%{box-shadow:0 0 0 .45rem rgba(240,130,74,0)}100%{box-shadow:0 0 0 0 rgba(240,130,74,0)}}
 
-@media (max-width:359px){
-  .brand-sub{display:none}
-  .brand-name{font-size:.82rem}
+@media (max-width:379px){
+  .brand-text{display:none}
+  .brand-sep{display:none}
+  .brand-logo{height:1.75rem}
   .sync-pill{padding:0 .45rem;font-size:.68rem}
   .icon-btn{width:2.2rem;height:2.2rem}
   .tab{font-size:.78rem}
+}
+@media (max-width:339px){
+  .sync-text{display:none}
+  .sync-pill{padding:0 .5rem}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -527,18 +762,22 @@ a{color:inherit;text-decoration:none}
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark" aria-hidden="true">
-        <svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></svg>
-      </div>
-      <div>
-        <div class="brand-name">Agile Tour Montréal</div>
-        <div class="brand-sub">Bénévoles · 24 nov. 2026</div>
+      <img class="brand-logo brand-logo--dark" src="./logo-dark.png" width="91" height="32" alt="Agile Tour Montréal">
+      <img class="brand-logo brand-logo--light" src="./logo-light.png" width="91" height="32" alt="Agile Tour Montréal">
+      <span class="brand-sep" aria-hidden="true"></span>
+      <div class="brand-text">
+        <span class="brand-kicker">Bénévoles</span>
+        <span class="brand-sub">24 nov. 2026</span>
       </div>
     </div>
     <div class="header-actions">
       <button type="button" id="sync-pill" class="sync-pill is-syncing" aria-live="polite" title="Actualiser les données">
         <span class="sync-dot" aria-hidden="true"></span>
         <span class="sync-text" id="sync-text">…</span>
+      </button>
+      <button type="button" id="btn-theme" class="icon-btn" aria-label="Passer au thème clair" title="Changer de thème">
+        <svg class="ico theme-ico theme-ico--sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/></svg>
+        <svg class="ico theme-ico theme-ico--moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 14.4A8.7 8.7 0 0 1 9.6 3.4a8.7 8.7 0 1 0 11 11Z"/></svg>
       </button>
       <button type="button" id="btn-refresh" class="icon-btn" aria-label="Actualiser les données" title="Actualiser">
         <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3.5V9h-5.5"/></svg>
@@ -557,8 +796,8 @@ a{color:inherit;text-decoration:none}
 
   <div class="sim-banner" id="sim-banner" hidden>
     <div>
-      <span>Heure simulée : <strong id="sim-banner-time">--:--</strong></span>
-      <button type="button" class="link-btn" id="sim-banner-reset">Heure réelle</button>
+      <span>Jour J simulé : <strong id="sim-banner-time">--:--</strong></span>
+      <button type="button" class="link-btn" id="sim-banner-reset">Temps réel</button>
     </div>
   </div>
 </header>
@@ -637,6 +876,8 @@ a{color:inherit;text-decoration:none}
       <p class="room-sub">Relève heure par heure, de 06:30 à 17:00.</p>
     </div>
 
+    <div id="room-banner"></div>
+
     <label class="room-label" for="room-select">Salle / poste</label>
     <div class="select-wrap">
       <select id="room-select" class="room-select"></select>
@@ -655,31 +896,48 @@ a{color:inherit;text-decoration:none}
   <div class="footer-row">
     <span>Agile Tour Montréal 2026</span>
     <span aria-hidden="true">·</span>
-    <button type="button" class="link-btn" id="btn-sim">Simuler une heure</button>
+    <button type="button" class="link-btn" id="btn-sim">Simuler le jour J</button>
   </div>
 </footer>
 
 <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
   <div class="sheet-grip" aria-hidden="true"></div>
-  <h2 id="sheet-title">Simuler une heure</h2>
-  <p class="sheet-sub">Pour tester le planning avant l'événement. Seul l'affichage change.</p>
-  <div class="field-row">
-    <label class="field" for="sim-date">Date
-      <input id="sim-date" type="date" value="2026-11-24">
-    </label>
-    <label class="field" for="sim-time">Heure (Montréal)
-      <input id="sim-time" type="time" value="08:00" step="60">
-    </label>
+  <h2 id="sheet-title">Affichage du planning</h2>
+  <p class="sheet-sub">Le jour J a lieu le mardi 24 novembre 2026. Suis l'heure réelle de Montréal, ou simule une heure du 24 novembre pour vérifier le rendu.</p>
+
+  <div class="mode-toggle" role="group" aria-label="Mode d'affichage">
+    <button type="button" class="mode-btn" data-mode="live" id="sim-mode-live">
+      <span aria-hidden="true">🕒</span> Temps réel
+    </button>
+    <button type="button" class="mode-btn" data-mode="day" id="sim-mode-day">
+      <span aria-hidden="true">📅</span> <span id="sim-mode-day-label">Simuler le 24 nov.</span>
+    </button>
   </div>
-  <div class="presets" id="sim-presets">
-    <button type="button" class="preset" data-time="06:30">06:30</button>
-    <button type="button" class="preset" data-time="09:15">09:15</button>
-    <button type="button" class="preset" data-time="12:00">12:00</button>
-    <button type="button" class="preset" data-time="15:00">15:00</button>
+
+  <div class="sim-controls" id="sim-controls">
+    <div class="sim-readout">
+      <output id="sim-time-label" for="sim-range">08:00</output>
+      <span class="sim-readout-hint">Heure de Montréal</span>
+    </div>
+    <input type="range" id="sim-range" class="sim-range" min="0" max="1439" step="1" value="480" aria-label="Heure simulée du 24 novembre">
+    <div class="sim-ends" aria-hidden="true"><span>00:00</span><span>12:00</span><span>23:55</span></div>
+    <div class="presets" id="sim-presets">
+      <button type="button" class="preset" data-time="06:30">06:30</button>
+      <button type="button" class="preset" data-time="08:00">08:00</button>
+      <button type="button" class="preset" data-time="12:00">12:00</button>
+      <button type="button" class="preset" data-time="15:00">15:00</button>
+      <button type="button" class="preset" data-time="17:00">17:00</button>
+    </div>
+    <div class="field-row">
+      <label class="field" for="sim-time">Heure exacte
+        <input id="sim-time" type="time" value="08:00" step="300">
+      </label>
+    </div>
   </div>
+
   <div class="sheet-actions">
-    <button type="button" class="btn-secondary" id="sim-reset">Heure réelle</button>
+    <button type="button" class="btn-secondary" id="sim-reset">Temps réel</button>
     <button type="button" class="btn-primary" id="sim-apply">Appliquer</button>
   </div>
 </div>
@@ -704,12 +962,14 @@ a{color:inherit;text-decoration:none}
   var SHEET_NAME = 'Affectations';
   var TZ         = 'America/Toronto';
   var EVENT_DATE = '2026-11-24';
+  var EVENT_LABEL = 'Mardi 24 novembre 2026';
 
   var K_SCHEDULE  = 'atmtl26:schedule:v1';
   var K_VOLUNTEER = 'atmtl26:volunteer:v1';
   var K_SIM       = 'atmtl26:sim:v1';
   var K_TAB       = 'atmtl26:tab:v1';
   var K_ROOM      = 'atmtl26:room:v1';
+  var K_THEME     = 'atmtl26:theme:v1';
 
   var CACHE_MAX_AGE = 5 * 60 * 1000;
   var FETCH_TIMEOUT = 8000;
@@ -727,7 +987,8 @@ a{color:inherit;text-decoration:none}
     room: null,
     sync: 'idle',
     lastError: '',
-    sim: null,
+    sim: null,            // { date:'2026-11-24', time:'HH:MM' }
+    theme: 'dark',        // dark | light
     lastTickKey: ''
   };
 
@@ -843,7 +1104,9 @@ a{color:inherit;text-decoration:none}
     hourglass: '<path d="M7 3h10M7 21h10"/><path d="M8 3v3.2c0 1.6 1.6 2.6 4 5.8 2.4-3.2 4-4.2 4-5.8V3"/><path d="M8 21v-3.2c0-1.6 1.6-2.6 4-5.8 2.4 3.2 4 4.2 4 5.8V21"/>',
     clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/>',
     chevron:   '<path d="m9 5 7 7-7 7"/>',
-    pin:       '<path d="M19 10.5c0 5.3-7 11-7 11s-7-5.7-7-11a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10.5" r="2.6"/>'
+    pin:       '<path d="M19 10.5c0 5.3-7 11-7 11s-7-5.7-7-11a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10.5" r="2.6"/>',
+    play:      '<path d="M8 5.4v13.2L18.2 12 8 5.4Z" fill="currentColor" stroke="none"/>',
+    calendar:  '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10.5h17"/>'
   };
 
   function icon(name, size) {
@@ -854,30 +1117,90 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     6. Temps de Montréal
+     6. Temps de Montréal & phases de l'événement
      ========================================================= */
-  function mtlNow() {
-    if (state.sim && /^\d{2}:\d{2}$/.test(state.sim.time)) {
-      var p = state.sim.time.split(':');
-      var hh = parseInt(p[0], 10);
-      var mm = parseInt(p[1], 10);
-      return { minutes: hh * 60 + mm, hh: hh, mm: mm, simulated: true };
-    }
-    var h = 0, m = 0;
+  function mtlDateStr() {
     try {
-      var parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false
+      var parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit'
       }).formatToParts(new Date());
+      var y = '', m = '', d = '';
       for (var i = 0; i < parts.length; i++) {
-        if (parts[i].type === 'hour') h = parseInt(parts[i].value, 10) % 24;
-        if (parts[i].type === 'minute') m = parseInt(parts[i].value, 10);
+        if (parts[i].type === 'year') y = parts[i].value;
+        if (parts[i].type === 'month') m = parts[i].value;
+        if (parts[i].type === 'day') d = parts[i].value;
       }
-    } catch (e) {
-      var d = new Date();
-      h = d.getHours();
-      m = d.getMinutes();
+      if (y && m && d) return y + '-' + m + '-' + d;
+    } catch (e) {}
+    var now = new Date();
+    return now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
+  }
+
+  function parseDateStr(str) {
+    var p = String(str || '').split('-');
+    if (p.length !== 3) return null;
+    var y = parseInt(p[0], 10), m = parseInt(p[1], 10), d = parseInt(p[2], 10);
+    if (!isFinite(y) || !isFinite(m) || !isFinite(d)) return null;
+    return Date.UTC(y, m - 1, d);
+  }
+
+  function dayDiff(fromStr, toStr) {
+    var a = parseDateStr(fromStr), b = parseDateStr(toStr);
+    if (a == null || b == null) return 0;
+    return Math.round((b - a) / 86400000);
+  }
+
+  function phaseOf(dateStr) {
+    if (dateStr < EVENT_DATE) return 'before';
+    if (dateStr > EVENT_DATE) return 'after';
+    return 'during';
+  }
+
+  function mtlClock() {
+    var dateStr, minutes, simulated = false, hh = 0, mm = 0;
+
+    if (state.sim && /^\d{2}:\d{2}$/.test(state.sim.time || '')) {
+      dateStr = /^\d{4}-\d{2}-\d{2}$/.test(state.sim.date || '') ? state.sim.date : EVENT_DATE;
+      var p = state.sim.time.split(':');
+      hh = parseInt(p[0], 10) % 24;
+      mm = parseInt(p[1], 10) % 60;
+      minutes = hh * 60 + mm;
+      simulated = true;
+    } else {
+      dateStr = mtlDateStr();
+      try {
+        var parts = new Intl.DateTimeFormat('en-GB', {
+          timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false
+        }).formatToParts(new Date());
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i].type === 'hour') hh = parseInt(parts[i].value, 10) % 24;
+          if (parts[i].type === 'minute') mm = parseInt(parts[i].value, 10);
+        }
+      } catch (e) {
+        var d = new Date();
+        hh = d.getHours();
+        mm = d.getMinutes();
+      }
+      minutes = hh * 60 + mm;
     }
-    return { minutes: h * 60 + m, hh: h, mm: m, simulated: false };
+
+    return {
+      dateStr: dateStr,
+      minutes: minutes,
+      hh: hh,
+      mm: mm,
+      simulated: simulated,
+      phase: phaseOf(dateStr)
+    };
+  }
+
+  function countdownLabel() {
+    var days = dayDiff(mtlDateStr(), EVENT_DATE);
+    if (days === 0) return "C'est aujourd'hui !";
+    if (days === 1) return "C'est demain !";
+    if (days > 1) return 'Dans ' + days + ' jours';
+    if (days === -1) return 'C’était hier';
+    return 'Il y a ' + Math.abs(days) + ' jours';
   }
 
   /* =========================================================
@@ -1328,25 +1651,66 @@ a{color:inherit;text-decoration:none}
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
+  /* ---------------- Bannière avant / après le jour J ---------------- */
+  function phaseBanner(phase, firstStart, extraChips) {
+    if (phase === 'before') {
+      var first = (firstStart != null)
+        ? '<span class="phase-chip">Premier créneau · <strong>' + fmtHM(firstStart) + '</strong></span>'
+        : '';
+      return '<div class="phase-banner phase-banner--before">' +
+        '<p class="phase-label"><span aria-hidden="true">📅</span> Événement à venir</p>' +
+        '<h1 class="phase-title">' + EVENT_LABEL + '</h1>' +
+        '<p class="phase-sub">Palais des congrès de Montréal · 8 h – 19 h</p>' +
+        '<div class="phase-meta">' +
+          '<span class="phase-chip phase-chip--count">' + esc(countdownLabel()) + '</span>' +
+          first + (extraChips || '') +
+        '</div>' +
+        '<button type="button" class="phase-btn" data-sim-day="' + (firstStart != null ? firstStart : 480) + '">' +
+          icon('play', 14) + ' Simuler la journée du 24 nov.' +
+        '</button>' +
+        '<p class="phase-note">Le suivi « en ce moment » s’activera automatiquement le jour J.</p>' +
+      '</div>';
+    }
+
+    if (phase === 'after') {
+      return '<div class="phase-banner phase-banner--after">' +
+        '<p class="phase-label"><span aria-hidden="true">✅</span> Événement terminé</p>' +
+        '<h1 class="phase-title">Merci pour ton implication&nbsp;!</h1>' +
+        '<p class="phase-sub">Agile Tour Montréal 2026 · ' + EVENT_LABEL + '</p>' +
+        '<div class="phase-meta">' + (extraChips || '') + '</div>' +
+        '<button type="button" class="phase-btn" data-sim-day="480">' +
+          icon('play', 14) + ' Revoir la journée du 24 nov.' +
+        '</button>' +
+        '<p class="phase-note">L’horaire reste consultable en archive, sans blocage.</p>' +
+      '</div>';
+    }
+
+    return '';
+  }
+
   /* ---------------- Onglet Mon Horaire ---------------- */
   function renderSchedule(v) {
-    var now = mtlNow();
+    var now = mtlClock();
+    var live = now.phase === 'during';
     var slots = v.slots;
+    var totalsV = totals(slots);
 
     var currentIndex = -1;
-    for (var i = 0; i < slots.length; i++) {
-      if (slots[i].start <= now.minutes && now.minutes < slots[i].end) { currentIndex = i; break; }
+    if (live) {
+      for (var i = 0; i < slots.length; i++) {
+        if (slots[i].start <= now.minutes && now.minutes < slots[i].end) { currentIndex = i; break; }
+      }
     }
 
     var primary = null;
     var secondary = null;
     var mode = 'done';
 
-    if (currentIndex >= 0) {
+    if (live && currentIndex >= 0) {
       primary = slots[currentIndex];
       secondary = slots[currentIndex + 1] || null;
       mode = 'now';
-    } else {
+    } else if (live) {
       for (var j = 0; j < slots.length; j++) {
         if (slots[j].start >= now.minutes) {
           primary = slots[j];
@@ -1358,27 +1722,35 @@ a{color:inherit;text-decoration:none}
     }
 
     var hero = $('#hero-slot');
-    if (mode === 'now') hero.innerHTML = heroCurrent(primary, now);
-    else if (mode === 'next') hero.innerHTML = heroUpcoming(primary, now);
-    else hero.innerHTML = heroDone(v);
-
     var next = $('#next-slot');
-    if (secondary) {
-      var kind = slotKind(secondary);
-      next.innerHTML =
-        '<div class="next-card" style="--accent:var(' + accentVar(kind) + ')">' +
-          '<div class="next-time">' + fmtHM(secondary.start) + '</div>' +
-          '<div class="next-body">' +
-            '<div class="next-label">' + (mode === 'now' ? 'À suivre' : 'Ensuite') + ' · ' + esc(secondary.type) + '</div>' +
-            '<div class="next-title">' + esc(secondary.place) + '</div>' +
-          '</div>' +
-          '<div class="next-dur">' + fmtDur(secondary.end - secondary.start) + '</div>' +
-        '</div>';
-    } else {
+
+    if (!live) {
+      var chips = '<span class="phase-chip"><strong>' + slots.length + '</strong> ' +
+          (slots.length > 1 ? 'créneaux' : 'créneau') + '</span>' +
+        '<span class="phase-chip"><strong>' + fmtDur(totalsV.poste) + '</strong> de poste</span>';
+      hero.innerHTML = phaseBanner(now.phase, slots.length ? slots[0].start : null, chips);
       next.innerHTML = '';
+    } else {
+      if (mode === 'now') hero.innerHTML = heroCurrent(primary, now);
+      else if (mode === 'next') hero.innerHTML = heroUpcoming(primary, now);
+      else hero.innerHTML = heroDone(v);
+
+      if (secondary) {
+        var kind = slotKind(secondary);
+        next.innerHTML =
+          '<div class="next-card" style="--accent:var(' + accentVar(kind) + ')">' +
+            '<div class="next-time">' + fmtHM(secondary.start) + '</div>' +
+            '<div class="next-body">' +
+              '<div class="next-label">' + (mode === 'now' ? 'À suivre' : 'Ensuite') + ' · ' + esc(secondary.type) + '</div>' +
+              '<div class="next-title">' + esc(secondary.place) + '</div>' +
+            '</div>' +
+            '<div class="next-dur">' + fmtDur(secondary.end - secondary.start) + '</div>' +
+          '</div>';
+      } else {
+        next.innerHTML = '';
+      }
     }
 
-    var totalsV = totals(slots);
     $('#recap').innerHTML =
       '<div class="avail">' +
         '<span class="avail-k">Disponibilité</span>' +
@@ -1394,16 +1766,16 @@ a{color:inherit;text-decoration:none}
     var markerPlaced = false;
     for (var k = 0; k < slots.length; k++) {
       var s = slots[k];
-      var isCurrent = s.start <= now.minutes && now.minutes < s.end;
-      var isPast = s.end <= now.minutes;
+      var isCurrent = live && s.start <= now.minutes && now.minutes < s.end;
+      var isPast = live && s.end <= now.minutes;
 
-      if (!markerPlaced && (isCurrent || s.start > now.minutes)) {
+      if (live && !markerPlaced && (isCurrent || s.start > now.minutes)) {
         html += nowMarker(now);
         markerPlaced = true;
       }
       html += slotItem(s, isCurrent, isPast);
     }
-    if (!markerPlaced) html += nowMarker(now);
+    if (live && !markerPlaced) html += nowMarker(now);
 
     $('#timeline').innerHTML = html;
     $('#day-count').textContent = plural(slots.length, 'créneau', 'créneaux');
@@ -1513,15 +1885,25 @@ a{color:inherit;text-decoration:none}
     return { start: start, end: end };
   }
 
+  function earliestStart(slots) {
+    var min = null;
+    for (var i = 0; i < slots.length; i++) {
+      if (min == null || slots[i].start < min) min = slots[i].start;
+    }
+    return min;
+  }
+
   function renderRoom() {
     var places = roomPlaces();
     var timeline = $('#room-timeline');
     var summary = $('#room-summary');
     var select = $('#room-select');
+    var banner = $('#room-banner');
 
     if (!places.length) {
       select.innerHTML = '';
       summary.innerHTML = '';
+      banner.innerHTML = '';
       timeline.innerHTML = '<div class="empty">Aucune salle avec des affectations pour le moment.</div>';
       return;
     }
@@ -1542,7 +1924,8 @@ a{color:inherit;text-decoration:none}
     var roomSlots = places.filter(function (p) { return p.place === place; })[0].slots;
 
     var day = dayRange();
-    var now = mtlNow();
+    var now = mtlClock();
+    var live = now.phase === 'during';
 
     // Découpage : une borne à chaque arrivée / départ
     var boundsMap = Object.create(null);
@@ -1576,13 +1959,17 @@ a{color:inherit;text-decoration:none}
     }
 
     var currentIndex = -1;
-    for (var c = 0; c < segments.length; c++) {
-      if (segments[c].start <= now.minutes && now.minutes < segments[c].end) { currentIndex = c; break; }
+    if (live) {
+      for (var c = 0; c < segments.length; c++) {
+        if (segments[c].start <= now.minutes && now.minutes < segments[c].end) { currentIndex = c; break; }
+      }
     }
 
     var nextIndex = -1;
-    for (var n = 0; n < segments.length; n++) {
-      if (segments[n].people.length && segments[n].start > now.minutes) { nextIndex = n; break; }
+    if (live) {
+      for (var n = 0; n < segments.length; n++) {
+        if (segments[n].people.length && segments[n].start > now.minutes) { nextIndex = n; break; }
+      }
     }
 
     var distinct = Object.create(null);
@@ -1590,18 +1977,30 @@ a{color:inherit;text-decoration:none}
     var distinctCount = Object.keys(distinct).length;
     var nowCount = currentIndex >= 0 ? segments[currentIndex].people.length : 0;
 
+    var firstStart = earliestStart(roomSlots);
+    var chips = '<span class="phase-chip"><strong>' + distinctCount + '</strong> bénévoles</span>' +
+      '<span class="phase-chip"><strong>' + roomSlots.length + '</strong> créneaux</span>';
+
+    if (live) {
+      banner.innerHTML = '';
+    } else {
+      banner.innerHTML = phaseBanner(now.phase, firstStart, chips);
+    }
+
     summary.innerHTML =
       '<span class="room-stat"><strong>' + distinctCount + '</strong> bénévoles sur la journée</span>' +
-      '<span class="room-stat' + (nowCount ? ' is-live' : '') + '">' +
-        (nowCount ? '<strong>' + nowCount + '</strong> en ce moment' : 'Personne en ce moment') +
-      '</span>';
+      (live
+        ? '<span class="room-stat' + (nowCount ? ' is-live' : '') + '">' +
+            (nowCount ? '<strong>' + nowCount + '</strong> en ce moment' : 'Personne en ce moment') +
+          '</span>'
+        : '<span class="room-stat"><strong>' + roomSlots.length + '</strong> créneaux</span>');
 
     var html = '';
     for (var k = 0; k < segments.length; k++) {
       var seg = segments[k];
-      var isNow = k === currentIndex;
-      var isNext = k === nextIndex;
-      var isPast = seg.end <= now.minutes;
+      var isNow = live && k === currentIndex;
+      var isNext = live && k === nextIndex;
+      var isPast = live && seg.end <= now.minutes;
       var isEmpty = seg.people.length === 0;
 
       var cls = 'room-item' + (isNow ? ' is-now' : '') + (isPast && !isNow ? ' is-past' : '') + (isEmpty ? ' is-empty' : '');
@@ -1639,16 +2038,63 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     12. Simulation d'heure
+     12. Simulation du jour J
      ========================================================= */
   var sheetOpen = false;
+  var simMode = 'live';
+  var simMinutes = 480;
 
-  function openSheet() {
+  function setSimMode(mode) {
+    simMode = (mode === 'day') ? 'day' : 'live';
+    var liveBtn = $('#sim-mode-live');
+    var dayBtn = $('#sim-mode-day');
+    liveBtn.classList.toggle('is-active', simMode === 'live');
+    dayBtn.classList.toggle('is-active', simMode === 'day');
+    liveBtn.setAttribute('aria-pressed', String(simMode === 'live'));
+    dayBtn.setAttribute('aria-pressed', String(simMode === 'day'));
+    $('#sim-controls').classList.toggle('is-disabled', simMode === 'live');
+    $('#sim-range').disabled = (simMode === 'live');
+    $('#sim-time').disabled = (simMode === 'live');
+    updateSimLabel(simMinutes);
+  }
+
+  function updateSimLabel(mins) {
+    var el = $('#sim-mode-day-label');
+    if (!el) return;
+    var label = 'Simuler le 24 nov.';
+    if (simMode === 'day' && isFinite(mins)) label += ' à ' + fmtHM(mins);
+    el.textContent = label;
+    $('#sim-mode-day').setAttribute('aria-label', label);
+  }
+
+  function setSimMinutes(mins) {
+    mins = Math.max(0, Math.min(1439, Math.round(isFinite(mins) ? mins : 480)));
+    simMinutes = mins;
+    var range = $('#sim-range');
+    range.value = String(mins);
+    range.style.setProperty('--pct', ((mins / 1439) * 100).toFixed(1) + '%');
+    $('#sim-time-label').textContent = fmtHM(mins);
+    $('#sim-time').value = fmtHM(mins);
+    updateSimLabel(mins);
+  }
+
+  function openSheet(mode, minutes) {
     if (sheetOpen) return;
     sheetOpen = true;
-    var now = mtlNow();
-    $('#sim-date').value = state.sim ? state.sim.date : EVENT_DATE;
-    $('#sim-time').value = state.sim ? state.sim.time : fmtHM(now.minutes);
+
+    var now = mtlClock();
+    var mins = minutes;
+    if (mins == null) {
+      if (state.sim) {
+        var parsed = toMinutes(state.sim.time);
+        mins = parsed == null ? 480 : parsed;
+      } else {
+        mins = now.minutes;
+      }
+    }
+
+    setSimMinutes(mins);
+    setSimMode(mode || (state.sim ? 'day' : 'live'));
 
     var backdrop = $('#sheet-backdrop');
     var sheet = $('#sheet');
@@ -1658,7 +2104,10 @@ a{color:inherit;text-decoration:none}
       backdrop.classList.add('is-open');
       sheet.classList.add('is-open');
     });
-    setTimeout(function () { $('#sim-time').focus(); }, 220);
+    setTimeout(function () {
+      var target = simMode === 'day' ? $('#sim-range') : $('#sim-apply');
+      if (target && target.focus) target.focus();
+    }, 240);
   }
 
   function closeSheet() {
@@ -1679,16 +2128,18 @@ a{color:inherit;text-decoration:none}
     state.sim = { date: date || EVENT_DATE, time: time };
     store.set(K_SIM, state.sim);
     closeSheet();
+    renderSimBanner();
     renderAll();
-    toast('Heure simulée : ' + time);
+    toast('Jour J simulé · ' + time);
   }
 
   function resetSim() {
     state.sim = null;
     store.del(K_SIM);
     closeSheet();
+    renderSimBanner();
     renderAll();
-    toast('Heure réelle rétablie.');
+    toast('Temps réel rétabli.');
   }
 
   function renderSimBanner() {
@@ -1702,7 +2153,37 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     13. Toast
+     13. Thème clair / sombre
+     ========================================================= */
+  function applyTheme(theme, persist) {
+    theme = (theme === 'light') ? 'light' : 'dark';
+    state.theme = theme;
+
+    var root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    root.classList.toggle('dark', theme === 'dark');
+    root.style.colorScheme = theme;
+
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F5F2EC' : '#071529');
+
+    var btn = $('#btn-theme');
+    if (btn) {
+      var label = theme === 'light' ? 'Passer au thème sombre' : 'Passer au thème clair';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+      btn.setAttribute('aria-pressed', String(theme === 'light'));
+    }
+
+    if (persist) store.set(K_THEME, theme);
+  }
+
+  function toggleTheme() {
+    applyTheme(state.theme === 'light' ? 'dark' : 'light', true);
+  }
+
+  /* =========================================================
+     14. Toast
      ========================================================= */
   var toastTimer = null;
   function toast(message) {
@@ -1714,7 +2195,7 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     14. Événements
+     15. Événements
      ========================================================= */
   function bind() {
     $('#people-list').addEventListener('click', function (e) {
@@ -1764,21 +2245,56 @@ a{color:inherit;text-decoration:none}
       if (chip && chip.dataset.name) selectVolunteer(chip.dataset.name);
     });
 
+    $('#btn-theme').addEventListener('click', toggleTheme);
+
     $('#btn-refresh').addEventListener('click', function () { refresh(true); });
     $('#sync-pill').addEventListener('click', function () { refresh(true); });
     $('#btn-retry').addEventListener('click', function () { refresh(true); });
 
-    $('#btn-sim').addEventListener('click', openSheet);
+    $('#btn-sim').addEventListener('click', function () {
+      openSheet(state.sim ? 'day' : 'live');
+    });
     $('#sheet-backdrop').addEventListener('click', closeSheet);
     $('#sim-apply').addEventListener('click', function () {
-      applySim($('#sim-date').value, $('#sim-time').value);
+      if (simMode === 'live') { resetSim(); return; }
+      var m = toMinutes($('#sim-time').value);
+      if (m == null) m = parseInt($('#sim-range').value, 10);
+      applySim(EVENT_DATE, fmtHM(m));
     });
     $('#sim-reset').addEventListener('click', resetSim);
     $('#sim-banner-reset').addEventListener('click', resetSim);
 
+    $('#sim-mode-live').addEventListener('click', function () { setSimMode('live'); });
+    $('#sim-mode-day').addEventListener('click', function () {
+      setSimMode('day');
+      if (state.sim) {
+        var m = toMinutes(state.sim.time);
+        if (m != null) setSimMinutes(m);
+      }
+    });
+
+    $('#sim-range').addEventListener('input', function (e) {
+      setSimMinutes(parseInt(e.target.value, 10));
+    });
+
+    $('#sim-time').addEventListener('change', function (e) {
+      var m = toMinutes(e.target.value);
+      if (m != null) setSimMinutes(m);
+    });
+
     $('#sim-presets').addEventListener('click', function (e) {
       var btn = e.target.closest('.preset');
-      if (btn) $('#sim-time').value = btn.dataset.time;
+      if (!btn) return;
+      var m = toMinutes(btn.getAttribute('data-time'));
+      if (m != null) setSimMinutes(m);
+    });
+
+    // Boutons « Simuler la journée du 24 nov. » des bannières avant/après
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest ? e.target.closest('[data-sim-day]') : null;
+      if (!trigger) return;
+      var m = parseInt(trigger.getAttribute('data-sim-day'), 10);
+      openSheet('day', isFinite(m) ? m : 480);
     });
 
     document.addEventListener('keydown', function (e) {
@@ -1793,14 +2309,23 @@ a{color:inherit;text-decoration:none}
     });
 
     window.addEventListener('online', function () { maybeRefresh(); });
+
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSchemeChange = function (e) {
+        if (!store.get(K_THEME)) applyTheme(e.matches ? 'light' : 'dark', false);
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSchemeChange);
+      else if (mq.addListener) mq.addListener(onSchemeChange);
+    }
   }
 
   /* =========================================================
-     15. Horloge
+     16. Horloge
      ========================================================= */
   function updateClock() {
-    var now = mtlNow();
-    var key = now.minutes + '|' + (state.sim ? state.sim.time : '');
+    var now = mtlClock();
+    var key = now.dateStr + '|' + now.minutes + '|' + (state.sim ? state.sim.time : '');
     if (key === state.lastTickKey) return;
     state.lastTickKey = key;
     if (state.slots.length) renderAll();
@@ -1808,7 +2333,7 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     16. Service worker
+     17. Service worker
      ========================================================= */
   function registerSW() {
     if (!('serviceWorker' in navigator)) return;
@@ -1817,11 +2342,21 @@ a{color:inherit;text-decoration:none}
   }
 
   /* =========================================================
-     17. Démarrage
+     18. Démarrage
      ========================================================= */
   function init() {
+    // Thème : choix mémorisé, sinon préférence système
+    var savedTheme = store.get(K_THEME);
+    if (savedTheme !== 'light' && savedTheme !== 'dark') {
+      savedTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    }
+    applyTheme(savedTheme, false);
+
+    // Simulation : toujours calée sur le jour J
     var savedSim = store.get(K_SIM);
-    if (savedSim && /^\d{2}:\d{2}$/.test(savedSim.time || '')) state.sim = savedSim;
+    if (savedSim && /^\d{2}:\d{2}$/.test(savedSim.time || '')) {
+      state.sim = { date: EVENT_DATE, time: savedSim.time };
+    }
 
     var savedVolunteer = store.get(K_VOLUNTEER);
     if (typeof savedVolunteer === 'string' && savedVolunteer) state.selected = savedVolunteer;
