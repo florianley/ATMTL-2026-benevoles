@@ -408,8 +408,8 @@ un coût négligeable (instance 256 Mi / 1 vCPU).
 - **Zéro débordement horizontal** : conteneur `max-width: 34rem`, `min-width: 0` sur les
   grilles et `word-break` sur les libellés longs.
 - **Version** : affichée en pied de page depuis la constante `APP_VERSION` d'`index.html`.
-  Elle est indépendante de `VERSION` dans `sw.js`, qui ne concerne que le cache du
-  service worker.
+  Elle doit rester **identique à `VERSION` dans `sw.js`** : les deux valeurs sont donc à
+  mettre à jour ensemble à chaque déploiement.
 - **Vue Par Salle** : les bornes horaires sont calculées à partir de toutes les arrivées
   et départs de la salle, puis chaque intervalle liste les bénévoles présents. Les
   intervalles sans affectation restent visibles (pointillés) pour garder la continuité
