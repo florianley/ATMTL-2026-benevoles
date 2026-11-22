@@ -204,8 +204,9 @@ Si vous obtenez du HTML (`<!DOCTYPE html>`), la feuille n'est pas partagée publ
 
 ### 4.4 Anti-cache et secours hors-ligne
 
-- Chaque chargement de page **et** chaque clic sur **Actualiser** appelle Google Sheets en
-  direct avec `&_t=<timestamp>` et `cache: 'no-store'`.
+- Chaque chargement de page **et** chaque clic sur le **logo Agile Tour Montréal** (en haut
+  à gauche) ou sur la pastille de synchro appelle Google Sheets en direct avec
+  `&_t=<timestamp>` et `cache: 'no-store'`.
 - `localStorage` ne sert **qu'en secours** : il n'est lu que si la requête réseau échoue
   (ou si la feuille renvoie un contenu inexploitable). Un cache provenant d'une autre
   source (`v` ou `sheet` différents) est supprimé.
@@ -324,8 +325,8 @@ curl -sI "$URL/sw.js" | grep -i cache-control   # no-cache
 2. Les bénévoles récupèrent les nouvelles données :
    - automatiquement à chaque ouverture / rechargement (réseau d'abord),
    - automatiquement au retour au premier plan,
-   - immédiatement en touchant le bouton **Actualiser** (icône ↻), avec spinner et
-     horodatage à la seconde.
+   - immédiatement en touchant le **logo Agile Tour Montréal** (en haut à gauche) ou la
+     pastille de synchro, avec animation du logo et horodatage à la seconde.
 
 Chaque requête ajoute `&_t=<timestamp>` et utilise `cache: 'no-store'` : Google ne peut
 pas servir une réponse périmée. En cas d'échec réseau uniquement, l'application bascule
@@ -406,6 +407,9 @@ un coût négligeable (instance 256 Mi / 1 vCPU).
   libellés et des icônes, respect de `prefers-reduced-motion`.
 - **Zéro débordement horizontal** : conteneur `max-width: 34rem`, `min-width: 0` sur les
   grilles et `word-break` sur les libellés longs.
+- **Version** : affichée en pied de page depuis la constante `APP_VERSION` d'`index.html`.
+  Elle doit rester **identique à `VERSION` dans `sw.js`** : les deux valeurs sont donc à
+  mettre à jour ensemble à chaque déploiement.
 - **Vue Par Salle** : les bornes horaires sont calculées à partir de toutes les arrivées
   et départs de la salle, puis chaque intervalle liste les bénévoles présents. Les
   intervalles sans affectation restent visibles (pointillés) pour garder la continuité

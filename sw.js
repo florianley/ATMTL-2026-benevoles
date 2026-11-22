@@ -7,7 +7,7 @@
 
    ⚠️ Incrémenter VERSION à chaque modification d'un asset mis en cache.
    =========================================================================== */
-const VERSION = 'atmtl26-v5';
+const VERSION = 'atmtl26-v7';
 const CACHE = VERSION;
 
 const SHELL = [
